@@ -1,0 +1,456 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>选择供应商</title>
+    <link rel="stylesheet" type="text/css" href="../../css/ui-base.css">
+    <link rel="stylesheet" type="text/css" href="../../css/layer.css">
+    <link rel="stylesheet" type="text/css" href="../../css/pullToRefresh.css">
+    <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.2.13.2.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/public.css">
+    <link rel="stylesheet" type="text/css" href="../../css/enhance_index.css">
+</head>
+<body>
+    <header class="module-header-t1">
+        <div class="ub ub-pc ub-ac bg-fixed2 line-b">
+            <a class="ub ub-ac" href="javascript:history.back()">
+                <div class="icon back-icon-wh"></div>
+                <div class="tx-16 tx-wh">返回</div>
+            </a>
+            <div id="pageTilte" class="ub-f1 ub ub-ac ub-pc bold">选择供应商</div>
+            <div id="affirmBtn" class="ub ub-ac ub-pe title-r">
+                <div class="icon post-icon-wh"></div>
+            </div>
+        </div>
+        <form class="ub ub-ac ub-pc module-input-t1 line-b">
+            <div class="ub-f1 ub ub-ac ub-pc line-all">
+                <input id="filterInput" type="search" maxlength="20" autocomplete="off" class="ub ub-f1 billInput" placeholder="名称/代码">
+                <div id="searchBtn" class="search-icon"></div>
+            </div>
+        </form>
+    </header>
+    <div id="wrapper" class="mart-114 mart-5 marb-5 ub ub-ver line-b line-t">
+        <ul id="dataList">
+            <!-- <div class="listItem ub ub-ac h-65 marl-10 marr-10 line-b">
+                <div class="li-tips"></div>
+                <div class="ub ub-ac ub-f1 marl-10">
+                    <div class="tx-gra marr-10">1001</div>
+                    <div class="ub-f1 tx-bla">DVD风采</div>
+                </div>
+            </div>
+            <div class="listItem ub ub-ac h-65 marl-10 marr-10 line-b">
+                <div class="li-tips"></div>
+                <div class="ub ub-ac ub-f1 marl-10">
+                    <div class="tx-gra marr-10">1001</div>
+                    <div class="ub-f1 tx-bla">DVD风采</div>
+                </div>
+            </div>
+            <div class="listItem ub ub-ac h-65 marl-10 marr-10 line-b">
+                <div class="li-tips"></div>
+                <div class="ub ub-ac ub-f1 marl-10">
+                    <div class="tx-gra marr-10">1001</div>
+                    <div class="ub-f1 tx-bla">DVD风采</div>
+                </div>
+            </div> -->
+        </ul>
+    </div>
+</body>
+<script type="text/javascript" src="../../js/sea.js"></script>
+<script type="text/javascript" src="../../js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="../../js/enhance_index.js"></script>
+<script type="text/javascript">
+    seajs.use(['zepto.min', 'public', 'iscroll', 'pullToRefresh', 'layer'], function (zepto, _Public) {
+        var enhance_index = new Enhance_index();
+        /**
+         * 接收传递参数
+         */
+        var type = enhance_index.getPageParams('type') || '';//单据类型
+        var chooseType = enhance_index.getPageParams('chooseType') || '';//数据类型
+        var action = enhance_index.getPageParams('action') || '';//数据类型
+
+        /**
+         * 初始化页面组件
+         */
+        $('#wrapper').height($(window).height() - $('header').height() - $('form').height() - $('footer').height() - 5);
+        //下拉刷新上拉加载
+        refresher.init({
+            id: "wrapper",
+            pullDownAction: Refresh,
+            pullUpAction: Load
+        });
+        //页面标题
+        var pageTilte = enhance_index.getTraderTilte[type] || '';
+        if (chooseType == 'settleUnit') {
+            document.title = '选择结算单位';
+            $('#pageTilte').text('选择结算单位');
+        } else {
+            document.title = '选择' + pageTilte;
+            $('#pageTilte').text('选择' + pageTilte);
+        }
+
+        /**
+         * 请求数据
+         */
+        var ipUrl = _Public.Get_storage('sdIP');
+        var loadUrl = 'http://' + ipUrl + '/lookupdm/lookupdata.action';//请求地址
+
+        if (chooseType == 'settleUnit') {
+            var dataStr = enhance_index.judgCompForBase(enhance_index.getCtraderCompData[type]()) || '';//列表初始化参数
+        } else {
+            var dataStr = enhance_index.judgCompForBase(enhance_index.getTraderFilter[type]()) || '';//列表初始化参数
+        }
+        if(action=='filter'){
+            //筛选时
+            dataStr.filterH5Type = 1;
+            delete dataStr.billedit;
+        }
+        var dataCommand = enhance_index.DataCommand(loadUrl, 'post', dataStr);//设置参数
+        //设置显示数量
+        var pageSize = 15;
+        dataCommand.setPageSize(pageSize);
+        //发送请求
+        dataCommand.init(
+            function (ret) {
+                if (ret.errNo) {
+                    //提示错误信息弹窗
+                    _Public.hideProgress();
+                    _Public.closeToLogin(ret.errMsg);
+                } else {
+                    succFunc(ret);
+                    //设置下一页参数
+                    dataCommand.setNextData();
+                }
+            }, function (ret) {
+                _Public.layerMsg(ret.msg);
+                _Public.hideProgress();
+            }
+        );
+
+        /**
+         * 获取数据，生成html
+         */
+        //初始化html模板
+        var htmlCommand = enhance_index.HtmlCommand(traderItemHtml);
+        //成功处理函数
+        var succFunc = function (ret) {
+            //设置页码
+            dataCommand.setPageNum(enhance_index.countPageNum(ret.count, pageSize));
+            //设置数据
+            var listDataArray = ret.listData;
+            if (listDataArray.length > 0) {
+                for (var k in listDataArray) {
+                    var retJson = {
+                        'traderid': listDataArray[k].traderid || '',
+                        'code': listDataArray[k].code,//编码
+                        'name': listDataArray[k].name,//名称
+                        'contactor': listDataArray[k].contactor,//送货人
+                        'moneyid': listDataArray[k].moneyid || '',//币种id
+                        'moneyname': listDataArray[k].moneyname,//币种
+                        'tel1': listDataArray[k].tel1,//电话
+                        'fax': listDataArray[k].fax,//传真
+                        'departmentid': listDataArray[k].departmentid || '',//部门id
+                        'departmentname': listDataArray[k].departmentname,//部门名称
+                        'empid': listDataArray[k].empid || '',//业务员id/员工id
+                        'empname': listDataArray[k].empname,//业务员/员工
+                        'taxrate': listDataArray[k].taxrate,//税率
+                        'iscashtrader': listDataArray[k].iscashtrader,//现金往来单位
+                        'paymethodid': listDataArray[k].paymethodid || '',//结算方式id
+                        'paymethodname': listDataArray[k].paymethodname,//结算方式
+                        'shipto': listDataArray[k].shipto,//到货地点
+                        'shiptype': listDataArray[k].shiptype || '',//运输方式id
+                        'shiptypename': listDataArray[k].shiptypename,//运输方式
+                        'scamt': listDataArray[k].scamt,//供应商欠款/客户欠款
+                        'creditday': listDataArray[k].creditday,//付款期限/收款期限
+                        'notetype': listDataArray[k].notetype || '',//发票类型id
+                        'notetypename': listDataArray[k].notetypename,//发票类型
+                        'distributorid': listDataArray[k].distributorid || '',//供货机构id
+                        'closed': listDataArray[k].closed,
+                        'point': listDataArray[k].point || 0,//会员卡积分
+                        'vipid': listDataArray[k].vipid || '',//会员卡号id
+                        'cardcode': listDataArray[k].cardcode || '',//会员卡号
+                    }
+                    htmlCommand.set(retJson);//将数据设置到HTML模板
+                }
+                htmlCommand.appendIn($('#dataList'));
+            } else {
+                //暂无数据
+                if (dataCommand.getPageNum() == 0) {
+                    htmlCommand.setNoDataImg($('#dataList'));
+                }
+            }
+        }
+
+
+        /**
+         * 初始化页面事件
+         */
+        //搜索(键盘按钮)
+        $('form').on('submit', function () {
+            searchTraderData();
+            $('#filterInput').blur();
+            //阻止form提交跳转
+            return false;
+        });
+        //搜索(搜索按钮)
+        $('#searchBtn').on('tap', function (event) {
+            event.preventDefault();
+            searchTraderData();
+        });
+        //确定
+        $('#affirmBtn').on('tap', function () {
+            if (chooseType == 'settleUnit') {
+                //结算单位
+                var chooseItem = $('.active');
+                if(chooseItem.length==1){
+                    var traderJson = {
+                        'ctraderid': chooseItem.data('traderid'),//供应商id/客户id结算id
+                        'ctradername': chooseItem.data('name'),//供应商/客户/结算单位
+                    }
+                    console.log(JSON.stringify(traderJson));
+                    sessionStorage.setItem('session_traderJson', JSON.stringify(traderJson));
+                    // enhance_index.extendSessionStorage('session_temp_billDataJson', traderJson);//将json更新到session
+                    if (sessionStorage.getItem('session_temp_billDataJson')) {
+                        var session_temp_billDataJson = JSON.parse(sessionStorage.getItem('session_temp_billDataJson'));
+                        $.extend(session_temp_billDataJson.master, traderJson);
+                        sessionStorage.setItem('session_temp_billDataJson', JSON.stringify(session_temp_billDataJson));
+                    }
+                }
+            } else if (action == 'filter') {
+                //过滤请求
+                var chooseItem = $('.active');
+                var traderJson = {}
+                if (chooseItem.length == 0) {
+                    traderJson = {
+                        'traderId': '',//供应商id/客户id
+                        'traderName': '全部',//供应商/客户
+                    }
+                } else {
+                    traderJson = {
+                        'traderId': chooseItem.data('traderid'),//供应商id/客户id
+                        'traderName': chooseItem.data('name'),//供应商/客户
+                    }
+                }
+                enhance_index.extendSessionStorage('session_filterJson', traderJson);//将json更新到session
+                // if (sessionStorage.getItem('session_filterJson')) {
+                //     var session_filterJson = JSON.parse(sessionStorage.getItem('session_filterJson'));
+                //     traderJson = $.extend(session_filterJson, traderJson);
+                // }
+                // sessionStorage.setItem('session_filterJson', JSON.stringify(traderJson));
+            } else {
+                //供应商/客户
+                var chooseItem = $('.active');
+                if(chooseItem.length==1){
+                    var traderJson = {
+                        'traderid': chooseItem.data('traderid'),//供应商id/客户id结算id
+                        'tradername': chooseItem.data('name'),//供应商/客户/结算单位
+                        'ctraderid': chooseItem.data('traderid'),//供应商id/客户id结算id
+                        'ctradername': chooseItem.data('name'),//供应商/客户/结算单位
+                        'tradercode': chooseItem.data('code'),//供应商code/客户code/结算单位code
+                        'moneyid': chooseItem.data('moneyid'),//币种id
+                        'moneyname': chooseItem.data('moneyname'),//币种
+                        'linkman': chooseItem.data('contactor'),//收货人
+                        'contactphone': chooseItem.data('tel1'),//电话
+                        'contactfax': chooseItem.data('fax'),//传真
+                        'departmentid': chooseItem.data('departmentid'),//部门id
+                        'depname': chooseItem.data('departmentname'),//部门
+                        'empid': chooseItem.data('empid'),//业务员id/员工id
+                        'empname': chooseItem.data('empname'),//业务员/员工
+                        'tradertaxrate': chooseItem.data('taxrate'),//税率
+                        'iscashtrader': chooseItem.data('iscashtrader'),//现金往来单位
+                        // 'paymethodid': chooseItem.data('paymethodid'),//结算方式id
+                        // 'paymethodname': chooseItem.data('paymethodname'),//结算方式
+                        'shipto': chooseItem.data('shipto'),//到货地点
+                        // 'shiptype': chooseItem.data('shiptype'),//运输方式id
+                        // 'shiptypename': chooseItem.data('shiptypename'),//运输方式
+                        'scamt': chooseItem.data('scamt'),//供应商欠款/客户欠款
+                        'creditday': chooseItem.data('creditday'),//付款期限/收款期限
+                        'termdays': chooseItem.data('creditday'),//付款期限
+                        'chargeterm': chooseItem.data('creditday'),//收款期限
+                        // 'notetype': chooseItem.data('notetype'),//发票类型id
+                        // 'notetypename': chooseItem.data('notetypename'),//发票类型
+                        'distributorid': chooseItem.data('distributorid'),//供货机构id
+                        'closed': chooseItem.data('closed'),
+                        'lastpoint': chooseItem.data('point'),//会员卡积分
+                        'vipid': chooseItem.data('vipid'),//会员卡号id
+                        'cardcode': chooseItem.data('cardcode'),//会员卡号
+                    }
+                    //发票类型
+                    var notetype = chooseItem.data('notetype');
+                    if(notetype!='' && notetype!=null){
+                        traderJson.notetype = notetype;
+                        traderJson.notetypename = chooseItem.data('notetypename');
+                        console.log('traderJson.notetypename:'+traderJson.notetypename);
+                    }
+                    //结算方式
+                    var paymethodid = chooseItem.data('paymethodid');
+                    if((type=='sorder' || type=='porder') && (paymethodid!='' && paymethodid!=null)){
+                        traderJson.paymethodid = paymethodid;//结算方式id
+                        traderJson.paymethodname = chooseItem.data('paymethodname');//结算方式
+                    }
+                    //部门
+                    var departmentid = chooseItem.data('departmentid');
+                    if(departmentid!='' && departmentid!=null){
+                        traderJson.departmentid = chooseItem.data('departmentid');//部门id
+                        traderJson.depname = chooseItem.data('departmentname');//部门
+                    }
+                    //业务员
+                    var empid = chooseItem.data('empid');//业务员id
+                    if(empid!='' && empid!=null){
+                        traderJson.empid = empid;//业务员id
+                        traderJson.empName = chooseItem.data('empname');//业务员
+                    }
+                    //运输方式
+                    var shiptype = chooseItem.data('shiptype');//运输方式id
+                    if (shiptype != '' && shiptype!=null) {
+                        traderJson.shiptype = shiptype;//运输方式id
+                        traderJson.shiptypename = chooseItem.data('shiptypename');//运输方式
+                    }
+                    //设置下次对比供应商/客户是否改变session
+                    // if(sessionStorage.getItem('session_prevTraderId')==''){
+                    //     sessionStorage.setItem('session_prevTraderId', traderJson.traderid);
+                    // }
+                    sessionStorage.setItem('session_traderJson', JSON.stringify(traderJson));
+                    if (sessionStorage.getItem('session_temp_billDataJson')) {
+                        var session_temp_billDataJson = JSON.parse(sessionStorage.getItem('session_temp_billDataJson'));
+                        $.extend(session_temp_billDataJson.master, traderJson);
+                        sessionStorage.setItem('session_temp_billDataJson', JSON.stringify(session_temp_billDataJson));
+                    }
+                }
+            }
+            var prevBillId = sessionStorage.getItem('session_billId') || '';
+            if (prevBillId != '' && action == '') {
+                //供应商/客户
+                window.location.href = enhance_index.detailPageName[type] + '?action=' + sessionStorage.getItem('session_billAction') +'&type='+type+ '&billId=' + sessionStorage.getItem('session_billId');
+            } else if (action == 'filter') {
+                //筛选
+                window.location.href = './filter.html?type=' + type;
+            } else if (prevBillId != '' && action == '' && chooseType == 'settleUnit'){
+                //结算单位
+                window.location.href = enhance_index.detailPageName[type] + '?action=' + sessionStorage.getItem('session_billAction') +'&type='+type+ '&billId=' + sessionStorage.getItem('session_billId');
+            } else {
+                sessionStorage.setItem('session_billAction', 'add');
+                window.location.href = enhance_index.detailPageName[type] + '?action=' + sessionStorage.getItem('session_billAction')+'&type='+type;
+            }
+        });
+        //元素选择事件
+        $(document).on('tap', '.chooseItem', function () {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            } else {
+                $('.chooseItem').removeClass('active');
+                $(this).addClass('active');
+            }
+        });
+
+
+        //下拉刷新
+        function Refresh() {
+            dataCommand.refreshPage(
+                function (ret) {
+                    if (ret.errNo) {
+                        //提示错误信息弹窗
+                        Enhance_index.layerJumpLogin(ret.errMsg);
+                    } else {
+                        htmlCommand.clearConFrom($('#dataList'));
+                        succFunc(ret);
+                        //设置下一页参数
+                        dataCommand.setNextData();
+                    }
+                }, function (ret) {
+                    enhance_index.layerMsg(ret.msg);
+                }
+            );
+            myScroll.refresh();
+        };
+        //上拉加载
+        function Load() {
+            dataCommand.nextPage(
+                function (ret) {
+                    if (ret.errNo) {
+                        //提示错误信息弹窗
+                        enhance_index.layerJumpLogin(ret.errMsg);
+                    } else {
+                        succFunc(ret);
+                        //设置下一页参数
+                        dataCommand.setNextData();
+                        //页码+1
+                        dataCommand.addNowPageNum();
+                    }
+                }, function (ret) {
+                    enhance_index.layerMsg(ret.msg);
+                });
+            myScroll.refresh();
+        };
+        //搜索
+        function searchTraderData() {
+            //获取搜索内容
+            var filterValue = $('#filterInput').val();
+            if (filterValue != '') {
+                if (chooseType == 'settleUnit') {
+                    var dataStr = enhance_index.searchCtraderCompData[type](filterValue) || '';//初始化搜索参数
+                } else {
+                    var dataStr = enhance_index.searchTraderData[type](filterValue) || '';//初始化搜索参数
+                }
+                //发送请求
+                dataCommand.sendSearchBaseData(dataStr,
+                    function (ret) {
+                        if (ret.errNo) {
+                            //提示错误信息弹窗
+                            Enhance_index.layerJumpLogin(ret.errMsg);
+                        } else {
+                            //清空页面HTML
+                            htmlCommand.clearConFrom($('#dataList'));
+                            succFunc(ret);
+                            //设置下一页参数
+                            dataCommand.setNextData();
+                        }
+                    }, function (ret) {
+                        enhance_index.layerMsg(ret.msg);
+                    }
+                );
+            } else {
+                dataCommand.setData();
+                dataCommand.setPageSize(pageSize);
+                dataCommand.init(
+                    function (ret) {
+                        if (ret.errNo) {
+                            //提示错误信息弹窗
+                            Enhance_index.layerJumpLogin(ret.errMsg);
+                        } else {
+                            htmlCommand.clearConFrom($('#dataList'));
+                            succFunc(ret);
+                            //设置下一页参数
+                            dataCommand.setNextData();
+                        }
+                    }, function (ret) {
+                        enhance_index.layerMsg(ret.msg);
+                    }
+                );
+            }
+        }
+        //HTML模板
+        function traderItemHtml(json) {
+            if (enhance_index.isEmptyJson(json.departmentid)) {
+                json.departmentid = '';
+            }
+            if (enhance_index.isEmptyJson(json.taxrate)) {
+                json.taxrate = '';
+            }
+            if (enhance_index.isEmptyJson(json.empid)) {
+                json.empid = '';
+            }
+            if (enhance_index.isEmptyJson(json.shiptype)) {
+                json.shiptype = '';
+            }
+            if (enhance_index.isEmptyJson(json.paymethodid)) {
+                json.paymethodid = '';
+            }
+            if (enhance_index.isEmptyJson(json.notetype)) {
+                json.notetype = '';
+            }
+            return '<li><div class="chooseItem padlr-15 ub ub-ac h-65 bg-wh line-b" data-traderid="' + json.traderid + '" data-code="' + json.code + '" data-name="' + json.name + '" data-contactor="' + json.contactor + '" data-moneyid="' + json.moneyid + '" data-moneyname="' + json.moneyname + '" data-tel1="' + json.tel1 + '" data-fax="' + json.fax + '" data-departmentid="' + json.departmentid + '" data-departmentname="' + json.departmentname + '" data-empid="' + json.empid + '" data-empname="' + json.empname + '" data-taxrate="' + json.taxrate + '" data-iscashtrader="' + json.iscashtrader + '" data-paymethodid="' + json.paymethodid + '" data-paymethodname="' + json.paymethodname + '" data-shipto="' + json.shipto + '" data-shiptype="' + json.shiptype + '" data-shiptypename="' + json.shiptypename + '" data-scamt="' + json.scamt + '" data-creditday="' + json.creditday + '" data-notetype="' + json.notetype + '" data-notetypename="' + json.notetypename + '" data-distributorid="' + json.distributorid + '" data-vipid="'+json.vipid+'" data-point="'+json.point+'" data-cardcode="'+json.cardcode+'" tapmode="active-f8"><div class="li-tips"></div><div class="ub ub-ac ub-f1 marl-10"><div class="tx-gra marr-10">' + json.code + '</div><div class="ub-f1 tx-bla">' + json.name + '</div></div></div></li>';
+        }
+    });
+</script>
+</html>

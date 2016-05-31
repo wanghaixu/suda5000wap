@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>审核</title>
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="../../css/ui-base.css">
+	<link rel="stylesheet" type="text/css" href="../../css/public.css">
+	<link rel="stylesheet" type="text/css" href="../../css/zepto.mdater.css">
+	<link rel="stylesheet" type="text/css" href="../../css/enhance_check.css">
+	<!-- 域名预解析<link rel="dns-prefetch" href=""> -->
+</head>
+<body class="uhide padt-0">
+	<!--头部开始-->
+	<header class="ub ub-pc ub-ac module-header-t1 line-b bg-fixed2">
+		<a class="goback ub ub-ac ub-pc" onclick="history.back(-1)">返回</a>
+		<div class="ub-f1 ub ub-ac ub-pc">过滤</div>
+		<div class="holder ub ub-ac ub-pe">
+			<div class="aff-icon post-icon-wh marr-15"></div>
+		</div>
+	</header>
+	<!--头部结束-->
+	<div class="ub ub-ver mart-5 padl-15 padr-15 bg-wh line-t line-b">
+		<div class="ub ub-ac ub-pj line-b padt-10 padb-10">
+			<div class="tx-14 tx-bla">开始日期</div>
+			<input type="text" value="2016-1-4" class="tx-14 tx-r tx-bla-2 startDate" readonly="readonly">
+		</div>
+		<div class="ub ub-ac ub-pj line-b padt-10 padb-10">
+			<div class="tx-14 tx-bla">结束日期</div>
+			<input type="text" value="2016-1-4" class="tx-14 tx-r tx-bla-2 endDate" readonly="readonly">
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../js/sea.js"></script>
+<script language="javascript">
+seajs.use(['zepto.min','enhance_check','public','layer','zepto.mdater'],function(zepto,Check,_Public,layer){
+	if(Check.getPageParams('sdate')){
+		$('.startDate').val(Check.getPageParams('sdate'))
+	}else{
+		$('.startDate').val(_Public.getDates().eDate);
+	}
+	if(Check.getPageParams('edate')){
+		$('.endDate').val(Check.getPageParams('edate'))
+	}else{
+		$('.endDate').val(_Public.getDates().sDate);
+	}
+	$('.startDate').mdater();
+	$('.endDate').mdater();
+	//确认
+	$('.aff-icon').on('tap',function(){
+		var sdate=$('.startDate').val();
+		var edate=$('.endDate').val();
+		location.href=Check.getPageParams('href')+"?sdate="+sdate+"&edate="+edate;
+	});
+})
+</script>
+</html>

@@ -1,0 +1,203 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>速达ERP</title>
+    <link rel="stylesheet" href="../../css/layer.css">
+    <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.2.13.2.min.css">
+    <link rel="stylesheet" href="../../css/ui-base.css">
+    <link rel="stylesheet" href="../../css/public.css">
+    <link rel="stylesheet" href="../../css/login.css">
+    <style type="text/css">
+        html, body {
+            background-color: #CDCDCF;
+        }
+    </style>
+    
+</head>
+<body class="hide">
+    <div class="warpper" id="warpper">
+        <header class="ub ub-ac module-header-t1 index-header">
+            <div class="header-logo"></div>
+        </header>
+        <div class="accset_banner mart-40">
+            <i class="little-tit">APP.03</i>
+        </div>
+        <section class="list b ub-ver">
+            <div class="listItem ub-f1 ub ub-ac act ">
+                <div class="lis-icon ub-img icon-card "></div>
+                <div class="ub ub-f1 ub-ac ub-pe">
+                    <select name="accsetName" id="accsetName" class="cus-select ub-f1 tx-r"></select>
+                </div>
+                <div class="rightArrow"></div>
+            </div>
+            <div class="listItem ub-f1 ub ub-ac ">
+                <div class="lis-icon ub-img icon-head"></div>
+                <div class="ub ub-f1 ub-ac">
+                    <input type="text" class="billInput ub-f1 tx-r ut-s sel-opt" name="opcode" value="系统管理员">
+                </div>
+            </div>
+            <div class="listItem ub-f1 ub ub-ac">
+                <div class="lis-icon ub-img icon-lock"></div>
+                <div class="ub ub-f1 ub-ac">
+                    <input type="password" class="billInput ub-f1 tx-r ut-s" name="password" placeholder="请输入密码">
+                </div>
+            </div>
+        </section>
+        <section class="mart-15">
+            <div class="listItem ub ub-f1 ub-ac pw-remember">
+                <div class="lis-icon ub-img icon-remember icon-checked"></div>
+                <div class="ub-ub-ac ub-f1 tx-l tx-gray">
+                    记住登录密码
+                </div>
+            </div>
+        </section>
+        <section class="shortButton btn-login mart-20">
+            登&nbsp&nbsp&nbsp&nbsp录
+        </section>
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="../../js/sea.js"></script>
+<script type="text/javascript" src="../../js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="../../js/mobiscroll.2.13.2.min.js"></script>
+ <script>
+    seajs.use(['zepto.min', 'public', 'layer'], function (zepto, _Public, layer) {
+        $().ready(function () {
+            url_suffix = localStorage.getItem('sdIP');
+            var type = _Public.getPageParams('type');
+            //判断是什么类型的账号,并且改变页面
+            if (type == 'ty') {
+                $('.header-logo').addClass('ty-logo');
+                $('.accset_banner').addClass('accset_banner_tianyao');
+                $('.little-tit').text('APP.03');
+            } else {
+                $('.header-logo').addClass('sd-logo');
+                $('.accset_banner').addClass('accset_banner_suda');
+                $('.little-tit').text('APP.03');
+            }
+            $('body').removeClass('hide');
+
+            if (_Public.Get_storage('opPwRem') != null) {
+                $('input[name="password"]').val(_Public.Get_storage('opPw'));
+            }
+            //获取帐套
+            getAccsetList();
+            //点击登录按钮
+            $(document).on('tap', '.shortButton', function (e) {
+                var acn = $('#accsetName').val();
+                var opcode = $('input[name="opcode"]').val();
+                var password = $('input[name="password"]').val();
+                //记住密码操作
+                localStorage.setItem('opCode', opcode);
+                if ($('.icon-remember').hasClass('icon-checked')) {
+                    localStorage.setItem('opPwRem', 'true');
+                }
+                else {
+                    localStorage.removeItem('opPwRem');
+                }
+                localStorage.setItem('opPw', password);
+                userLogin(acn, opcode, password);
+            })
+
+            //点击记住密码
+            $(document).on('tap', '.pw-remember', function (e) {
+                if ($('.icon-remember').hasClass('icon-checked')) {
+                    $('.icon-remember').removeClass('icon-checked');
+                }
+                else {
+                    $('.icon-remember').addClass('icon-checked');
+                }
+            })
+        })
+        //step3--获取帐套
+        function getAccsetList() {
+            var data = {
+                type: 'post',
+                url: 'http://' + url_suffix + '/login/login!doGetAccsetList.action',
+                data: {
+                    'isH5': 'true'
+                }
+            }
+            _Public.Get_ajax(data, function (data1) {
+                if (data1.errNo == 0) {
+                    var AccsetList = data1.resultData.AccsetList;
+                    var select = $('#accsetName');
+                    for (var i = AccsetList.length - 1; i >= 0; i--) {
+                        var s = '<option>' + AccsetList[i].accsetName + '</option>'
+                        select.append($(s));
+                    }
+                    $('#accsetName').find('option:first-child').attr('selected', 'selected');
+                    setSelect($('#accsetName'));
+                } else {
+                    _Public.layerMsg(data1.errMsg);
+                }
+            }, function (xhr, type) {
+                _Public.layerMsg(JSON.stringify(xhr));
+            });
+        }
+
+        //step4--帐套用户登录
+        function userLogin(acn, opcode, password) {
+            var data = {};
+            data['url'] = 'http://' + url_suffix + '/login/mobileloginpost.action';
+            data['type'] = 'post';
+            data['data'] = { accsetName: acn, PhoneSoftVersion: '1.50', opcode: opcode, password: password, 'isH5': true };
+            _Public.Get_ajax(data, function (data1) {
+                if (data1.errNo == 0) {
+                    if (data1.SDlogo != '5000') {
+                        _Public.layerMsg('请使用ERP账号进行登录!');
+                        return false;
+                    }
+                    //缓存全局数据
+                    localStorage.setItem('accsetTaxRate', data1.optionList.TAXRATE);//缓存全局税率
+                    localStorage.setItem('billGoodsNumber', data1.optionList.BILLGOODSNUMBER || 0);//默认商品数量
+                    localStorage.setItem('priceChange', data1.optionList.PRICECHANGE);
+                    localStorage.setItem('taxAmtLimit', data1.optionList.TAXAMTLIMIT || 0);
+                    localStorage.setItem('goodsAmtLimit', data1.optionList.GOODSAMTLIMIT || 0);
+                    localStorage.setItem('goodsStoreLimit', data1.optionList.GOODSSTORELIMIT || 0);
+                    localStorage.setItem('shopAccount', data1.optionList.SHOPACCOUNT);
+                    localStorage.setItem('shopTrader', data1.optionList.SHOPTRADER);
+                    localStorage.setItem('selfStoreGoods',data1.optionList.SELFSTOREGOODS);//根据仓库操作员授权控制开单和查看报表
+                    localStorage.setItem('canUpdateReMark',data1.optionList.CANUPDATEREMARK);
+
+                    localStorage.setItem('shopID', data1.currOperator.shopid);//分支ID shopid
+                    localStorage.setItem('opID', data1.currOperator.opid);//操作员id
+                    localStorage.setItem('opName', data1.currOperator.opname);//操作员名称
+                    localStorage.setItem('shopName', data1.currOperator.shopname);//shopname
+                    //权限
+                    localStorage.setItem('ISDISTINCTSTORE',data1.optionList.ISDISTINCTSTORE);
+                    localStorage.setItem('ZEROONHAND',data1.optionList.ZEROONHAND);
+                    localStorage.setItem('STARTDATE',data1.optionList.STARTDATE);//开账日期
+                    
+                    var currDate=data1.optionList.POSYEAR+"-"+data1.optionList.POSMONTH+"-1";
+                    localStorage.setItem('currDate',currDate);//进销存期间
+                    
+                    var currAccDate=data1.optionList.CURRACCYEAR+"-"+data1.optionList.CURRACCMONTH+"-1";
+                    localStorage.setItem('currAccDate',currAccDate);//会计期间
+                    
+                    window.location = '../enhance_index/index.html';
+                }
+                else {
+                    _Public.layerMsg(data1.errMsg);
+                }
+            }, function (xhr, type) {
+                _Public.layerMsg(JSON.stringify(xhr));
+            });
+        }
+
+        function setSelect(target) {
+            target.mobiscroll().select({
+                theme: 'mobiscroll',
+                lang: 'zh',
+                display: 'bottom',
+                mode: 'scroller',
+                minWidth: 200
+            });
+        }
+    })
+
+</script>

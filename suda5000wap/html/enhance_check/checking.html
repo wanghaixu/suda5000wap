@@ -1,0 +1,521 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>审核</title>
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="../../css/ui-base.css">
+	<link rel="stylesheet" href="../../css/layer.css">
+	<link rel="stylesheet" type="text/css" href="../../css/public.css">
+	<link rel="stylesheet" type="text/css" href="../../css/pullToRefresh.css">
+	<link rel="stylesheet" type="text/css" href="../../css/enhance_check.css">
+	<!-- 域名预解析<link rel="dns-prefetch" href=""> -->
+</head>
+<body class="uhide">
+	<header class="ub ub-ac" id="header">
+		<div class="header-left ub-fv">
+			<div class="filtWhile-icon"></div>
+		</div>
+		<div class="ub ub-ac ub-pc ub-f1">
+			<div class="header-centre ub-f1 ub">
+				<a class="ub-f1 ub ub-ac ub-pc tx-wh header-type-active" href="javascript:void(0);">待审核</a>
+				<div class="ub-f1 ub ub-ac ub-pc tx-wh" id="checked">已审核</div>
+			</div>
+		</div>
+		<div class="header-right ub ub-ac ub-pc ub-fv marr-10" id="handleBtn">审核</div>
+	</header>
+	<form class="ub module-form-t1 line-b">
+		<div class="ub ub-ac ub-pc filtration">
+			<div id="filtrateType" data-num='2'>采购订单</div>
+			<div class="filtration-icon"></div>
+		</div>
+		<from class="ub-f1 ub ub-ac ub-pc line-all" action='#'>
+			<input type="search" class="ub ub-f1 line-b" placeholder="单号/往来单位/操作员等关键字">
+			<div class="search-icon"></div>
+			<div class="focusShade uhide"></div>
+		</from>
+		<div class="ub ub-ver item-body uhide line-b">
+			<div class="sharp-icon">
+				<div class="first"></div>
+				<div class="last"></div>
+			</div>
+			<div class="ub ub-ac ub-pc item-1 item-1-active line-b" data-num='2'>
+				<div class="item-left ub-f1 ut-s">采购订单</div>
+				<div class="item-r-icon"></div>
+			</div>
+			<div class="ub ub-ac ub-pc item-1 line-b" data-num='4'>
+				<div class="item-left ub-f1 ut-s">采购开单</div>
+				<div class="item-r-icon"></div>
+			</div>
+			<div class="ub ub-ac ub-pc item-1 line-b" data-num='12'>
+				<div class="item-left ub-f1 ut-s">销售订单</div>
+				<div class="item-r-icon"></div>
+			</div>
+			<div class="ub ub-ac ub-pc item-1" data-num='14'>
+				<div class="item-left ub-f1 ut-s">销售开单</div>
+				<div class="item-r-icon"></div>
+			</div>
+		</div>
+		<div id="shade" class="uhide"></div>
+	</form>
+	<div class="dateClass bg-gray3 ub tx-12 tx-gray padt-7 padb-7 mart-5">
+		<div class="marl-15 tx-c">时间范围：</div>
+		<div class="ub-f1 tx-c ub ub-ac ub-pc sdate"></div>
+		<div class=" tx-c">至</div>
+		<div class="ub-f1 tx-c ub ub-ac ub-pc edate"></div>
+	</div>
+	<div id="wrapper">
+		<ul class="ub ub-ver list">
+			<!-- 数据项开始
+			<li class="mart-5">
+				<div class="ub ub-ver ul line-t line-b">
+					<div class="li-header ub ub-ac ub-pc line-b">
+						<div class="ub-f1 ut-s li-hl">CS201512022</div>
+						<div class="li-hr">2015-12-06</div>
+						<div class="li-tips"></div>
+					</div>
+					<div class="li-content ub ub-ver">
+						<div class="li-title ub-f1 ut-s">广州洪宇网络科技有限公司</div>
+						<div class="ub">
+							<div class="li-type">采购订单</div>
+							<div class="ub-f1 ut-s tx-r li-price">¥-15000.00</div>
+						</div>
+					</div>
+				</div>
+			</li>
+			数据项结束
+			数据项开始
+			<li class="mart-5">
+				<div class="ub ub-ver ul line-t line-b">
+					<div class="li-header ub ub-ac ub-pc line-b">
+						<div class="ub-f1 ut-s li-hl">CS201512022</div>
+						<div class="li-hr">2015-12-06</div>
+						<div class="li-tips"></div>
+					</div>
+					<div class="li-content ub ub-ver">
+						<div class="li-title ub-f1 ut-s">广州洪宇网络科技有限公司</div>
+						<div class="ub">
+							<div class="li-type">采购订单</div>
+							<div class="ub-f1 ut-s tx-r li-price">¥-15000.00</div>
+						</div>
+					</div>
+				</div>
+			</li>
+			数据项结束 -->
+		</ul>
+	</div>
+	<footer class="module-footer-t5">
+		<div class="ub ub-fv">
+			<a class="ub-f1 ub ub-ver ub-ac ub-pc ub-fv" href="../enhance_index/index.html">
+				<div class="nav1"></div>
+				<div>首页</div>
+			</a>
+			<a class="ub-f1 ub ub-ver ub-ac ub-pc ub-fv" href="../data/index.html">
+				<div class="nav2"></div>
+				<div>资料</div>
+			</a>
+			<a class="ub-f1 ub ub-ver ub-ac ub-pc ub-fv footerNavActive" href="javascript:void(0);">
+				<div class="nav3 nav3-active"></div>
+				<div>审核</div>
+			</a>
+			<a class="ub-f1 ub ub-ver ub-ac ub-pc ub-fv" href="../report/index.html">
+				<div class="nav4"></div>
+				<div>报表</div>
+			</a>
+			<a class="ub-f1 ub ub-ver ub-ac ub-pc ub-fv" href="../set/index.html">
+				<div class="nav5"></div>
+				<div>设置</div>
+			</a>
+		</div>
+	</footer>
+	<div class="none-icon uhide">
+		<img src="../../images/none.png">
+		<div class="tx-gray">暂无数据</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../js/sea.js"></script>
+<script language="javascript">
+//记录筛选类型
+seajs.use(['zepto.min','enhance_check','public','layer','iscroll','pullToRefresh'],function(zepto,Check,_Public,layer){
+	$('#wrapper').height($(window).height()-$('header').height()-$('form').height()-$('footer').height());
+	//首次加载的数量
+	var viewH=$(window).height()-$('header').height()-$('form').height()-$('footer').height();
+	var nodeNumber=parseInt(viewH/63);
+	//组件module-form-t1：筛选功能样式的设置-开始
+	Check.moduleFormT1(function(){
+		var type=$('#filtrateType').text();
+		switch(type){
+			case '采购订单':
+				postData.data.billtype=2;
+				break;
+			case '采购开单':
+				postData.data.billtype=4;
+				break;
+			case '销售订单':
+				postData.data.billtype=12;
+				break;
+			case '销售开单':
+				postData.data.billtype=14;
+				break;			
+		}
+		postData.data.start=0;
+		requireData(postData,'filtrate',function(){
+			myScroll.refresh();
+		});
+	});
+	//表单提交
+	function onsubmit(){
+		$('input').attr('disabled',true);
+		$('input').blur();
+		setTimeout(function(){
+			$('input').removeAttr('disabled');
+		},50);
+		var data={
+			value:$('input').val()
+		};
+		postData.value=$('input').val()?$('input').val():"";
+		requireData(postData,'search');
+	}
+	$('input').on('input',function(){
+		if($(this).val()==""){
+			postData.value="";
+			requireData(postData,'search');
+			$('.focusShade').addClass('uhide')
+		}else{
+			$('.focusShade').removeClass('uhide');
+		}
+	})
+	//点击虚拟键盘提交
+	$('form').submit(function(){
+		onsubmit();
+		return false;
+	});
+	//点击搜索图标提交
+	$('.search-icon').on('tap',function(){
+		onsubmit();
+	})
+	/*资料列表项选择-开始*/
+	Check.choiceItem();
+	/*资料列表项选择-结束*/
+	/*输入框获得焦点时，背景虚化-结束*/
+	var filter={
+		sdate:Check.getPageParams('sdate'),
+		edate:Check.getPageParams('edate'),
+		orderTypeName:Check.getPageParams('orderTypeName'),
+		orderTypeCode:Check.getPageParams('orderTypeCode'),
+		searchValue:Check.getPageParams('searchValue'),
+	};
+	//筛选时间范围
+	if(filter.sdate){
+		$('.sdate').text(filter.sdate);
+	}else{
+		$('.sdate').text(_Public.getDates().eDate);
+	}
+	if(filter.edate){
+		$('.edate').text(filter.edate);
+	}else{
+		$('.edate').text(_Public.getDates().sDate);
+	}
+	// 设置订单类型
+	if(filter.orderTypeName){
+		$('#filtrateType').text(filter.orderTypeName)
+	}
+	if(filter.orderTypeCode){
+		$('.item-1').removeClass('item-1-active');
+		$(".item-1[data-num='"+filter.orderTypeCode+"']").addClass('item-1-active');
+		$('#filtrateType').attr('data-num',filter.orderTypeCode);
+	}
+	//设置搜索值
+	if(filter.searchValue){
+		$('input').val(filter.searchValue);
+	}
+	//筛选日期
+	$('.header-left').on('tap',function(){
+		location.href="filtration_date.html?sdate="+$('.sdate').text()+"&edate="+$('.edate').text()+"&href=checking.html";
+	})
+	//已审核
+	$('#checked').on('tap',function(){
+		location.href="checked.html?sdate="+$('.sdate').text()+"&edate="+$('.edate').text()+"&href=checking.html&orderTypeName="+$('#filtrateType').text()+"&orderTypeCode="+$('#filtrateType').attr('data-num')+"&searchValue="+$('input').val();
+	})
+	//数据交互
+	var postData={
+		url:"http://"+localStorage.getItem('sdIP')+"/batchcheck/batchcheckList!doGetListData.action",
+		type:'post',
+		data:{
+			sdate:$('.sdate').text(),
+			beginDate:$('.sdate').text(),
+			edate:$('.edate').text(),
+			endDate:$('.edate').text(),
+			pageSize:'20',
+			limit:'20',
+			start:'0',
+			iMoneyHeadType:'0',
+			sdate:$('.sdate').text(),
+			edate:$('.edate').text(),
+			billstate:'0',
+			billtype:filter.orderTypeCode?filter.orderTypeCode:'2',
+			ipurpose:'0',
+			modId:'2081',
+			billcode:'',
+			traderid:'',
+			opid:'',
+			filterisOR:'true'
+		},
+		value:filter.searchValue?filter.searchValue:''
+	};
+	function requireData(postData,type,callback){
+		postData.data.billcode=postData.value;
+		postData.data.traderid=postData.value;
+		postData.data.opid=postData.value;
+		_Public.Get_ajax(postData,function(ret){
+			if(ret.errNo){
+				layer.open({
+				    style: 'border:none; background-color:#78BA32; color:#fff;',
+				    content:ret.errMsg
+				})
+				if(ret.errMsg.indexOf('重新登录')>0||ret.errMsg.indexOf('重新登陆')>0){
+					setTimeout(function(){
+						location.href='../login/en_login.html';
+					}, 1200);
+				}
+				return false;
+			}
+			var listData=ret.resultData.ListData;
+			if(listData.length<nodeNumber-1){
+				$('#pullUp,.pullUpLabel,.loader').css('visibility','hidden!important');
+			}
+			var node="";
+			if(listData.length>0){
+				for(var i=0;i<listData.length;i++){
+					var billid=listData[i].billid,
+						billcode=listData[i].billcode,
+						billdate=listData[i].billdate,
+						statename=listData[i].statename,
+						trader=listData[i].trader?listData[i].trader:listData[i].client,
+						billname=listData[i].billname,
+						opid=listData[i].opid,
+						opname=listData[i].opname?listData[i].opname:'',
+						amount=listData[i].amount?listData[i].amount:'',
+						moneycode=listData[i].moneycode?listData[i].moneycode:'';
+					if(ret.billtype=="12"||ret.billtype=="14"){
+						trader=listData[i].client?listData[i].client:'';
+					}
+					//审核，反审核数据
+					var checkData={
+						billid:billid,
+						billdate:billdate,
+						billkind:listData[i].billkind?listData[i].billkind:'undefined',
+						billname:billname,
+						billstate:listData[i].billstate?listData[i].billstate:'1',
+						billtype:ret.billtype,
+						checkorid:listData[i].checkorid,
+						checkor:listData[i].checkor,
+						departmentid:listData[i].departmentid,
+						depname:listData[i].depname,
+						empid:listData[i].empid,
+						empname:listData[i].empname,
+						opid:listData[i].opid,
+						shopid:listData[i].shopid,
+						shopname:listData[i].shopname,
+						tablename:listData[i].tablename,
+						billcode:billcode,
+						checkStep:listData[i].checkStep?listData[i].checkStep:"0"
+					};
+					node+='<li class="mart-5" data-billid="'+checkData.billid+'" data-billdate="'+checkData.billdate+'" data-billkind="'+checkData.billkind+'" data-billname="'+checkData.billname+'" data-billstate="'+checkData.billstate+'" data-billtype="'+checkData.billtype+'" data-checkorid="'+checkData.checkorid+'" data-checkor="'+checkData.checkor+'" data-departmentid="'+checkData.departmentid+'" data-depname="'+checkData.depname+'" data-empid="'+checkData.empid+'" data-empname="'+checkData.empname+'" data-opid="'+checkData.opid+'" data-shopid="'+checkData.shopid+'" data-shopname="'+checkData.shopname+'" data-tablename="'+checkData.tablename+'" data-billcode="'+checkData.billcode+'" data-checkStep="'+checkData.checkStep+'"><div class="ub ub-ver ul line-t line-b"><div class="li-header ub ub-ac ub-pc line-b"><div class="ub-f1 ut-s li-hl">'+billcode+'</div><div class="li-hr">'+billdate+'</div><div class="li-tips"></div></div><div class="li-content ub ub-ver"><div class="li-title ub-f1 ut-s">'+trader+'</div><div class="ub"><div class="li-type">'+billname+'</div><div class="ub-f1 ut-s tx-r tx-14 ';
+					if(Number(amount)<0){
+						node+='priceColor-red';
+					}else{
+						node+='tx-bla-3';
+					}
+					node+='">'+moneycode+amount+'</div></div></div></div></li>';
+				}
+				$('.none-icon').addClass('uhide');
+			}else{
+				if(type!='add'){
+					$('.none-icon').removeClass('uhide')
+				}
+			}
+			if(type=='refresh'||type=='filtrate'||type=="search"){
+				$('.list li').remove();
+			}
+			$('.list').append(node);
+			$('body').removeClass('uhide');
+			if(callback){
+				callback(ret);
+			};
+		},function(err){
+			if(callback){
+				callback(err);
+			};
+			if(type=='refresh'){
+				$('.list li').remove();
+			}
+		});
+	}
+	//加载数据
+	requireData(postData);
+	refresher.init({
+		id:"wrapper",
+		pullDownAction:Refresh,
+		pullUpAction:Load
+	});
+	//下拉刷新
+	function Refresh(){
+		postData.data.start=0;
+		requireData(postData,'refresh',function(){
+			myScroll.refresh();
+		});
+	};
+	//上拉加载
+	function Load(){
+		postData.data.start=$('.list').find('li').length;
+		requireData(postData,'add',function(){
+			myScroll.refresh();
+		});
+	};
+	/*订单的审核与反审核-开始*/
+	$('#handleBtn').on('tap',function(){
+			var i=0;
+			var nodeSide=$('.li-tips-active').length;
+			function check(){
+				function findValue(object){
+					//成功一个，删除一个，所以使用倒序访问
+					var value=$($('.li-tips-active')[nodeSide-i-1]).parents('.mart-5').attr("data-"+object);
+					return String(value);
+				};
+				//进行审核或反审核
+				var checkData={
+					billid:findValue('billid'),//
+					billdate:findValue('billdate'),
+					billkind:'undefined',
+					billname:findValue('billname'),
+					billstate:'0',//
+					billtype:findValue('billtype'),//
+					checkorid:findValue('checkorid'),
+					checkor:findValue('checkor'),
+					departmentid:findValue('departmentid'),
+					depname:findValue('depname'),
+					empid:findValue('empid'),
+					empname:findValue('empname'),
+					opid:findValue('opid'),
+					shopid:findValue('shopid'),
+					shopname:findValue('shopname'),
+					tablename:findValue('tablename'),
+					billcode:findValue('billcode'),
+					checkStep:findValue('checkStep')
+				};
+				var postData={
+					url:"http://"+localStorage.getItem('sdIP')+"/batchcheck/batchcheckList!CheckBill.action",
+					type:'post',
+					data:{
+						param:JSON.stringify(checkData),
+						billstate:checkData.billstate
+					},
+					i:nodeSide-i-1
+				};
+				function submintCheck(postData){
+					console.log('提交参数：');
+					console.log(postData);
+					_Public.Get_ajax(postData,function(ret){
+						console.log('提交结果：');
+						console.log(ret);
+						if(Number(ret.errNo)==500){
+							_Public.confirmLayer(ret.errMsg,function(){
+								postData.data.param.checkStep='500';
+								submintCheck(postData);
+							},function(){
+								api.hideProgress();
+							},['是','否'])
+							// return false;
+						}
+						_Public.hideProgress();
+						if (ret.errNo==1&&ret.errMsg!='') {
+							_Public.layerMsg(ret.errMsg);
+							if(ret.errMsg.indexOf('重新登录')>0||ret.errMsg.indexOf('重新登陆')>0){
+								setTimeout(function(){
+									location.href='../login/en_login.html';
+								}, 1200);
+							}
+						}else if(Number(ret.errNo)!=500){
+							$($('.li-tips-active')[nodeSide-i-1]).parents('.mart-5').remove();
+						}
+						i++;
+						if(nodeSide>i){
+							check();
+						}
+					},function(err){
+						_Public.hideProgress();
+						if(err.errMsg!=""){
+							_Public.layerMsg(err.errMsg);
+						}
+					})
+				}
+				/*如果是采购开单，销售开单，检查库存与权限是否满足-开始*/
+				if(checkData.billtype=='4'||checkData.billtype=='14'){
+					//检查参数
+					var condition={
+						url:"http://"+localStorage.getItem('sdIP')+"/common/bill/billpublic!doGetCheckZero.action",
+						type:'post',
+						data:{
+							param:"{'billtype':'"+checkData.billtype+"','billid':'"+checkData.billid+"','flag':'"+(checkData.billstate=='0'?'1':'-1')+"'}"
+						}
+					}
+					var ZEROONHAND=localStorage.getItem('ZEROONHAND');
+					console.log('检查参数：');
+					console.log(condition);
+					_Public.Get_ajax(condition,function(ret){
+						console.log('检查结果：');
+						console.log(ret);
+						if(ret.resultData.checkzero.length>0&&ZEROONHAND=='0'){
+							//前台只给一个提示“存在货品库存不足/超出上限下限”，不操作
+							_Public.layerMsg('存在货品库存不足/超出上限下限!');
+						}else if(ret.resultData.checkzero.length>0&&ZEROONHAND=='1'){
+							//前台要给一个选项 “存在货品库存不足/超出上限下限是否忽略？” [忽略] [否] 
+							_Public.confirmLayer('存在货品库存不足/超出上限下限是否忽略？',function(){
+								/*如果是采购开单，销售开单，检查库存与权限是否满足-结束*/
+								_Public.showLoading();
+								submintCheck(postData);
+							},function(){
+								//批量操作时跳过
+								i++;
+								if(nodeSide>i){
+									check();
+								}
+							},['忽视','否'])
+						}else if(ret.resultData.checkzero.length==0){
+							//resultData 无值 ，原来审核反审核操作
+							/*如果是采购开单，销售开单，检查库存与权限是否满足-结束*/
+							_Public.showLoading();
+							submintCheck(postData);
+						}
+						if (ret.errNo==1&&ret.errMsg!='') {
+							_Public.layerMsg(ret.errMsg);
+							if(ret.errMsg.indexOf('重新登录')>0||ret.errMsg.indexOf('重新登陆')>0){
+								setTimeout(function(){
+									location.href='../login/en_login.html';
+								}, 1200);
+							}
+						}
+					},function(err){
+						if(err.errMsg!=''){
+							_Public.layerMsg(err.errMsg);
+						}
+					})
+				}else{
+					/*如果是采购开单，销售开单，检查库存与权限是否满足-结束*/
+					_Public.showLoading();
+					submintCheck(postData);
+				}
+			}
+			//未选择
+			if($('.li-tips-active').length==0){
+				_Public.layerMsg('请选择单据！')
+				return;
+			}else{
+				check();
+			}
+	});
+})
+</script>
+</html>

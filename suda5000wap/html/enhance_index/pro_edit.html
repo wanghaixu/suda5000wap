@@ -1,0 +1,1543 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>开单货品明细编辑</title>
+    <link rel="stylesheet" type="text/css" href="../../css/ui-base.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.2.13.2.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/layer.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/public.css">
+    <link rel="stylesheet" type="text/css" href="../../css/enhance_index.css">
+</head>
+<body class="hide">
+    <!--头部开始-->
+    <header class="ub ub-pc ub-ac module-header-t1 bg-fixed2 line-b">
+        <a class="ub ub-ac" href="javascript:history.back(-1);">
+            <div class="icon back-icon-wh"></div>
+            <div class="tx-16 tx-wh">返回</div>
+        </a>
+        <div class="ub-f1 ub ub-ac ub-pc tx-18">货品明细编辑</div>
+        <div class="ub ub-ac ub-pe title-r">
+            <div id="submitBtn" class="icon post-icon-wh marl-10"></div>
+        </div>
+    </header>
+    <!--头部结束-->
+    <!--主体开始-->
+    <div class="mart-5 line-t padt-44 g-container hide">
+        <section class="orderListEdit ub ub-ver line-t">
+            <div class="padlr-15 " tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">货品编号</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input name="goodscode" class="billInput ub-f1 tx-r goodscode" type="text" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="padlr-15" tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">货品名称</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input name="goodsname" class="billInput ub-f1 tx-r goodsname" type="text" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="padlr-15" tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">规格</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input name="specs" class="billInput ub-f1 tx-r specs" type="text" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="padlr-15" tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">条形码</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input name="barcode" class="billInput ub-f1 tx-r barcode" type="text" readonly>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="ub ub-ver line-t bg-wh marb-5">
+            <div class=" listItem">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">单位</div>                    
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray scroll">
+                        <div class="ub-f1"></div>
+                        <select name="unitname" class="unitname sel-opt"></select>
+                    </div>
+                    <div class="rightArrow"></div>
+                </div>
+            </div>
+            <div class="listItem" tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">数量</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input name="unitquantity" class="billInput ub-f1 tx-r unitquantity" type="number">
+                    </div>
+                </div>
+            </div>
+            <div class="listItem" tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">单价</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input name="unitprice" class="billInput ub-f1 tx-r unitprice" type="number">
+                    </div>
+                </div>
+            </div>
+            <div class="listItem" tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">税率(%)</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input name="taxrate" class="billInput ub-f1 tx-r taxrate" type="number">
+                    </div>
+                </div>
+            </div>
+            <div class="padlr-15" tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">货款</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input name="goodsamt" class="billInput ub-f1 tx-r goodsamt" type="number">
+                    </div>
+                </div>
+            </div>
+            <div class="padlr-15" tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">税额</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input name="taxamt" class="billInput ub-f1 tx-r taxamt" type="number">
+                    </div>
+                </div>
+            </div>
+            <div class="padlr-15" tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">金额</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input name="amount" class="billInput ub-f1 tx-r amount" type="number">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="ub ub-ver line-t bg-wh marb-5 bill_pro">
+            <div class="listItem" tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">仓库</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray scroll sel-label">
+                        <div class="ub-f1"></div>
+                        <select name="store" class="ub-f1 tx-r store sel-opt"></select>
+                    </div>
+                    <div class="rightArrow"></div>
+                </div>
+            </div>
+            <div class="padlr-15" tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">批号</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input name="batchcode" class="billInput ub-f1 tx-r batchcode" type="text">
+                        <div class="rightArrow"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="padlr-15" tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">生产日期</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input id="productdate" name="productdate" class="billInput ub-f1 tx-r productdate" type="text" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="padlr-15" tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">有效期至</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input id="validdate" name="validdate" class="billInput ub-f1 tx-r validdate" type="text" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="ub ub-ver line-t bg-wh marb-5 bill_pro">
+            <div class="padlr-15" tapmode="bg-f8-active">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="itemName tx-l tx-bla">赠品</div>
+                    <div class="ub-f1 tx-r tx-gray">
+                        <label class="switch">
+                            <input id="islargess" name="islargess" type="checkbox" class="switchBtn">
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="longButton danger ub-f1">删&nbsp;除</div>
+    </div>
+    <!--主体结束-->
+</body>
+</html>
+<script type="text/javascript" src="../../js/sea.js"></script>
+<script type="text/javascript" src="../../js/zepto.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="../../js/enhance_index.js"></script>
+<script type="text/javascript" src="../../js/mobiscroll.2.13.2.min.js"></script>
+<script type="text/javascript">
+    seajs.use(['public', 'layer'], function (_Public) {
+        var enhance_index = new Enhance_index();
+        $(document).ready(function () {
+            var url_suffix = localStorage.getItem('sdIP');
+            _Public.showLoading();
+            //获取单据详情
+            var store_billData = JSON.parse(sessionStorage.getItem('session_goodParamJson'));
+            var billKind = store_billData.billKind;
+            var traderID = store_billData.traderID;
+            var traderTaxRate = store_billData.traderTaxRate;
+            var isRetrun = store_billData.isRetrun;
+            var billDate = store_billData.billDate;
+            var billType = store_billData.billType;
+            var vipID = store_billData.vipID;
+            var noteType = store_billData.noteType;
+            var isPurReturn = store_billData.isPurReturn;
+            var canEditPrice=store_billData.canEditPrice;//是否允许编辑单价,货款和总额
+
+            //商品数据
+            var d = JSON.parse(sessionStorage.getItem('goodsData'));
+            //单据类型
+            var type = enhance_index.getPageParams('type');
+            //操作类型
+            var act = enhance_index.getPageParams('act');
+            //是否从lot过来的
+            var lot = sessionStorage.getItem('lot');
+
+            //如果是订单页面的话 隐藏批号 日期 赠品等开单的信息
+            if (type.indexOf('order') != -1)
+                $('.bill_pro').hide();
+
+            //保存数据模版
+            var goodsData = enhance_index.goodsData;
+            goodsData.init();
+            
+            //判断如果是新增且不是从批号页过来的话,就执行初始化货品明细编辑数据操作
+            if (act == 'add' && !lot) {
+                initData();
+            }
+            $.extend(goodsData._data, d);
+            //清除掉从批号页来的标记
+            sessionStorage.removeItem('lot');
+            //渲染页面
+            render(goodsData.getData());
+
+            //如果管理员没有货品默认仓库的权限时就不用默认仓库
+            if(localStorage.getItem('selfStoreGoods')!=1)
+                goodsData.set('storeid','');
+
+            if (act == 'add') {
+                if (!lot)
+                    getPrice();
+                $('.longButton').hide();
+            }
+
+            isEditPrice();
+
+            if(act!='check'){
+                //获取仓库
+                if (type.indexOf('order') == -1) {
+                    getStore();
+                }
+                //获取单位
+                getUnit();
+            }else{            
+                $('.unitname').append($('<option>'+goodsData.get('unitname')+'</option>'));
+                $('.store').append($('<option>'+goodsData.get('storename')+'</option>'));
+            }
+
+            if (lot) {
+                var lotData = sessionStorage.getItem('lotData');
+                if (lotData) {
+                    lotData = JSON.parse(lotData);
+                    changeBatchCode(lotData);
+                    sessionStorage.removeItem('lotData');
+                }
+            }
+
+            if (act == 'check') {
+                $('.longButton').hide();
+                $('#submitBtn').hide();
+                $('input').attr('readonly','readonly')
+                $('select').attr('disabled','disabled');
+            }
+
+            $('.g-container').removeClass('hide');
+            //收起读取中
+            _Public.hideProgress();
+
+            $('body').removeClass('hide');
+            if (act == 'check')
+                return false;
+
+            //提交商品明细事件
+            $(document).on('tap', '#submitBtn', function () {
+                //获取页面参数,并形成缓存
+                $('input').blur();
+                //判断是否有空值 合法性检验
+                if (!checkValid('.quantity', '.unitprice', '.taxrate', '.goodsamt', '.taxamt', '.amount'))
+                    return;
+
+                if (type.indexOf('order') == -1) {
+                    if ($('.productdate').val() != '' && $('.validdate').val() != '')
+                        if (!_Public.compareDate($('.productdate').val(), $('.validdate').val())) {
+                            _Public.layerMsg('生产日期不能大于有效期!')
+                            return;
+                        }
+                }
+
+                $('input').each(function () {
+                    var t = $(this);
+                    if (t.attr('type') == 'text' || t.attr('type') == 'number') {
+                        goodsData.set(t.attr('name'), t.val());
+                    }
+                    if (t.attr('type') == 'checkbox') {
+                        goodsData.set(t.attr('name'), t.is(':checked') == true ? '1' : '0');
+                    }
+                })
+
+                //保留小数点后八位
+                goodsData.set('price', parseFloat(goodsData.get('price')).toFixed(8));
+                goodsData.set('taxprice', parseFloat(goodsData.get('taxprice')).toFixed(8));
+                goodsData.set('origtaxprice', parseFloat(goodsData.get('origtaxprice')).toFixed(8));
+
+                //对缓存进行操作 并跳转回原来的页面
+                if (act == 'add') {
+                    enhance_index.addGoods(goodsData.getData());
+                    history.go(-2);
+                }
+                if (act == 'edit') {
+                    var _id = goodsData.get('log_id');
+                    enhance_index.editGoods(_id, goodsData.getData());
+                    history.go(-1);
+                }
+            })
+
+            //删除货品事件
+            $(document).on('tap', '.longButton', function () {
+                var _id = goodsData.get('log_id');
+                enhance_index.deleteGoods(_id)
+                history.go(-1);
+            })
+
+            //数量变化事件
+            $('.unitquantity').change(function () {
+                var unitquantity = $(this).val();
+                changeQty(unitquantity);
+                refreshData();
+            })
+
+            //单价变动时的变化
+            $('.unitprice').change(function () {
+                var unitprice = $(this).val() || 0;
+                changePrice(unitprice);
+                refreshData();
+            })
+
+            //改变税率的时候响应
+            $('.taxrate').change(function () {
+                var taxrate = $(this).val();
+                changeTaxRate(taxrate);
+                //对页面的数据进行一次刷新
+                refreshData();
+            })
+
+            //改变税额
+            $('.taxamt').change(function () {
+                //税率为0时 禁止改变税额
+                if (goodsData.getData('taxrate') == 0) {
+                    $('.taxamt').val('0.00');
+                    return;
+                }
+
+                var TAXAMTLIMIT = localStorage.getItem('taxAmtLimit');//在缓存中获取
+                var PRICECHANGE = 0;
+                var taxamt = $(this).val();
+                var oldTaxamt = goodsData.get('taxamt');
+                goodsData.set('taxamt', taxamt);
+
+                var amount = goodsData.get('amount');
+
+                if (Math.abs(taxamt - oldTaxamt) > TAXAMTLIMIT) {
+                    //税额调整幅度在多少元之内不重算单价(<元)
+                    var unitquantity = goodsData.get('unitquantity');
+                    if (unitquantity == '0') {
+                        unitquantity = 1;//并且要触发业务数量改变
+                        changeQty(1);
+                    }
+                    goodsData.set('taxamt', taxamt);
+                    var origprice;
+                    var taxrate = goodsData.get('taxrate');
+                    var disc = goodsData.get('disc');
+                    var origtaxprice = goodsData.get('origtaxprice');
+
+                    var taxprice = (taxamt / (taxrate / 100)) * ((1 + taxrate / 100) / unitquantity);
+                    var unitprice = taxamt / (taxrate / 100) / unitquantity;
+                    if (PRICECHANGE == 0) {
+                        if (origtaxprice == 0) {
+                            origtaxprice = taxprice;
+                            origprice = unitprice;
+                            disc = taxprice / origprice * 100;
+                        }
+                    } else {
+                        origtaxprice = taxprice;
+                        origprice = unitprice;
+                    }
+                    goodsData.set('taxprice', taxprice);
+                    goodsData.set('unitprice', unitprice);
+                    goodsData.set('origtaxprice', origtaxprice);
+                    goodsData.set('origprice', origprice);
+                    goodsData.set('disc', disc);
+
+                    var lcunitprice = unitprice;
+                    goodsData.set('lcunitprice', lcunitprice);
+                    var lctaxprice = taxprice;
+                    goodsData.set('lctaxprice', lctaxprice);
+                    var goodsamt = unitprice * unitquantity;
+                    goodsData.set('goodsamt', goodsamt);
+                    var discamt = origtaxprice * (1 - disc / 100) * unitquantity;
+                    goodsData.set('discamt', discamt);
+                    amount = taxprice * unitquantity;
+                    goodsData.set('amount', amount);
+                } else {
+                    amount = amount + taxamt - oldTaxamt;
+                    goodsData.set('amount', amount);
+                }
+                var lcgoodsamt = amount - taxamt;
+                goodsData.set('lcgoodsamt', lcgoodsamt);
+                var lctaxamt = taxamt;
+                goodsData.set('lctaxamt', lctaxamt);
+                var lcamount = lcgoodsamt + lctaxamt;
+                goodsData.set('lcamount', lcamount);
+
+                countPrice();
+                refreshData();
+            })
+
+            //改变货款
+            $('.goodsamt').change(function () {
+                var GOODSAMTLIMIT = localStorage.getItem('goodsAmtLimit');//从帐套缓存中获取
+                var goodsamt = $(this).val();
+
+                var unitquantity = goodsData.get('unitquantity');
+                //旧商品数量
+                var oldGoodsamt = goodsData.get('goodsamt');
+                goodsData.set('goodsamt', goodsamt);
+                if (Math.abs(goodsamt - oldGoodsamt) > GOODSAMTLIMIT) {
+                    if (unitquantity == 0) {
+                        unitquantity = 1;//触发改变业务数量
+                        changeQty(1);
+                    }
+                    goodsData.set('goodsamt', goodsamt);
+                    var origtaxprice, origprice;
+                    var disc = goodsData.get('disc');
+                    var taxrate = goodsData.get('taxrate');
+
+                    var unitprice = goodsamt / unitquantity;
+                    var taxprice = goodsamt * (1 + taxrate / 100) / unitquantity;
+
+                    if (goodsData.get('PRICECHANGE') == '0') {
+                        if (origtaxprice == '0') {
+                            origtaxprice = taxprice;
+                            origprice = unitprice;
+                        }
+                        disc = taxprice / origprice * 100;
+                    } else {
+                        origtaxprice = taxprice;
+                        origprice = unitprice;
+                    }
+
+                    goodsData.set('origtaxprice', origtaxprice);
+                    goodsData.set('origprice', origprice);
+                    goodsData.set('disc', disc);
+                    goodsData.set('unitprice', unitprice);
+                    goodsData.set('taxprice', taxprice);
+
+                    var taxamt = goodsamt * taxrate / 100;
+                    goodsData.set('taxamt', taxamt);
+                    var amount = taxprice * unitquantity;
+                    goodsData.set('amount', amount);
+
+                    var lcunitprice = unitprice;
+                    goodsData.set('lcunitprice', lcunitprice);
+                    var lctaxprice = taxprice;
+                    goodsData.set('lctaxprice', lctaxprice);
+                    var discamt = 0;
+                    goodsData.set('discamt', discamt);
+                }
+                countPrice();
+                refreshData();
+            })
+
+            //改变金额
+            $('.amount').change(function () {
+                var PRICECHANGE = 0;//需要从缓存获取
+                var amount = $(this).val();
+                goodsData.set('amount', amount);
+                var unitquantity = goodsData.get('unitquantity');
+                var taxrate = goodsData.get('taxrate');
+                if (unitquantity == 0) {
+                    unitquantity = 1;//触发业务数量改变
+                    changeQty(1);
+                }
+                //计算含税单价
+                var taxprice = amount / unitquantity;
+                goodsData.set('taxprice', taxprice);
+                //计算业务单价
+                var unitprice = amount / (1 + taxrate / 100) / unitquantity;
+                goodsData.set('unitprice', unitprice);
+                //计算货品价格
+                var goodsamt = unitprice * unitquantity;
+                //计算税额
+                var taxamt = goodsamt * taxrate / 100;
+                goodsData.set('goodsamt', goodsamt);
+                goodsData.set('taxamt', taxamt);
+
+                var origtaxprice = goodsData.get('origtaxprice');
+                var origprice = goodsData.get('origprice');
+                var disc = goodsData.get('disc');
+
+                if (PRICECHANGE == 0) {
+                    if (origtaxprice == 0) {
+                        origtaxprice = taxprice;
+                        origprice = unitprice;
+                        disc = amount / (origtaxprice * unitquantity) * 100
+                    }
+                } else {
+                    origtaxprice = taxprice;
+                    origprice = unitprice;
+                }
+                goodsData.set('origtaxprice', origtaxprice);
+                goodsData.set('origprice', origprice);
+                goodsData.set('disc', disc);
+
+                var lcunitprice = unitprice;
+                goodsData.set('lcunitprice', lcunitprice);
+                var lctaxprice = taxprice;
+                goodsData.set('lctaxprice', lctaxprice);
+                var discamt = origtaxprice * (1 - disc / 100) * unitquantity;
+                goodsData.set('discamt', discamt);
+
+                countPrice();
+                refreshData();
+            })
+
+            //仓库改变事件
+            $('.store').change(function () {
+                changeStore();
+            })
+
+            //赠品改变事件
+            $('#islargess').change(function () {
+                if ($(this).is(':checked') == true) {
+                    goodsData.set('islargess',1);
+                    if (parseInt(goodsData.get('goodskind')) > 3) {
+                        $(this).attr('checked', false);
+                        goodsData.set('islargess', 0);
+                        return;
+                    }
+                    goodsData.set('unitprice', 0);
+                    goodsData.set('taxrate', 0);
+                    $('input').attr('readonly','readonly');
+                    $('.unitquantity').removeAttr('readonly');
+                    $('.batchcode').removeAttr('readonly');
+                } else {
+                    goodsData.set('islargess',0);
+                    $('input').removeAttr('readonly');
+                    isEditPrice();
+                    var dTaxRate = 0;
+                    if (type.indexOf('p') != -1)//采购类单据
+                        dTaxRate = traderTaxRate;//取供应商税率
+                    else if (type.indexOf('s') != -1) {//销售类单据
+                        var FGRate = goodsData.get('goodstaxrate');//货品税率
+                        if (FGRate == null||FGRate=='')
+                            dTaxRate = localStorage.getItem('accsetTaxRate');
+                        else
+                            dTaxRate = FGRate||0;
+                    }
+                    if (noteType == '1')
+                        dTaxRate = 0;
+                    if (dTaxRate == null)
+                        dTaxRate = 0;
+                    goodsData.set('taxrate', dTaxRate);
+                    getPrice();
+                }
+                changePrice(goodsData.get('unitprice'));
+                refreshData();
+            })
+
+            //货品单位改变事件
+            $('.unitname').change(function () {
+                var dQuantity = 0;
+                var dUnitRate = 0;
+                var asUnitName = "", asBarCode = "", asBarCodeID = "";
+
+                var _unitqty1 = goodsData.get('unitqty1');
+                var _unitrate1 = goodsData.get('unitrate1');
+                var _unitqty2 = goodsData.get('unitqty2');
+                var _unitrate2 = goodsData.get('unitrate2');
+                var _unitqty3 = goodsData.get('unitqty3');
+                var _unitrate3 = goodsData.get('unitrate3');
+
+                dQuantity = _unitrate1 * _unitrate1;
+                if (parseFloat(_unitrate2) != 0) {
+                    dQuantity = dQuantity + _unitqty2 * _unitrate2;
+                    if (parseFloat(_unitrate3) != 0)
+                        dQuantity = dQuantity + _unitqty3 * _unitrate3;
+                }
+
+                var unitSelect = $('.unitname')[0];
+                var unitData = unitSelect[unitSelect.selectedIndex].getAttribute('data-json');
+                var unitData = JSON.parse(unitData);
+
+                var dUnitRate = unitData.rate;
+                var asUnitName = unitData.name;
+                var asBarCode = unitData.barcode;
+                var asBarCodeID = unitData.barcodeid;
+                var asUnitID = unitData.id;
+
+                //避免重复触发改变事件
+                if (asUnitName == goodsData.get('unitname'))
+                    return;
+
+                goodsData.set('unitname', asUnitName);
+                goodsData.set('barcode', asBarCode);
+                goodsData.set('barcodeid', asBarCodeID);
+                goodsData.set('unitrate', dUnitRate);
+                goodsData.set('unitid', asUnitID);
+
+                var _dBaseQty = goodsData.get('quantity') || 0;
+                if (parseFloat(_dBaseQty) != 0)
+                    dQuantity = _dBaseQty;
+                var _unitrate = goodsData.get('unitrate');
+                var _islargess = goodsData.get('islargess');
+                if (parseFloat(_unitrate) != 0) {
+                    if (_islargess == '0') {
+                        var _breferid = goodsData.get('breferid');
+                        var BatchID = (type.indexOf('s') != -1) ? 0 : goodsData.getFieldValue('breferid', 0);
+                        var vipid = vipID ? vipID : 0;
+
+                        if (type.indexOf('s') != -1 && vipid != '0') {
+                            var TraderID = traderID ? traderID : 0;
+                            var GoodsID = goodsData.getFieldValue('m_asGoodsIDField', 0);
+                            var UnitID = goodsData.getFieldValue('m_asUnitIDField', 0);
+                            var StoreID = goodsData.get('storeid');
+                            var g_iShopID = localStorage.getItem('shopID');
+                            var param = "{'TRADERID':'" + TraderID + "','GOODSID':'" + GoodsID + "','UNITID':'" + UnitID +
+                            "','STOREID':'" + StoreID + "','VIPID':'" + vipid + "','SHOPID':'" + g_iShopID + "'}";
+                            var AJAX_data = {}
+                            AJAX_data.url = 'http://' + url_suffix + '/common/bill/billpublic!doGetGoodsMultiPrice.action';
+                            AJAX_data.method = 'post';
+                            AJAX_data.datatype = 'json';
+                            AJAX_data.data = {
+                                param: param
+                            }
+                            _Public.Get_ajax(AJAX_data, function (data1) {
+                                if (data1.errNo) {
+                                    _Public.closeToLogin(data1.errMsg);
+                                    return;
+                                }
+                                var result = data1.resultData;
+                                changePrice(result.DefaultPrice);
+                                refreshData();
+                            }, function (xhr, type) {
+                                _Public.layerMsg(xhr.statusText );
+                            })
+                        } else {
+                            getPrice();
+                            refreshData();
+                        }
+                    }
+                    var unitquantity = dQuantity / _unitrate;
+                    changeQty(parseFloat(unitquantity));
+                    refreshData();
+                }
+            })
+
+            //新增货品明细的时候进行数据的初始化操作
+            function initData() {
+                var BillGoodsNumber = localStorage.getItem('billGoodsNumber');
+
+                var iUnitID = 0;
+                var sUnitName = "";
+                var dUnitRate = 0;
+                var sBarcode = null;
+                var sBarcodeID = "";
+
+                if (d.unitid != undefined) {
+                    dUnitRate = d.unitrate;
+                    iUnitID = d.unitid;
+                    sUnitName = d.unitname;
+                } else {
+                    //采购类单据
+                    if (type.indexOf('p') != -1) {
+                        dUnitRate = d.prate;
+                        iUnitID = d.punitid;
+                        sUnitName = d.punitname;
+                        sBarcode = d.pbarcode;
+                        sBarcodeID = d.pbarcodeid;
+                    } else {
+                        //销售类单据
+                        dUnitRate = d.srate;
+                        iUnitID = d.sunitid;
+                        sUnitName = d.sunitname;
+                        sBarcode = d.sbarcode;
+                        sBarcodeID = d.sbarcodeid;
+                    }
+                    if (dUnitRate == null || dUnitRate == 0) {
+                        dUnitRate = d.brate;
+                        iUnitID = d.bunitid;
+                        sUnitName = d.bunitname;
+                        sBarcode = d.bbarcode;
+                        sBarcodeID = d.bbarcodeid;
+                    }
+                }
+
+                if (enhance_index.isEmptyJson(d.validdates)) {
+                    goodsData.set('validdates', '0');
+                } else {
+                    goodsData.set('validdates', d.validdates);
+                }
+                goodsData.set("goodscode", d.code);
+                goodsData.set("goodsname", d.name);
+                goodsData.set("specs", d.specs);
+                goodsData.set("brandid", d.brandid);
+                goodsData.set("brandname", d.brandname);
+                goodsData.set("goodskind", d.goodskind);
+                goodsData.set("costtype", d.costtype);
+                goodsData.set("gcmid", d.gcmid);
+                goodsData.set("storelist", d.storelist);
+                goodsData.set("isbatch", d.isbatch);
+                goodsData.set("guserdef1", d.guserdef1);
+                goodsData.set("guserdef2", d.guserdef2);
+                goodsData.set("guserdef3", d.guserdef3);
+                goodsData.set("guserdef4", d.guserdef4);
+                goodsData.set("guserdef5", d.guserdef5);
+                goodsData.set("guserdef6", d.guserdef6);
+                goodsData.set("guserdef7", d.guserdef7);
+                goodsData.set("guserdef8", d.guserdef8);
+                goodsData.set("guserdef9", d.guserdef9);
+                goodsData.set("guserdef10", d.guserdef10);
+                goodsData.set("shortname", d.shortname);
+                goodsData.set("minpurchaseqty", d.minpurchaseqty);
+                goodsData.set("unitrate", dUnitRate);
+                goodsData.set("unitname", sUnitName);
+                goodsData.set("unitrate1", d.unitrate1);
+                goodsData.set("unitrate2", d.unitrate2);
+                goodsData.set("unitrate3", d.unitrate3);
+                goodsData.set("unitname1", d.unitname1);
+                goodsData.set("unitname2", d.unitname2);
+                goodsData.set("unitname3", d.unitname3);
+                goodsData.set("erate", d.erate);
+                goodsData.set("unitextname", d.eunitname);
+                goodsData.set("baseunitname", d.bunitname);
+                goodsData.set("goodstaxrate", d.goodstaxrate);
+
+                goodsData.set("unitquantity", 0);
+                goodsData.set("unitqty1", 0);
+                goodsData.set("unitqty2", 0);
+                goodsData.set("unitqty3", 0);
+
+                goodsData.set("barcodeid", sBarcodeID);
+                goodsData.set("barcode", sBarcode);
+                goodsData.set("batchcode", null);
+                goodsData.set("breferid", "");
+                goodsData.set("productdate", null);
+                goodsData.set("validdate", null);
+                goodsData.set("islargess", 0);
+                goodsData.set('unitid', iUnitID);
+                goodsData.set('goodsid', d.id);
+
+                if (type.indexOf('s') != -1) {
+                    goodsData.set("margin", 0);
+                    goodsData.set("aprice", -1);
+                    goodsData.set("isallot", 0);
+                    goodsData.set("allotqty", 0);
+                    goodsData.set('storeid','');
+                    goodsData.set('storecode', null);
+                    goodsData.set('storename', null);
+                    goodsData.set('storeshopid', "");
+                    goodsData.set('ioqty', 0);
+                    goodsData.set('margin', 0);
+                    goodsData.set('invoiceqty', 0);
+                    goodsData.set('invoiceamt', 0);
+                    goodsData.set('iscometrader', 0);
+                    goodsData.set('isallot', 0);
+                    goodsData.set('allotqty', 0);
+                    goodsData.set('point', 0);
+                    goodsData.set('tgcode', null);
+                    goodsData.set('tgname', null);
+                    goodsData.set('referbatchcode', null);
+                } else {
+                    goodsData.set("appamt", 0);
+                    goodsData.set("lcappamt", 0);
+                }
+                //计算税率
+                (function countTaxRate() {
+                    var FTaxRate = 0;
+                    //如果是销售的话,默认使用货品中的税率,如果货品收率为0或者空,则使用帐套的税率
+                    if (noteType == '1')
+                        FTaxRate = 0;
+                    else {
+                        if (type.indexOf('s') != -1) {
+                            if (goodsData.get('goodstaxrate') == null || goodsData.get('goodstaxrate') == '')
+                                FTaxRate = localStorage.getItem('accsetTaxRate') || 0;
+                            else
+                                FTaxRate = goodsData.get('goodstaxrate') || 0;
+                        } else {
+                            //如果是采购的话,默认使用供应商中的税率,如果供应商税率为0或者空,则手动输入
+                            if (traderTaxRate != '' && traderTaxRate != null)
+                                FTaxRate = traderTaxRate;
+                            else
+                                FTaxRate = 0;
+                        }
+                    }
+                    goodsData.set('taxrate', FTaxRate);
+                    changeTaxRate(FTaxRate);
+                })();
+
+
+                if (goodsData.get('unitquantity') == 0 || goodsData.get('unitquantity') == null) {
+                    goodsData.set('unitquantity', BillGoodsNumber);
+                    goodsData.set('unitqty1', 0);
+                    goodsData.set('unitqty2', 0);
+                    goodsData.set('unitqty3', 0);
+                    var iBaseQty = BillGoodsNumber;//从缓存中取
+                    if (billKind == '2')
+                        iBaseQty = -1;
+                    if (goodsData.get('unitrate') == goodsData.get('unitrate1'))
+                        goodsData.set('unitqty1', iBaseQty);
+                    else if (goodsData.get('unitrate') == goodsData.get('unitrate2'))
+                        goodsData.set('unitqty2', iBaseQty);
+                    else if (goodsData.get('unitrate') == goodsData.get('unitrate3'))
+                        goodsData.set('unitqty3', iBaseQty);
+                }
+            }
+
+            //计算小数点后有几位
+            function countDotLength(n) {
+                n = n.toString().split('.');
+                if (n.length > 1) {
+                    return n[1].length;
+                } else {
+                    return 0;
+                }
+            }
+
+            //统一刷新一次金额
+            function refreshData() {
+                var unitquantity = goodsData.get('unitquantity');
+                var unitprice = goodsData.get('unitprice');
+                var taxrate = parseFloat(goodsData.get('taxrate')).toFixed(2);
+                var goodsamt = parseFloat(goodsData.get('goodsamt')).toFixed(2);
+                var amount = parseFloat(goodsData.get('amount')).toFixed(2);
+                var taxamt = parseFloat(goodsData.get('taxamt')).toFixed(2);
+                var barcode = goodsData.get('barcode') || '';
+
+                if (countDotLength(unitquantity) > 8)
+                    unitquantity = parseFloat(unitquantity).toFixed(8);
+
+                if (countDotLength(unitprice) > 8)
+                    unitprice = parseFloat(unitprice).toFixed(8);
+
+                $('.unitquantity').val(unitquantity);
+                $('.unitprice').val(unitprice);
+                $('.taxrate').val(taxrate);
+                $('.goodsamt').val(goodsamt);
+                $('.amount').val(amount);
+                $('.taxamt').val(taxamt);
+                $('.barcode').val(barcode);
+            }
+
+            //改变价格联动事件
+            function changePrice(unitprice) {
+                goodsData.set('unitprice', unitprice);
+                //使用帐套缓存
+                var PRICECHANGE = localStorage.getItem('priceChange');
+
+                var origprice;
+                var disc = goodsData.get('disc');
+                var origtaxprice = goodsData.get('origtaxprice');
+                var unitquantity = goodsData.get('unitquantity');
+                var taxrate = goodsData.get('taxrate');
+
+                if (PRICECHANGE == 0) {
+                    origprice = unitprice;
+                    origtaxprice = unitprice * (1 + taxrate / 100);
+                    if (unitprice > 0.000000001) {
+                        disc = unitprice / origprice * 100;
+                        goodsData.set('disc', disc);
+                    }
+                } else {
+                    origprice = unitprice;
+                    origtaxprice = unitprice * (1 + taxrate / 100);
+                }
+                goodsData.set('origprice', origprice);
+                goodsData.set('origtaxprice', origtaxprice);
+                var taxrate = goodsData.get('taxrate');
+
+                var taxprice = unitprice * (1 + taxrate / 100);
+                goodsData.set('taxprice', taxprice);
+                var lcunitprice = unitprice;
+                goodsData.set('lcunitprice', lcunitprice);
+                var lctaxprice = taxprice;
+                goodsData.set('lctaxprice', lctaxprice);
+                var goodsamt = unitprice * unitquantity;
+                goodsData.set('goodsamt', goodsamt);
+                var amount = taxprice * unitquantity;
+                goodsData.set('amount', amount);
+
+                var taxamt = amount - goodsamt;
+                goodsData.set('taxamt', taxamt);
+                var discamt = origtaxprice * (1 - disc / 100) * unitquantity;
+                goodsData.set('discamt', discamt);
+                var lcgoodsamt = goodsamt;
+                goodsData.set('lcgoodsamt', lcgoodsamt);
+                var lctaxamt = taxamt;
+                goodsData.set('lctaxamt', lctaxamt);
+                var lcdiscamt = discamt;
+                goodsData.set('lcdiscamt', lcdiscamt);
+
+                countPrice();
+            }
+
+            //改变税率联动
+            function changeTaxRate(taxrate) {
+                //税率为0时 禁止编辑税额
+                if (taxrate == 0) {
+                    $('.taxamt').attr('readonly', 'readonly');
+                } else {
+                    $('.taxamt').removeAttr('readonly');
+                }
+                goodsData.set('taxrate', taxrate);
+
+                var origprice = goodsData.get('origprice');//获取原始价格
+                var unitquantity = goodsData.get('unitquantity');//获取业务数量(在页面显示的数量)
+                var unitprice = goodsData.get('unitprice');//获取业务单价(要显示的单价)
+                var disc = goodsData.get('disc');//获取折扣
+
+                var origtaxprice = origprice * (1 + taxrate / 100);//计算原始含税单价
+                goodsData.set('origtaxprice', origtaxprice);
+                var taxprice = origtaxprice;//计算含税单价
+                goodsData.set('taxprice', taxprice);
+                var lctaxprice = taxprice;
+                goodsData.set('lctaxprice', lctaxprice);
+                var amount = taxprice * unitquantity;//计算总额(需要显示)
+                goodsData.set('amount', amount);
+                var taxamt = unitquantity * (taxprice - unitprice);//计算税额(需要显示)
+                goodsData.set('taxamt', taxamt);
+                var goodsamt = amount - taxamt;//计算货品价格 不含税的
+                goodsData.set('goodsamt', goodsamt);
+                var discamt = origtaxprice * (1 - disc / 100) * unitquantity;//计算折扣
+                goodsData.set('discamt', discamt);
+                var lcgoodsamt = goodsamt;//lc开头的都是不需要显示的
+                goodsData.set('lcgoodsamt', lcgoodsamt);
+                var lctaxamt = taxamt;
+                goodsData.set('lctaxamt', lctaxamt);
+                var lcamount = goodsamt + taxamt;
+                goodsData.set('lcamount', lcamount);
+            }
+
+            //改变数量
+            function changeQty(num) {
+                var unitquantity = num;
+                goodsData.set('unitquantity', unitquantity);
+                var quantity = unitquantity * parseFloat(goodsData.get('unitrate'));
+                goodsData.set('quantity', quantity);
+
+                var extqty;
+                var erate = parseFloat(goodsData.get('erate'));
+                if (erate == 0)
+                    extqty = 0;
+                else
+                    extqty = quantity / erate;
+                var unitrate1 = parseFloat(goodsData.get('unitrate1'));
+                var unitrate2 = parseFloat(goodsData.get('unitrate2'));
+                var unitrate3 = parseFloat(goodsData.get('unitrate3'));
+                var unitqty1 = goodsData.get('unitqty1');
+                var unitqty2 = goodsData.get('unitqty2');
+                var unitqty3 = goodsData.get('unitqty3');
+
+                if (unitrate2 == 0) {
+                    unitqty1 = unitquantity;
+                    unitqty2 = 0;
+                    unitqty3 = 0;
+                } else {
+                    unitqty1 = parseInt(quantity / unitrate1);
+                    if (unitrate3 == 0) {
+                        unitqty2 = parseFloat((quantity - unitqty1 * unitrate1) / unitrate2).toFixed(8);
+                        unitqty3 = 0;
+                    } else {
+                        unitqty2 = parseInt((quantity - unitqty1 * unitrate1) / unitrate2);
+                        unitqty3 = parseFloat((quantity - unitqty1 * unitrate1 - unitqty2 * unitrate2) / unitrate3).toFixed(8);
+                    }
+                }
+
+                goodsData.set('extqty',parseFloat(extqty).toFixed(8));
+                goodsData.set('unitqty1', unitqty1);
+                goodsData.set('unitqty2', unitqty2);
+                goodsData.set('unitqty3', unitqty3);
+
+                var taxrate = parseFloat($('.taxrate').val() || 0);
+                var unitprice = parseFloat($('.unitprice').val() || 0);
+                var origtaxprice = parseFloat(goodsData.get('origtaxprice'));
+                var disc = parseFloat(goodsData.get('disc'));
+
+                var taxprice = unitprice * (1 + taxrate / 100);
+                goodsData.set('taxprice', taxprice);
+                var amount = taxprice * unitquantity;
+                goodsData.set('amount', amount);
+                var taxamt = unitquantity * (taxprice - unitprice);
+                goodsData.set('taxamt', taxamt);
+                var goodsamt = amount - taxamt;
+                goodsData.set('goodsamt', goodsamt);
+
+                var discamt = origtaxprice * (1 - disc / 100) * unitquantity;
+                goodsData.set('discamt', discamt);
+                var lcgoodsamt = goodsamt;
+                goodsData.set('lcgoodsamt', lcgoodsamt);
+                var lctaxamt = taxamt;
+                goodsData.set('lctaxamt', lctaxamt);
+                var lcdiscamt = discamt;
+                goodsData.set('lcdiscamt', lcdiscamt);
+
+                countPrice();
+            }
+
+            //改变仓库事件
+            function changeStore() {
+                //获取被选中的仓库
+                var storeSelect = $('.store')[0];
+                var storeid = storeSelect[storeSelect.selectedIndex].getAttribute('data-id');
+                var storeshopid = storeSelect[storeSelect.selectedIndex].getAttribute('data-shopid');
+                var storename = storeSelect[storeSelect.selectedIndex].getAttribute('data-name');
+
+                //避免重复触发改变事件
+                if (storename == goodsData.get('storename'))
+                    return;
+
+                goodsData.set('storeid', storeid);
+                goodsData.set('storeshopid', storeshopid);
+                goodsData.set('storename', storename);
+
+                var goodsStoreLimit = localStorage.getItem('goodsStoreLimit');
+                if (goodsStoreLimit == '1') {
+                    var StoreID = 0, GoodsID = 0, ComeTrader = 0;
+                    var asReferBillCode = "";
+                    //获得编辑的仓库 id与货品id
+                    StoreID = goodsData.get('m_asStoreIDField');
+                    StoreID = StoreID ? StoreID : 0;
+                    GoodsID = goodsData.get('m_asGoodsIDField');
+                    GoodsID = GoodsID ? GoodsID : 0;
+                    if (typeof (goodsData.get("iscometrader")) != "undefined" && goodsData.get("iscometrader") != null) {
+                        ComeTrader = goodsData.get("iscometrader");
+                    }
+                    if (typeof (goodsData.get("referbillcode")) != "undefined" && goodsData.get("referbillcode") != null) {
+                        asReferBillCode = goodsData.get("referbillcode");
+                    }
+                    if (StoreID > 0 && GoodsID > 0 && asReferBillCode == "" && ComeTrader == 0)  //引用的明细不清空;供销货品不清空
+                    {
+                        if (goodsData.get("goodskind") <= 3)//存货类货品才需要判断是否清除
+                        {
+                            var storelist = goodsData.get("storelist");
+                            if (storelist.indexOf("," + StoreID + ",") >= 0) {
+                                goodsData.set("goodsid", 0);
+                                goodsData.set("goodscode", "");
+                                goodsData.set("goodsname", "");
+                                goodsData.set("specs", "");
+                                goodsData.set("brandname", "");
+                                goodsData.set("unitid", 0);
+                                goodsData.set("unitname", "");
+                                goodsData.set("breferid", "");
+                                goodsData.set("referbilltype", null);
+                                goodsData.set("referbillid", "");
+                                goodsData.set("referitemno", null);
+                                goodsData.set("referbillcode", "");
+                            }
+                        }
+                    }
+                }
+                //清空所选批号 如果是输入的话则不清空
+                if(type.indexOf('sbilling')!=-1||isPurReturn==1){
+                    enhance_index.setValue($('.batchcode'), '');
+                    enhance_index.setValue($('.productdate'), '');
+                    enhance_index.setValue($('.validdate'), '');
+                }
+                refreshData();
+            }
+
+            //批号改变联动事件
+            function changeBatchCode(data1) {
+                var SelectedBatchID = data1.id || '';
+                var SelectedBatchCode = data1.batchcode;
+                var SelectedValidDate = data1.validdate;
+                var SelectedInprice = data1.price;
+                var SelectedProducedDate = data1.produceddate;
+                var SelectedStoreID = data1.storeid;
+                var SelectedStoreName = data1.storename;
+                var SelectedStoreCode = data1.storecode;
+                var SelectedStoreShopID = data1.storeshopid;
+                var SelectedLeftQry = data1.leftqty;
+
+                goodsData.set('batchcode', SelectedBatchCode);//批号
+                goodsData.set('productdate', SelectedProducedDate);//生产日期
+                goodsData.set('validdate', SelectedValidDate);//有效期
+
+                enhance_index.setValue($('.batchcode'), SelectedBatchCode);
+                enhance_index.setValue($('.productdate'), SelectedProducedDate);
+                enhance_index.setValue($('.validdate'), SelectedValidDate);
+
+                //采购类
+                if (type.indexOf('p') != -1) {
+                    if (billKind == '2') {//采购退货
+                        //更新仓库
+                        if (SelectedStoreID != goodsData.get('storeid')) {
+                            setStore(SelectedStoreID, SelectedStoreCode, SelectedStoreName, SelectedStoreShopID);
+                        }
+                        if (goodsData.get('unitprice') == 0) {
+                            var IsLargess = goodsData.get("islargess");
+                            if (IsLargess == 0) {
+                                var _unitprice = SelectedInprice * goodsData.get('unitrate');
+                                changePrice(_unitprice);
+                            }
+                        }
+                        goodsData.set('breferid', SelectedBatchID);
+                    }
+                } else {
+                    //销售类单据
+                    if (billKind == 1) {//销售开单
+                        goodsData.set("breferid", SelectedBatchID);
+                        goodsData.set("aprice", parseFloat(SelectedInprice || 0).toFixed(8));
+                        //更新仓库
+                        if (SelectedStoreID != goodsData.get("storeid")) {
+                            setStore(SelectedStoreID, SelectedStoreCode, SelectedStoreName, SelectedStoreShopID);
+                        }
+                    }
+                    else if (billKind == 2)//销售退货
+                    {
+                        goodsData.set("aprice", parseFloat(SelectedInprice || 0).toFixed(8));
+                        //更新仓库
+                        if (SelectedStoreID != goodsData.get("storeid")) {
+                            setStore(SelectedStoreID, SelectedStoreCode, SelectedStoreName, SelectedStoreShopID);
+                        }
+                    }
+                }
+            }
+
+            //仓库更新
+            function setStore(storeid, storecode, storename, storeshopid) {
+
+                var option = $('.store').find('option');
+                //获取选中的option
+                var length = option.length;
+
+                //遍历option 找出和批号的storeid相同的仓库
+                for (var i = 0; i < length; i++) {
+                    var _id = $(option[i]).data('id');
+                    if (_id == storeid) {
+                        $('.store')[0].options[i].selected = 'selected';
+                    }
+                }
+                goodsData.set("storeid", storeid);
+                goodsData.set("storecode", storecode);
+                goodsData.set("storename", storename);
+                goodsData.set("storeshopid", storeshopid);
+            }
+
+            //计算基本单位单价
+            function countPrice() {
+                var price;
+                if (goodsData.get('quantity') == 0 || goodsData.get('unitquantity') == 0) {
+                    if (goodsData.get('unitrate') == 1)
+                        price = goodsData.get('unitprice');
+                    else
+                        price = goodsData.get('unitprice') / goodsData.get('unitrate');
+                } else {
+                    if (goodsData.get('unitrate') == 1)
+                        price = goodsData.get('unitprice');
+                    else
+                        price = goodsData.get('unitquantity') * goodsData.get('unitprice') / goodsData.get('quantity');
+                }
+                goodsData.set('price', price);
+            }
+
+            //获取价格
+            function getPrice() {
+                var batrefid = 0, CVFLAG;
+                if (type.indexOf('s') != -1) {
+                    batrefid = 0;
+                    CVFLAG = 2
+                }
+                else {
+                    batrefid = goodsData.getFieldValue('batrefid', 0);
+                    CVFLAG = 1;
+                }
+                /*
+                 *
+                 * CVFLAG   (单据大类1：采购 2:销售),【为空为null默认为0】
+                BILLTYPE 单据小类（12销售订单14销售开单2采购订单4采购开单）,
+                GOODSID  (明细中货品id),【为空为null默认为0】
+                TRADERID (traderid客户或者供应商),【为空为null默认为0】
+                BATREFID, //批次id（breferid） (货品数据集中有此字段) var batrefid = 是否为销售类单据 ? 0 : breferid（货品数据集中的字段）;【为空为null默认为0】
+                STOREID  （货品仓库id）,	【为空为null默认为0】
+                UNITID  ( 货品单位unitid),【为空为null默认为0】
+                MONEYID (主表币种默认0),【为空为null默认为0】
+                SALEDATE (billdate单据时间),【为空为null默认为0】
+                BILLKIND（主表单据类型）)  【为空为null默认为1】
+                G_ISHOPID（登录操作员的分支机构id）
+                 * */
+                //此处参数为param 参数值为一串字符串
+                var param = "{'CVFLAG':'" + CVFLAG + "','BILLTYPE':'" + billType + "','GOODSID':'" + goodsData.get('goodsid') +
+                "','TRADERID':'" + traderID + "','BATREFID':'" + batrefid + "','STOREID':'" + goodsData.getFieldValue('storeid', 0) + "','UNITID':'" + goodsData.getFieldValue('unitid', 0) +
+                "','MONEYID':'" + goodsData.getFieldValue('moneyid', 0) + "','SALEDATE':'" + billDate + "','BILLKIND':'" + billKind + "','SHOPID':'" + localStorage.getItem('shopID') + "'}";
+                var Ajax_data = {}
+                Ajax_data.url = 'http://' + url_suffix + '/common/bill/billpublic!doGetGoodsMultiPrice.action';
+                Ajax_data.method = 'post';
+                Ajax_data.datatype = 'json';
+                Ajax_data.data = {
+                    'param': param
+                };
+                _Public.Get_ajax(Ajax_data, function (data1) {
+                    if (data1.errNo) {
+                        _Public.closeToLogin(data1.errMsg);
+                        return;
+                    }
+                    var defaultPrice = data1.resultData.DefaultPrice;
+                    goodsData.set('unitprice', defaultPrice);
+                    //顺便计算货款 税额 金额
+                    changePrice(defaultPrice);
+                    refreshData();
+                }, function (xhr, type) {
+                    _Public.layerMsg(xhr.statusText);
+                })                
+            }
+
+            //获取批号
+            function getBatchCode(param) {
+                var Ajax_data = {};
+                Ajax_data.url = 'http://' + url_suffix + '/common/bill/selectbatch!doGetGoodsBatch.action';
+                Ajax_data.method = 'post';
+                Ajax_data.datatype = 'json';
+                Ajax_data.data = {
+                    SHOPACCOUNT: localStorage.getItem('shopAccount'),
+                    param: param,
+                }
+                _Public.Get_ajax(Ajax_data, function (data1) {
+                    if (data1.errNo) {
+                        _Public.closeToLogin(data1.errMsg);
+                        return;
+                    }
+                    //如果获取成功的话就打开批号选择页面
+                    var datalist = data1.resultData.batch;
+                    //先把本页面缓存下来
+                    sessionStorage.setItem('goodsData', JSON.stringify(goodsData.getData()));
+                    sessionStorage.setItem('lotsData', JSON.stringify(datalist));
+                    window.location = 'lot.html';
+                }, function (xhr, err) {
+                    _Public.layerMsg(xhr.statusText );
+                })
+            }
+
+            //获取仓库
+            function getStore() {
+                var Ajax_data = {};
+                var opID=localStorage.getItem('opID');
+                
+                var filter="closed=0 ";//过滤条件
+                if(localStorage.getItem('selfStoreGoods')==1&&opID!=0)
+                    filter+= " and share like '%," + opID + ",%'";
+                if(opID>0&&localStorage.getItem('shopAccount')==1)
+                    filter+=" and shopid=" + localStorage.getItem('shopID');
+
+                Ajax_data.url = 'http://' + url_suffix + '/lookupdm/lookupdata.action';
+                Ajax_data.method = 'post';
+                Ajax_data.datatype = 'json';
+                Ajax_data.data = {
+                    viewName: 'qrystore',
+                    likeValue: '',
+                    pageSize: 9999,
+                    start: 0
+                }
+                Ajax_data.data.filter=filter;
+                _Public.Get_ajax(Ajax_data, function (data1) {
+                    if (data1.errNo) {
+                        _Public.closeToLogin(data1.errMsg);
+                        return;
+                    }
+                    var _flag=0;
+                    var datalist = data1.listData;
+                    var unitList = '';
+                    unitList = $('<option data-id="" data-shopid="" data-name=null ></option>');
+                    $('.store').append($(unitList));
+                    for (var i = 0; i < datalist.length; i++) {
+                        unitList = $('<option data-id=' + datalist[i].id + ' data-shopid=' + datalist[i].shopid + ' data-name=' + datalist[i].name + '>' + datalist[i].name + '</option>');
+                        if (goodsData.get('storeid') == datalist[i].id) {
+                            _flag=1;
+                            unitList.attr('selected', 'selected');
+                        }
+                        $('.store').append($(unitList));
+                    }
+
+                    if (_flag==0&&goodsData.get('storeid')!='') {
+                         unitList =$( '<option data-id=' + goodsData.get('storeid') + ' data-shopid=' + goodsData.get('storeshopid') + ' data-name=' +goodsData.get('storename') + '>' + goodsData.get('storename') + '</option>');
+                         unitList.attr('disabled','disabled');
+                         unitList.attr('selected', 'selected')
+                         $('.store').append($(unitList));
+                    }
+                    setSelect($('.store'));
+                    //获取被选中的仓库
+                    var storeSelect = $('.store')[0];
+                    var storeid = storeSelect[storeSelect.selectedIndex].getAttribute('data-id');
+                    var storeshopid = storeSelect[storeSelect.selectedIndex].getAttribute('data-shopid');
+                    var storename = storeSelect[storeSelect.selectedIndex].getAttribute('data-name');
+
+                    goodsData.set('storeid', storeid);
+                    goodsData.set('storeshopid', storeshopid);
+                    goodsData.set('storename', storename);
+                }, function (xhr, type) {
+                    _Public.layerMsg(xhr.statusText);
+                    //_basic.toastMsg(err);
+                }
+                )
+            }
+
+            //获取单位
+            function getUnit() {
+                var Ajax_data = {};
+                Ajax_data.url = 'http://' + url_suffix + '/lookupdm/lookupdata.action';
+                Ajax_data.method = 'post';
+                Ajax_data.datatype = 'json';
+
+                Ajax_data.data = {
+                    viewName: 'qrygoodsunit',
+                    filter: 'u.unittype=0 and u.goodsid=' + goodsData.get('goodsid'),
+                    likeValue: '',
+                    pageSize: 9999,
+                    start: 0
+                }
+
+                _Public.Get_ajax(Ajax_data, function (data1) {
+                    if (data1.errNo) {
+                        _Public.closeToLogin(data1.errMsg);
+                        return;
+                    }
+                    var datalist = data1.listData;
+                    var unitList = '';
+                    //新增的话 没有单位默认值,直接添加
+                    for (var i = 0; i < datalist.length; i++) {
+                        unitList = $('<option data-id=' + datalist[i].id + ' data-json=' + JSON.stringify(datalist[i]) + ' data-name=' + datalist[i].name + ' >' + datalist[i].name + '</option>');
+                        if (datalist[i].id == goodsData.get('unitid'))
+                            unitList.attr('selected', 'selected');
+                        $('.unitname').append(unitList);
+                    }
+                    if(act!='check')
+                        setSelect($('.unitname'));
+                    var unitSelect = $('.unitname')[0];
+                    if (unitSelect.length) {
+                        var unitid = unitSelect[unitSelect.selectedIndex].getAttribute('data-id');
+                        var unitname = unitSelect[unitSelect.selectedIndex].getAttribute('data-name');
+                        goodsData.set('unitid', unitid);
+                        goodsData.set('unitname', unitname);
+                    }
+                }, function (xhr, type) {
+                    _Public.layerMsg(xhr.statusText);
+                })
+            }
+
+            //检查值是否为空,是空则返回false,并且返回该节点的name
+            function checkValid() {
+                var length = arguments.length;
+                for (var i = 0; i < length; i++) {
+                    if ($(arguments[i]).val() == '') {
+                        _Public.layerMsg($(arguments[i]).parent().prev().text() + '不能为空');
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            function countDate(sDate, days) {
+                var eDate;
+                var dateArr = sDate.split('-');//将日期分割成数组
+                var _sdate = new Date(dateArr[0], parseInt(dateArr[1]) - 1, parseInt(dateArr[2]));//创建新的日期对象
+
+                var _sMillSec = _sdate.getTime();//将日期转换成毫秒进行计算
+                var _eMillSec = _sMillSec + days * 24 * 3600 * 1000;
+                var _edate = new Date(_eMillSec);
+
+                var _eYear = _edate.getFullYear();//年
+                var _eMonth = _edate.getMonth() + 1;//月
+                var _eDate = _edate.getDate();//日
+
+                //判断是否是闰年
+                if (_eYear % 4 == 0) {
+                    //判断是否是二月
+                    if (_eMonth == 2) {
+                        if (_eDate > 29) {
+                            _eMonth++;
+                            _eDate = _edate - 29;
+                        }
+                    }
+                } else {
+                    //判断是否是二月
+                    if (_eMonth == 2) {
+                        if (_eDate > 28) {
+                            _eMonth++;
+                            _eDate = _edate - 28;
+                        }
+                    }
+                }
+
+                //为日期补零
+                if (_eMonth < 10)
+                    _eMonth = '0' + _eMonth.toString();
+                if (_eDate < 10)
+                    _eDate = '0' + _eDate.toString();
+
+                //字符串拼接
+                edate = _eYear + '-' + _eMonth + '-' + _eDate;
+                return edate;
+            }
+
+            //改变有效期
+            function changeValiddate(valueText, inst) {
+                goodsData.set('productdate', valueText);
+                $('.validdate').val(countDate(valueText, goodsData.get('validdates')));
+                goodsData.set('validdate', $('.validdate').val());
+            }
+
+            //判断是否可以编辑单价
+           function isEditPrice(){
+               //如果canEditPrice为false的话 则不允许编辑单价/货款和总额
+                if(!canEditPrice){
+                    $('.unitprice').attr('readonly','readonly');
+                    $('.goodsamt').attr('readonly','readonly');
+                    $('.amount').attr('readonly','readonly');
+                    $('.taxamt').attr('readonly','readonly');
+                }
+            }
+            //页面数据填充
+            function render(data) {
+                enhance_index.setValue($('.goodscode'), data.goodscode);
+                enhance_index.setValue($('.goodsname'), data.goodsname);
+                enhance_index.setValue($('.specs'), data.specs);
+                enhance_index.setValue($('.barcode'), data.barcode);
+
+                enhance_index.setValue($('.unitprice'), parseFloat(data.unitprice || 0));
+                enhance_index.setValue($('.taxrate'), parseFloat(data.taxrate || 0).toFixed(2));
+                enhance_index.setValue($('.goodsamt'), parseFloat(data.goodsamt || 0).toFixed(2));
+                enhance_index.setValue($('.taxamt'), parseFloat(data.taxamt || 0).toFixed(2));
+                enhance_index.setValue($('.amount'), parseFloat(data.amount || 0).toFixed(2));
+                enhance_index.setValue($('.unitquantity'),  parseFloat(data.unitquantity||1));
+
+                changeQty(data.unitquantity);
+
+                //如果是审核的话渲染完页面就直接停止
+                if (act == 'check')
+                    return;
+
+                //税率为0时 禁止编辑税额
+                if (data.taxrate == 0)
+                    $('.taxamt').attr('readonly', 'readonly');
+
+                if (noteType == '1') {
+                    $('.taxrate').attr('readonly', 'readonly');
+                    $('.taxamt').attr('readonly', 'readonly');
+                }
+
+                //不是订单的话则处理批号的问题
+                if (type.indexOf('order') == -1) {
+                    //如果生产日期是null的话 处理成空值
+                    if (!data.productdate)
+                        data.productdate = '';
+                    if (!data.validdate)
+                        data.validdate = '';
+                    enhance_index.setValue($('.batchcode'), data.batchcode);
+                    enhance_index.setValue($('.productdate'), data.productdate);
+                    enhance_index.setValue($('.validdate'), data.validdate);
+
+                    if (data.islargess == '1'){
+                        $('input[name="islargess"]').attr('checked', 'true');
+                        $('input').attr('readonly','readonly');
+                        $('.unitquantity').removeAttr('readonly');
+                        $('.batchcode').removeAttr('readonly');              
+                    }
+
+                    if (data.costtype != '2') {
+                        $('.batchcode').attr('readonly', 'readonly');
+                        $('.validdate').attr('readonly', 'readonly');
+                        $('.productdate').attr('readonly', 'readonly');
+                        $('.rightArrow').hide();
+                    } else {
+                        //选择日期的时候 根据有效天数计算有效日期
+                        var validdates = goodsData.get('validdates');
+
+                        if (validdates != '') {
+                            _Public.selectDates($('.productdate'), data.productdate, changeValiddate);
+                        }
+                        else
+                            _Public.selectDates($('.productdate'), data.productdate);
+                        _Public.selectDates($('.validdate'), data.validdate);
+                        //销售的时候批号 或者采购退货的时候批号可选 其他情况都是手工输入
+                        if (type.indexOf('sbilling') != -1 || isPurReturn == 1) {
+                            $('.batchcode').attr('readonly', 'readonly');
+                            //销售开单点击选择批号的时候开始进行请求
+                            $(document).on('tap', '.batchcode', function () {
+                                //获取仓库选择表
+                                var storeid = goodsData.get('storeid') || 0;
+                                var storeshopid = goodsData.get('storeshopid');
+                                var unitid = goodsData.get('unitid');
+                                var goodsid = data.goodsid;
+
+                                //从单据详情页面获取
+                                var traderid = traderID;
+                                var isreturn = isRetrun;
+                                var billdate = billDate;
+
+                                //有默认值
+                                var billkind = '';
+                                var billtype = '';
+                                var table = '';
+                                var shoptrader = 0;
+                                var storecanempty = true;
+
+                                //计算shoptrader
+                                var SHOPACCOUNT = localStorage.getItem('shopAccount');
+                                var SHOPID = localStorage.getItem('shopID');//操作员分支机构ID
+                                var SHOPTRADER = localStorage.getItem('shopTrader');
+
+                                if (SHOPACCOUNT == "0") {
+                                    if (SHOPID == 0)
+                                        shoptrader = 1;
+                                    else if (SHOPID > 0 && SHOPTRADER == "1")
+                                        shoptrader = 1;
+                                }
+
+                                var param = "{'BILLTYPE':'','TABLE':'','BILLKIND':'','BILLDATE':'" + billdate +
+                                "','TRADERID':'0','STORESHOPID':'" + storeshopid + "','GOODSID':'" + goodsid + "','UNITID':'" + unitid +
+                                "','ISRETURN':'1','SHOPTRADER':'" + shoptrader + "','STORECANEMPTY':'" + storecanempty +
+                                "','STOREID':'" + storeid + "'}";
+                                getBatchCode(param);
+                            })
+                        } else {
+                            //采购开单的时候批号可录 同时右箭头隐藏
+                            $('.batchcode').parent().find('.rightArrow').hide();
+                        }
+                    }
+                }
+            }
+
+            function setSelect(target) {
+                target.mobiscroll().select({
+                    theme: 'mobiscroll',
+                    lang: 'zh',
+                    display: 'bottom',
+                    mode: 'scroller',
+                    minWidth: 200
+                });
+            }
+        })
+    })
+</script>

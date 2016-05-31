@@ -1,0 +1,801 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>采购订单</title>
+    <link rel="stylesheet" type="text/css" href="../../css/ui-base.css">
+    <link rel="stylesheet" type="text/css" href="../../css/layer.css">
+    <link rel="stylesheet" type="text/css" href="../../css/mobiscroll.2.13.2.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/public.css">
+    <link rel="stylesheet" type="text/css" href="../../css/enhance_index.css">
+</head>
+<body class="uhide">
+    <header class="ub ub-pc ub-ac module-header-t1 bg-fixed2 line-b">
+        <a id="backBtn" class="ub ub-ac">
+            <div class="icon back-icon-wh"></div>
+            <div class="tx-16 tx-wh">返回</div>
+        </a>
+        <div id="pageTitle" class="ub-f1 ub ub-ac ub-pc tx-18">采购订单</div>
+        <div class="ub ub-ac ub-pe title-r">
+            <a id="listBtn" class="icon list-icon-wh"></a>
+            <div id="submitBtn" class="icon post-icon-wh marl-10"></div>
+        </div>
+    </header>
+    <div class="mart-5 padt-44">
+        <section class="ub ub-ver marb-5 bg-wh line-t line-b">
+            <div class="padlr-15 bg-f8-active">
+                <div class="ub ub-ac h-44 line-b">
+                    <div class="item-tilte itemName tx-l tx-bla">日期</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input id="billDate" data-kname="billdate" class="billInput ub-f1 tx-r" type="text" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="padlr-15">
+                <div class="ub ub-ac h-44 line-b">
+                    <div class="item-tilte itemName tx-l tx-bla">单号</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input id="billCode" data-kname="billcode" class="billInput ub-f1 tx-r" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="padlr-15">
+                <div class="ub ub-ac h-44 line-b">
+                    <div class="item-tilte itemName tx-l tx-bla ">币种</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input id="moneyName" data-kid="moneyid" data-kname="moneyname" class="billInput ub-f1 tx-r ut-s" type="text" readonly>
+                    </div>
+                </div>
+            </div>
+            <div id="chooseTraderBtn" class="padlr-15 bg-f8-active">
+                <div class="ub ub-ac h-44 line-b">
+                    <div id="traderType" class="item-tilte itemName tx-l tx-bla">供应商</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input id="traderName" data-kid="traderid" data-kname="tradername" class="billInput ub-f1 tx-r" type="text" readonly>
+                        <div class="rightArrow"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="padlr-15 bg-f8-active">
+                <div class="ub ub-ac h-44">
+                    <div id="dateType" class="item-tilte itemName tx-l tx-bla">到货日期</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input id="revDate" data-kname="revdate" class="billInput ub-f1 tx-r" value="" type="text" readonly>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="ub ub-ver line-t line-b bg-wh marb-5">
+            <div class="list-item ub-f1 ub">
+                <div class="itemName tx-l tx-gray">中止</div>
+                <div class="ub-f1 tx-r tx-gray">
+                    <label class="switch">
+                        <input id="closed" data-kid="closed" type="checkbox" class="switchBtn" disabled>
+                    </label>
+                </div>
+            </div>
+        </section>
+        <section class="ub ub-ver line-t line-b bg-wh marb-5">
+            <div class="padlr-15">
+                <div class="ub ub-ac h-44 line-b">
+                    <div class="item-tilte itemName tx-l tx-bla">摘要</div>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                        <input id="remark" data-kname="remark" class="billInput ub-f1 tx-r" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="padlr-15 bg-f8-active">
+                <div class="ub ub-ac h-44 line-b">
+                    <div class="item-tilte itemName tx-l tx-bla">项目</div>
+                    <label for="projectName" class="ub ub-ac ub-f1 tx-r tx-gray sel-label">
+                        <div class="ub-f1"></div>
+                        <select id="projectName" data-kid="projectid" data-kname="projectname" class="hide sel-opt">
+                            <option data-id="" selected></option>
+                        </select>
+                        <div class="rightArrow"></div>
+                    </label>
+                </div>
+            </div>
+            <div class="padlr-15 bg-f8-active">
+                <div class="ub ub-ac h-44 line-b">
+                    <div class="item-tilte itemName tx-l tx-bla">部门</div>
+                    <label for="depName" class="ub ub-ac ub-f1 tx-r tx-gray sel-label">
+                        <div class="ub-f1"></div>
+                        <select id="depName" data-kid="departmentid" data-kname="depname" class="hide sel-opt">
+                            <option data-id="" selected></option>
+                        </select>
+                        <div class="rightArrow"></div>
+                    </label>
+                </div>
+            </div>
+            <div class="padlr-15 bg-f8-active">
+                <div class="ub ub-ac h-44">
+                    <div class="item-tilte itemName tx-l tx-bla">业务员</div>
+                    <label for="empName" class="ub ub-ac ub-f1 tx-r tx-gray sel-label">
+                        <div class="ub-f1"></div>
+                        <select id="empName" data-kid="empid" data-kname="empname" class="hide sel-opt">
+                            <option data-id="" selected></option>
+                        </select>
+                        <div class="rightArrow"></div>
+                    </label>
+                </div>
+            </div>
+        </section>
+        <section class="ub ub-ver line-t line-b bg-wh marb-5">
+            <div id="chooseGoodsBtn" class="padlr-15 bg-f8-active" data-on="1">
+                <div class="ub ub-ac ub-f1 h-44 line-b">
+                    <div class="item-tilte itemName tx-l tx-bla">选择货品</div>
+                    <div class="ub ub-ac ub-pe ub-f1 tx-r tx-gray">
+                        <div class="rightArrow"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="listDetail"></div>
+            <div class="padlr-15">
+                <div class="ub-f1 ub ub-ac h-44">
+                    <div class="itemName tx-l tx-bla">合计</div>
+                    <div class=" ub-f1 ut-s tx-r tx-bla bold">
+                        <span id="moneyCode">￥</span><span id="amount" class="hide"></span><span id="amountStr">0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div id="delBtn" class="longButton danger ub-f1 hide">删&nbsp;除</div>
+    </div>
+</body>
+<script type="text/javascript" src="../../js/sea.js"></script>
+<script type="text/javascript" src="../../js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="../../js/enhance_index.js"></script>
+<script>
+    seajs.use(['zepto.min', 'public', 'save', 'layer', 'mobiscroll.2.13.2.min'], function (zepto, _Public, save_order) {
+        var enhance_index = new Enhance_index();
+        /**
+         * 接收传递参数
+         */
+        var type = enhance_index.checkType(enhance_index.getPageParams('type') || '');//请求模式
+        var action = enhance_index.getPageParams('action') || '';//操作模式
+        var billId = enhance_index.getPageParams('billId') || '';//单据id
+
+        //修改地址
+        var prevDetailPageName = sessionStorage.getItem('session_prevDetailPageName') || '';
+        if (prevDetailPageName != enhance_index.detailPageName[type]) {
+            // console.log('detailPageName：' + enhance_index.detailPageName[type]);
+            sessionStorage.removeItem('session_billDataJson');
+            sessionStorage.removeItem('session_temp_billDataJson');//临时编辑数据缓存
+            sessionStorage.removeItem('session_traderJson');//（联动数据）供应商/客户/结算单位
+            sessionStorage.setItem('session_prevDetailPageName', enhance_index.detailPageName[type]);
+        }
+        //修改参数
+        var prevBillAction = sessionStorage.getItem('session_prevBillAction') || '';
+        if (prevBillAction != action) {
+            // console.log('action：' + action);
+            sessionStorage.removeItem('session_billDataJson');
+            sessionStorage.removeItem('session_temp_billDataJson');//临时编辑数据缓存
+            sessionStorage.removeItem('session_traderJson');//（联动数据）供应商/客户/结算单位
+            sessionStorage.setItem('session_prevBillAction', action);
+        }
+        //修改单据id
+        if (action == 'edit' && billId != '' && billId != sessionStorage.getItem('session_billId')) {
+            // console.log('修改单据id');
+            sessionStorage.removeItem('session_temp_billDataJson');//临时编辑数据缓存
+            sessionStorage.removeItem('session_traderJson');//（联动数据）供应商/客户/结算单位
+        }
+        /**
+         * 初始化页面组件
+         */
+        //页面标题
+        var pageTitle = enhance_index.detailPageTitle[type];
+        $('#pageTitle').text(pageTitle);
+        document.title = pageTitle;
+        //表单标题
+        $('#traderTitle').text(enhance_index.getTraderTilte[type]);//供应商/客户
+        $('#revDateTitle').text(enhance_index.getRevDateTitle[type]);//到货日期/发货日期
+
+        /**
+         * 传递参数
+         */
+        var canEditPrice = true;//是否能够修改货品单价
+
+        /**
+         * 操作参数
+         */
+        var prevBillDate = $('#billDate').val();//记住当前的日期
+        
+        /**
+         * 请求参数
+         */
+        var ipUrl = 'http://' + _Public.Get_storage('sdIP');//接口IP
+        var editUrl = ipUrl + enhance_index.billEditUrl[type];//编辑接口地址
+        var addUrl = ipUrl + enhance_index.billAddUrl[type];//添加接口地址
+        var delUrl = ipUrl + enhance_index.billDelUrl[type];//删除接口地址
+        var saveUrl = ipUrl + enhance_index.billSaveUrl[type];//保存接口地址
+        var master_backup = {};//页面数据备份变量
+        var isAdd = true;//是否为新增模式
+
+        /**
+         * 数据处理
+         */
+        if (action == 'edit' && type!='') {
+            /*
+            * 编辑模式
+            */
+            isAdd = false;
+            if (billId != '' && billId != sessionStorage.getItem('session_billId') || !sessionStorage.getItem('session_temp_billDataJson') && billId != '') {
+                sessionStorage.setItem('session_billId', billId);
+                //输入参数
+                var dataStr = {
+                    'billId': billId
+                }
+                //设置参数
+                var dataCommand = enhance_index.DataCommand(editUrl, 'post', dataStr);
+                //发送请求，返回数据
+                dataCommand.init(
+                    function (ret) {
+                        if (ret.errNo) {
+                            //提示错误信息弹窗
+                            _Public.hideProgress();
+                            if(ret.errMsg=='单据已被删除或不存在!'){
+                                setTimeout(function(){
+                                    sessionStorage.setItem('session_billAction', 'add');
+                                    window.location.href = 'billing_frame.html?&type='+type;
+                                }, 5000)
+                            }
+                            _Public.closeToLogin(ret.errMsg);
+                        } else {
+                            sessionStorage.removeItem('session_prevTraderId');
+                            sessionStorage.removeItem('session_traderJson');
+                            sessionStorage.removeItem('session_billDataJson');
+                            /**
+                             * 货品需要参数
+                             */
+                            var rdetail1 = ret.detail1;
+                            for (var k = 0; k < rdetail1.length; k++) {
+                                ret.detail1[k].log_oldGoods = 'true';
+                                ret.detail1[k].log_attr = 'old';
+                                ret.detail1[k].log_id = k;
+                            }
+                            sessionStorage.setItem('session_billDataJson', JSON.stringify(ret));
+                            succFuncEdit(ret);
+                            getSelectData();
+                        }
+                    }, function (ret) {
+                        _Public.hideProgress();
+                        _Public.layerMsg(ret.msg);
+                    }
+                );
+            } else if (sessionStorage.getItem('session_temp_billDataJson')) {
+                // console.log('edit-old');
+                var rets = sessionStorage.getItem('session_temp_billDataJson') || '';
+                // console.log(rets);
+                rets = JSON.parse(rets);
+                succFuncEdit(rets);
+                getSelectData();
+            }
+        }else if(action=='add' && type!=''){
+            /*
+             * 新增模式
+             */
+            if (sessionStorage.getItem('session_temp_billDataJson')) {
+                // console.log('add-old');
+                var rets = sessionStorage.getItem('session_temp_billDataJson') || '';
+                // console.log(rets);
+                rets = JSON.parse(rets);
+                succFuncEdit(rets);
+                getSelectData();
+            } else {
+                //设置参数
+                var dataCommand = enhance_index.DataCommand(addUrl, 'post');
+                //发送请求，返回数据
+                var ret = dataCommand.init(
+                    function (ret) {
+                        if (ret.errNo) {
+                            //提示错误信息弹窗
+                            _Public.hideProgress();
+                            _Public.closeToLogin(ret.errMsg);
+                        } else {
+                            sessionStorage.removeItem('session_prevTraderId');
+                            sessionStorage.removeItem('session_billDataJson');
+                            sessionStorage.setItem('session_billDataJson', JSON.stringify(ret));
+                            /**
+                             * 设置页面参数
+                             */
+                            succFuncAdd(ret);
+                            getSelectData();
+                        }
+                    }, function (ret) {
+                        _Public.hideProgress();
+                        _Public.layerMsg(ret.msg);
+                    }
+                );
+            }
+            $('#delBtn').addClass('hide');//隐藏按钮
+        }else{
+            $('html').empty();
+            console.log('err');
+        }
+
+        /**
+         * 初始化页面事件
+         */
+        //后退
+        $('#backBtn').on('tap', function () {
+            if (action == 'edit') {
+                window.location.href = enhance_index.listPageName[type]+'?type='+type;
+            } else if (action == 'add') {
+                window.location.href = './index.html';
+            } else {
+                history.back();
+            }
+        });
+        //进入列表按钮
+        $('#listBtn').on('tap', function () {
+            sessionStorage.setItem('session_billAction', 'add');
+            window.location.href = 'order_frame.html?type='+type;
+        });
+        //点击进入选择商品页面
+        $('#chooseGoodsBtn').on('tap', function (event) {
+            event.preventDefault();
+            /**
+             * 货品选择需要参数
+             */
+            if ($(this).data('on') == '1') {
+                var goodParamJson = {
+                    'billKind': 1,//单据类型id
+                    'traderID': $('#traderName').data('id') || 0,//客户或/供应商id
+                    'traderTaxRate': $('#traderName').data('taxrate'),//客户或/供应商的税率
+                    'isRetrun': 1,//开单：选择单据里面没有代销结算、发出商品时、领料单退料，则为0
+                    'billDate': $('#billDate').val(),
+                    'noteType': 0,//发票类型为“收据”是1，其他0
+                    'billType': enhance_index.billtype[type],
+                    'revDate': $('#revDate').val(),
+                    'canEditPrice': canEditPrice,//是否能够修改货品单价
+                }
+                enhance_index.tempSessionStorage();//临时缓存
+                sessionStorage.setItem('session_goodParamJson', JSON.stringify(goodParamJson));
+                window.location.href = './pro_choose.html?type=' + type;
+            }
+        });
+        //点击进入商品详情页面
+        $(document).on('tap', '.goodsItem', function (event) {
+            event.preventDefault();
+            /**
+             * 货品选择需要参数
+             */
+            var goodParamJson = {
+                'billKind': 1,//单据类型id
+                'traderID': $('#traderName').data('id') || 0,//客户或/供应商id
+                'traderTaxRate': $('#traderName').data('taxrate'),//客户或/供应商的税率
+                'isRetrun': 1,//开单：选择单据里面没有代销结算、发出商品时、领料单退料，则为0
+                'billDate': $('#billDate').val(),
+                'noteType': 0,//发票类型为“收据”是1，其他0
+                'billType': enhance_index.billtype[type],
+                'revDate': $('#revDate').val(),
+                'canEditPrice': canEditPrice,//是否能够修改货品单价
+            }
+            enhance_index.tempSessionStorage();//临时缓存
+            sessionStorage.setItem('session_goodParamJson', JSON.stringify(goodParamJson));
+            var goodsDataJson = $(this).attr('data-json');
+            sessionStorage.setItem('goodsData', goodsDataJson);
+            //货品是否可编辑
+            var act = action;
+            if(action == 'add'){
+                act = 'edit';
+            }
+            window.location.href = './pro_edit.html?type=' + type + '&act='+act;
+        });
+        //选择供应商/客户
+        $('#chooseTraderBtn').on('tap', function (event) {
+            event.preventDefault();
+            //如果不是审核状态可选
+            if (action != 'check') {
+                var billAction = action;
+                if (action == 'check') {
+                    billAction = 'edit';
+                }
+                sessionStorage.setItem('session_prevTraderId', $('#traderName').data('id') || '');//设置下次对比供应商/客户是否改变session
+                sessionStorage.setItem('session_billAction', billAction);
+                enhance_index.tempSessionStorage();//临时缓存
+                window.location.href = './trader_choose.html?type=' + type;
+            }
+        });
+
+        /**
+         * 联动事件
+         */
+        //初始化下拉选择框
+        $('select').on('change', function () {
+            enhance_index.change_select($(this));
+        });
+        //日期联动单号
+        $('#billDate').on('change', function(){
+            var dataJson = {
+                'billType': ''+enhance_index.billtype[type],
+                'billDate': $('#billDate').val(),
+                'oldBillDate': prevBillDate,
+                'oldBillCode': $('#billCode').val()
+            }
+            enhance_index.getBillCodeByDate($('#billCode'), dataJson);
+            prevBillDate = $('#billDate').val();
+        });
+        //员工/业务员联动部门
+        $('#empName').on('change', function () {
+            $('#depName').prev('input').val($(this).data('departmentname'));//部门
+            $('#depName').data('id', $(this).data('departmentid'));//部门id
+        });
+
+        //成功处理函数
+        function succFuncAdd(ret) {
+            //初始化html模板
+            // console.log(JSON.stringify(ret));
+            if (ret.master && ret.detail1) {
+                //把master的数据备份，保存时使用
+                master_backup = enhance_index.getOrder_master(ret.master, type);
+                /**
+                 * 设置页面参数
+                 */
+                prevBillDate = ret.master.billdate || _Public.getDates().sDate;
+                _Public.selectDates($('#billDate'), prevBillDate);//日期
+                _Public.selectDates($('#revDate'), ret.master.revdate || _Public.getDates().sDate);//发货日期
+                enhance_index.setValue($('#billCode'), ret.master.billcode);//单号
+                enhance_index.setValue($('#moneyName'), '人民币');//币种
+                $('#moneyName').attr('data-id', '0');//币种id
+                _Public.hideProgress();
+            }
+        }
+        function succFuncEdit(ret) {
+            /*获取数据，生成html*/
+            //初始化html模板
+            var htmlCommand = enhance_index.HtmlCommand(goodsListHtml);
+            /*主单据*/
+            var rmaster = ret.master || '';
+            var rdetail1 = ret.detail1 || '';
+            if (rmaster != '') {
+                //把master的数据备份，保存时使用
+                master_backup = enhance_index.getOrder_master(ret.master, type);
+                
+                //判断多级审核||权限||单据状态
+                var rresultData = ret.resultData;
+                var isMutiCheck = rresultData.mutiCheck && (rmaster.checkorid!=='' && rmaster.checkorid!==null) && rmaster.billstate == 0;//多级审核账套
+                var isModifySelfBill = rresultData.modifySelfBill==false && rmaster.opid !== Number(localStorage.getItem('opID'));//总部操作员（没有权限）
+                var isDiscard = rmaster.billstate == 2;//作废（单据状态）
+                var isFinished = rmaster.finished == 1;//完成（单据状态）
+                if(isMutiCheck || isModifySelfBill || isDiscard || isFinished){
+                    /**
+                     * 多级审核/没有权限/完成状态
+                     */
+                    action = 'check';//货品状态
+                    enhance_index.readPattern();//阅读模式
+                    enhance_index.offDatePicker($('#billDate'));//日期选择器不可用
+                    enhance_index.offDatePicker($('#revDate'));//到货/发货日期不可用
+                    enhance_index.offSelectPageBtn($('#chooseGoodsBtn'));//选择货品不可选
+                    $('#submitBtn').remove();//去除保存按钮
+                }else{
+                    if(!ret.resultData.canEditDateCode){
+                        enhance_index.offDatePicker($('#billDate'));//日期选择器不可用
+                        $('#billCode').attr('readonly', 'true');//单号不可用
+                    }
+                    canEditPrice = ret.resultData.canEditPPrice;//是否能否编辑货品单价
+                    /**
+                     * 单据状态
+                     */
+                    if (rmaster.billstate == 1) {
+                        /**
+                         * 审核状态
+                         */
+                        action = 'check';//货品状态
+                        enhance_index.readPattern();//阅读模式
+                        enhance_index.offDatePicker($('#billDate'));//日期选择器不可用
+                        enhance_index.offDatePicker($('#revDate'));//到货/发货日期不可用
+                        enhance_index.onCheckboxBtn($('#closed'));//中止可用
+                        enhance_index.offSelectPageBtn($('#chooseGoodsBtn'));//选择货品不可选
+                        //单据审核后是否允许修改摘要 [1]:是 [0]:否
+                        if(localStorage.getItem('canUpdateReMark')=='1'){
+                            enhance_index.onInputText($('#remark'));
+                        }
+                    } else {
+                        /**
+                         * 未审核状态
+                         */
+                        //显示删除按钮
+                        $('#delBtn').removeClass('hide');
+                        //删除操作
+                        $('#delBtn').on('tap', function (event) {
+                            event.preventDefault();
+                            _Public.confirmLayer('确定删除该单据', function () {
+                                _Public.showLoading();
+                                var delDataStr = {
+                                    'billId': billId,
+                                    'checkStep': 0,
+                                    'id': billId
+                                }
+                                var delDataCommand = enhance_index.DataCommand(delUrl, 'post', dataStr);
+                                //发送请求，返回数据
+                                delDataCommand.init(
+                                    function (ret) {
+                                        if (ret.errNo) {
+                                            //提示错误信息弹窗
+                                            _Public.hideProgress();
+                                            _Public.closeToLogin(ret.errMsg);
+                                        } else {
+                                            _Public.hideProgress();
+                                            enhance_index.layerMsg('删除成功!');
+                                        }
+                                    }, function (ret) {
+                                        _Public.hideProgress();
+                                        enhance_index.layerMsg(ret.msg);
+                                    }
+                                );
+                            }, function () {
+                                layer.close();
+                                _Public.hideProgress();
+                            });
+                        });
+                    }
+                }
+                /**
+                 * 设置页面参数
+                 */
+                prevBillDate = ret.master.billdate || _Public.getDates().sDate;
+                _Public.selectDates($('#billDate'), prevBillDate);//日期
+                enhance_index.setValue($('#billCode'), rmaster.billcode || '');//单号
+                enhance_index.setValue($('#moneyName'), rmaster.moneyname);//币种
+                $('#moneyName').attr('data-id', rmaster.moneyid);//币种id
+
+                //外币单据，移动端应只能查看不能修改保存数据
+                if(rmaster.moneyid==2 && rmaster.moneyname == '美元'){
+                    enhance_index.offDatePicker($('#billDate'));//日期选择器不可用
+                    enhance_index.offCheckboxBtn($('#closed'));//中止按钮不可用
+                    enhance_index.readPattern();//阅读模式
+                    action = 'check';//货品不可编辑
+                    $('#submitBtn').remove();
+                }
+
+                enhance_index.setValue($('#traderName'), rmaster.tradername || '');//供应商/客户
+                $('#traderName').attr('data-id', rmaster.traderid || '');//供应商id/客户id
+
+                //供应商税率/客户税率
+                //销售：从货品资料里面去，如果货品资料的税率为空的情况下，从账套选项取
+                //采购：取供应商税率，为空时取0
+                $('#traderName').attr('data-taxrate', rmaster.tradertaxrate || 0);
+
+                _Public.selectDates($('#revDate'), rmaster.revdate || _Public.getDates().sDate);//发货日期
+                //(是/否)中止状态
+                if (rmaster.closed == 1) {
+                    $('#closed').attr('checked', true);
+                }
+                //是否已完成
+                if (rmaster.finished == 1) {
+                    enhance_index.offCheckboxBtn($('#closed'));//中止按钮不可用
+                }
+                enhance_index.setValue($('#remark'), rmaster.remark || '');//摘要
+                enhance_index.setMobiscrollValue($('#projectName'), rmaster.projectname || '');//项目名
+                $('#projectName').attr('data-id', rmaster.projectid || '');//项目id
+                enhance_index.setMobiscrollValue($('#depName'), rmaster.depname || '');//部门
+                $('#depName').attr('data-id', rmaster.departmentid || '');//部门id
+                enhance_index.setMobiscrollValue($('#empName'), rmaster.empname || '');//员工
+                $('#empName').attr('data-id', rmaster.empid || '');//员工id
+                enhance_index.setText($('#moneyCode'), rmaster.moneycode || '￥');//币种符号
+
+                /**
+                 * 隐藏参数
+                 */
+                // $('#traderName').data('taxrate', rmaster.taxrate || '');//税率
+                // $('#traderName').data('code', rmaster.tradercode);//供应商code/客户code/结算单位code
+                // $('#traderName').data('contactor', rmaster.linkman || '');//收货人
+                // $('#traderName').data('tel1', rmaster.contactphone || '');//电话
+                // $('#traderName').data('fax', rmaster.contactfax || '');//传真
+                // $('#traderName').data('creditday', rmaster.creditday);//付款期限/收款期限
+                // $('#traderName').data('iscashtrader', rmaster.iscashtrader);//现金往来单位
+
+                // //运输方式
+                // $('#traderName').data('shiptype', rmaster.shiptype);//运输方式id
+                // $('#traderName').data('shiptypename', rmaster.shiptypename || '');//运输方式
+
+                //隐藏参数（联动）
+                $('#traderName').data('linkman', rmaster.linkman || '');//收货人
+                $('#traderName').data('tel1', rmaster.contactphone || '');//电话
+                $('#traderName').data('fax', rmaster.contactfax || '');//传真
+                $('#traderName').data('shipto', rmaster.billto || '');//发货地点
+                $('#traderName').data('shiptype', rmaster.shiptype || '');//运输方式id
+                $('#traderName').data('shiptypename', rmaster.shiptypename || '');//运输方式
+                //隐藏参数（不联动）
+                $('#traderName').data('linkmanid', rmaster.linkmanid || '');//联系人id
+                $('#traderName').data('linkmanname', rmaster.linkmanname || '');//联系人
+
+                //判断价格正负数
+                var amountStr = (rmaster.amount || '').toString();
+                if(amountStr.indexOf('-')!=-1){
+                    $('#amount').parent().addClass('tx-red');
+                    $('#amount').parent().removeClass('tx-bla');
+                    amountStr = amountStr.substring(1, amountStr.length);
+                }
+                enhance_index.setText($('#amount'), rmaster.amount || '0');//合计(价格)
+                enhance_index.setText($('#amountStr'), amountStr || '0');//合计(价格)
+
+                // 供应商/客户是否改变
+                var prevTraderId = sessionStorage.getItem('session_prevTraderId') || '';//上个供应商id/客户id
+                if(prevTraderId != '' && prevTraderId != $('#traderName').data('id')){
+                    //触发部门改变事件
+                    if($('#empName').prev('input').val()==''){
+                        $('#depName').trigger('change');
+                    }
+                }
+
+                /*单据明细*/
+                var rdetail1 = ret.detail1;
+                for (var k = 0; k < rdetail1.length; k++) {
+                    rdetail1[k].moneycode = rmaster.moneycode;
+                    htmlCommand.set(rdetail1[k]);//将数据填充到HTML模板
+                }
+                htmlCommand.appendIn($('#listDetail'));
+            }
+        }
+        /**
+         * 初始化下拉选择数据
+         */
+        function getSelectData(){
+            enhance_index.getBaseData($('#projectName'), 'project', 'project');//项目
+            enhance_index.getBaseData($('#depName'), 'department', 'base');//部门
+            enhance_index.getBaseData($('#empName'), 'employ', 'employ');//业务员
+        }
+        // HTML模板
+        function goodsListHtml(json) {
+            var thisItem = $('<div></div>');
+            var jsonStr = JSON.stringify(json);
+            var moneycode = json.moneycode || '';
+            if (json.log_attr != 'del') {
+                thisItem.append($('<div class="goodsItem ub ub-ac line-b bg-f8-active oldGoods" data-attr="' + json.log_attr + '" data-id="' + json.log_id + '" data-oldGoods="' + json.log_oldGoods + '"><div class="itemName tx-bla ub ub-f1 ub-ver "><div class="marb-5 ub ub-f1 ub-pc"><div class="ub-f1 tx-l">' + json.goodscode + ' ' + json.goodsname + '</div><div class="ub-f1 tx-gra tx-r">' + json.unitquantity + '' + (json.unitname || '')+'</div></div><div class="tx-gray tx-12 ub ub-f1"><div class="ub-f1 tx-l"><span>单价：' + moneycode + '</span><span>' + json.unitprice + '</span></div><div class="ub-f1 tx-c"><span>税率：</span><span>' + json.taxrate + '%</span></div><div class="ub-f1 tx-r"><span>金额：</span><span class="goodsTaxprece">' + json.amount + '</span></div></div></div></div>').attr('data-json', jsonStr));
+            }
+            return thisItem.html();
+        }
+        //提交
+        $('#submitBtn').on('tap', function () {
+            if (action == 'check') {
+                _Public.layerMsg('该单据已被其他操作员审核！');
+
+            } else {
+                if (!master_backup['master.revdate']) {
+                    _Public.layerMsg($('#dateType').text() + "不能为空！");
+                    return;
+                }
+                _Public.showLoading();
+                //开单类中,master表的备份
+                save_order.masterSave(master_backup, type);
+                var detail_backup = {};//货品的信息备份
+                var delCount = 0;//删除货品的条数
+                var edit_addCount = 0;//编辑或新增的货品条数
+                var cur_detailcount = 0;//表示现在选中的货品条数
+                var oldCount = 0;//表示未改动的货品条数
+                var trader_id = JSON.parse(sessionStorage.getItem('session_temp_billDataJson')).master.traderid || 0;//供应商/客户初始参数
+                $('.goodsItem').each(function (index) {
+                    var statusAttr = $(this).data('attr');
+                    var d = $(this).attr('data-json');
+                    var detail = JSON.parse(d);
+                    if (typeof (detail.validdates) == 'object')
+                        if (JSON.stringify(detail.validdates) == '{}')
+                            detail.validdates = '0';
+
+                    if (detail.validdates == null)
+                        detail.validdates = '0';
+                    if(master_backup['master.traderid']!=trader_id && isAdd=='false'){
+                        //客户、供应商、发票类型改变时，货品的税率需要改变
+                        if(statusAttr=='del'){
+                            enhance_index.getOrder_detail(detail_backup, detail, delCount, type, 'deletedetail1', true, false);
+                           // detail_backup['deletedetail1[' + index + '].chargedate'] = master_backup['master.revdate'];
+                            delCount++;
+                        }else if(statusAttr=='new'){
+                            enhance_index.getOrder_detail(detail_backup, detail, edit_addCount, type, 'detail1', false, true);
+                            detail_backup['detail1[' + edit_addCount + '].chargedate'] = master_backup['master.revdate'];
+                            if(master_backup['master.closed']==1){
+                                detail_backup['detail1[' + edit_addCount + '].closed'] = 1;
+                            }else if(master_backup['master.closed']==0){
+                                detail_backup['detail1[' + edit_addCount + '].closed'] = 0;
+                            }
+                            edit_addCount++;
+                            cur_detailcount++;
+                        }else{
+                            enhance_index.getOrder_detail(detail_backup, detail, edit_addCount, type, 'detail1', true, false);
+                            detail_backup['detail1[' + edit_addCount + '].chargedate'] = master_backup['master.revdate'];
+                             if(master_backup['master.closed']==1){
+                                detail_backup['detail1[' + edit_addCount + '].closed'] = 1;
+                            }else if(master_backup['master.closed']==0){
+                                detail_backup['detail1[' + edit_addCount + '].closed'] = 0;
+                            }
+                            edit_addCount++;
+                            cur_detailcount++;
+                        }
+                    }else{
+                        switch (statusAttr) {
+                            case 'new':
+                                enhance_index.getOrder_detail(detail_backup, detail, edit_addCount, type, 'detail1', false, true);
+                                detail_backup['detail1[' + edit_addCount + '].chargedate'] = master_backup['master.revdate'];
+                                edit_addCount++;
+                                cur_detailcount++;
+                                break;
+                            case 'edit':
+                                enhance_index.getOrder_detail(detail_backup, detail, edit_addCount, type, 'detail1', true, false);
+                                detail_backup['detail1[' + edit_addCount + '].chargedate'] = master_backup['master.revdate'];
+                                edit_addCount++;
+                                cur_detailcount++;
+                                break;
+                            case 'del':
+                                enhance_index.getOrder_detail(detail_backup, detail, delCount, type, 'deletedetail1', true, false);
+                                detail_backup['deletedetail1[' + edit_addCount + '].chargedate'] = master_backup['master.revdate'];
+                                delCount++;
+                                break;
+                            case 'old':
+                                oldCount++;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+                //但没对货品进行操作时，要模拟一条编辑过的货品数据
+                if (JSON.stringify(detail_backup) == "{}") {
+                    $('.goodsItem').each(function (index) {
+                        var d = $(this).attr('data-json');
+                        var detail = JSON.parse(d);
+                        if (typeof (detail.validdates) == 'object')
+                            if (JSON.stringify(detail.validdates) == '{}')
+                                detail.validdates = '0';
+
+                        if (detail.validdates == null)
+                            detail.validdates = '0';
+                        enhance_index.getOrder_detail(detail_backup, detail, edit_addCount, type, 'detail1', true, false);
+                        detail_backup['detail1[' + edit_addCount + '].chargedate'] = master_backup['master.revdate'];
+                        edit_addCount++;
+                        cur_detailcount++;
+                        return;
+                    });
+                }
+                //如果单据是中止状态，那detail也要改为中止状态
+                if(master_backup['master.closed']==1){
+                      $('.goodsItem').each(function (index) {
+                           detail_backup['detail1[' + index + '].closed'] = 1;
+                      });
+                }else if(master_backup['master.closed']==0){
+                    $('.goodsItem').each(function (index) {
+                           detail_backup['detail1[' + index + '].closed'] = 0;
+                      });
+                }
+                //当货品的数目为0时，提示用户添加货品
+                if (cur_detailcount == 0 && oldCount == 0) {
+                    _Public.hideProgress();
+                    _Public.layerMsg("请选择商品,再进行保存！");
+                    return;
+                }
+                if (master_backup['master.traderid'] == null || master_backup['master.traderid'] == '') {
+                    _Public.hideProgress();
+                    _Public.layerMsg(enhance_index.getTraderTilte[type] + "不能为空！");
+                    return;
+                }
+                master_backup['detail1Count'] = edit_addCount;
+                master_backup['deletedetail1Count'] = delCount;
+                master_backup['addnewFlag'] = isAdd;
+                master_backup['startIndex'] = 0;
+                master_backup['checkStep'] = 0;
+                master_backup['isH5'] = true;
+                if (isAdd) {
+                    //当为新增开单据时
+                    master_backup['billId'] = -9999;
+                    master_backup['master.shopid']=localStorage.getItem('shopID');
+                    master_backup['master.shopname']=localStorage.getItem('shopName');
+                    master_backup['master.opname']=localStorage.getItem('opName');
+
+                }
+                master_backup['master.billid'] = master_backup['billId'];
+                $.extend(master_backup, detail_backup);
+                var data = {};
+                data['url'] = saveUrl;
+                data['data'] = master_backup;
+                console.log(JSON.stringify(master_backup));
+                save_order.save(data, 'purchase_order');
+            }
+        });
+    });
+</script>
+</html>
