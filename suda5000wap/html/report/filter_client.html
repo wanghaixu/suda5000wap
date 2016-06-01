@@ -53,8 +53,12 @@
 <script src="../../js/sea.js"></script>
 <script>
 seajs.use(['zepto.min', 'public','layer','report'],function(zepto,_Public,layer,_report){
+	layer.open({
+		type: 2,
+		shadeClose: false
+	});
 	//获取客户数据
-	_report.selectPages($('#dataList'),"((IsClient=1 and TraderID>0 ) or (acctrader=1 and TraderID>0 )) and (name like '%%' or code like '%%')", 0, '', 'qryTrader');
+	_report.selectData($('#dataList'),"((IsClient=1 and TraderID>0 ) or (acctrader=1 and TraderID>0 )) and (name like '%%' or code like '%%')", 0, '', 'qryTrader');
 	//键盘按钮
 	$('form').on('submit', function () {
 		searchTraderData();
@@ -67,21 +71,29 @@ seajs.use(['zepto.min', 'public','layer','report'],function(zepto,_Public,layer,
 		event.preventDefault();
 		searchTraderData();
 	});
+	//显示遮罩层
+	$('#filterInput').focus(function(){
+		$('.focusShade').removeClass('uhide');
+	});
+	//隐藏遮罩层
+	$('.focusShade').click(function(){
+		$('.focusShade').addClass('uhide');
+	});
+	$('#filterInput').blur(function(){
+		$('.focusShade').addClass('uhide');
+	})
 	//搜索
 	function searchTraderData() {
+		layer.open({
+			type: 2,
+			shadeClose: false
+		});
 		//获取搜索内容
 		var filterValue = $('#filterInput').val();
 		//获取客户数据
+		_report.selectData($('#dataList'),"((IsClient=1 and TraderID>0 ) or (acctrader=1 and TraderID>0 )) and (name like '%"+filterValue+"%' or code like '%"+filterValue+"%')", 0, filterValue, 'qryTrader');
+		$('.focusShade').addClass('uhide');
 	}
-	//元素选择事件
-	$(document).on('tap', '.listItem', function () {
-		if ($(this).hasClass('active')) {
-			$(this).removeClass('active');
-		} else {
-			$('.chooseItem').removeClass('active');
-			$(this).addClass('active');
-		}
-	});
 })
 </script>
 </html>

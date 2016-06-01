@@ -609,6 +609,7 @@
                         if (typeof (thisTaxRate) == 'undefined' || typeof (thisTaxRate) == 'null' || thisTaxRate == 'null' || thisTaxRate=='') {
                             thisTaxRate = 0;
                         }
+                       alert(thisTaxRate);
                         billAmount += enhance_index.setDetailFromTaxrate($(el), thisTaxRate);
                     }
                 });

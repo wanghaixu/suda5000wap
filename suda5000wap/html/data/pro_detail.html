@@ -90,19 +90,23 @@ seajs.use(['zepto.min','data','public','iscroll','pullToRefresh','layer'],functi
 				//提示错误信息弹窗
 				_Public.hideProgress();
                 _Public.closeToLogin(ret.errMsg);
-			}else{
-				$('#code').text(Data.getPageParams('list_code'));
-				$('#name').text(ret.master.name);
-				$('#specs').text(ret.master.specs);
-				$('#gcmname').text(ret.master.gcmname);
-				$('#costtypename').text(ret.master.costtypename);
-				//$('#areaname').text(ret.master.areaname);
-				$('#isbatch').text(Number(ret.master.isbatch)?'是':'否');
-				$('#unitname').text(ret.master.unitname);
-				$('#barcode').text(ret.master.barcode);
-				$('#pprice').text(ret.master.pprice);
-				$('#sprice').text(ret.master.sprice);
 			}
+			for(var i=0;i<ret.detail1.length;i++){
+				if(ret.detail1[i]['isbase']==1){
+					site=i;
+					break;
+				}
+			}
+			$('#code').text(ret.master.code);//编号
+			$('#name').text(ret.master.name);//名称
+			$('#specs').text(ret.master.specs);//规格
+			$('#gcmname').text(ret.master.gcmname);//存货类型
+			$('#costtypename').text(ret.master.costtypename);//成本核算
+			$('#isbatch').text(Number(ret.master.isbatch)?'是':'否');//批号管理
+			$('#unitname').text(ret.master.unitname);//基本单位
+			$('#barcode').text(ret.detail1[site].barcode);//条形码
+			$('#pprice').text(ret.detail1[site].pprice);//参考进价
+			$('#sprice').text(ret.detail1[site].sprice);//参考售价
 			$('body').removeClass('uhide');
 			_Public.hideProgress();
 		},function(xhr,type){

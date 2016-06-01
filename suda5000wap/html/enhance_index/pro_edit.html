@@ -244,8 +244,8 @@
                 //获取单位
                 getUnit();
             }else{            
-                $('.unitname').append($('<option>'+goodsData.get('unitname')+'</option>'));
-                $('.store').append($('<option>'+goodsData.get('storename')+'</option>'));
+                $('.unitname').append($('<option>'+enhance_index.checkNull(goodsData.get('unitname'))+'</option>'));
+                $('.store').append($('<option>'+enhance_index.checkNull(goodsData.get('storename'))+'</option>'));
             }
 
             if (lot) {
@@ -776,6 +776,7 @@
                 }
                 //计算税率
                 (function countTaxRate() {
+                    alert(noteType);
                     var FTaxRate = 0;
                     //如果是销售的话,默认使用货品中的税率,如果货品收率为0或者空,则使用帐套的税率
                     if (noteType == '1')
