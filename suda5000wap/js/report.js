@@ -153,16 +153,26 @@ define(function(require,exports,module){
 		 * dom 该过滤条件select的id
 		 * filt 该过滤条件filter值（每个过滤条件值固定）
 		 * type 该过滤条件viewName值（每个过滤条件值固定）
-		 * filType 筛选页面类型，'bill'表示单据筛选,'credit'表示财务汇总筛选,'product'表示货品筛选
+		 * likeVal 搜索值
+		 * filType 过滤条件类型，0：客户/供应商/货品/仓库，1：往来类型，2：货品类型
 		 */
 		selectData:function(dom,fil,type,filType) {
 			var data = {
-				'viewName': type,
-				'filter':fil,
-				'likeValue':'',
-				'pageSize': 100000,
-				'start': 0,
-				'filterH5Type': 1
+			  'filter':fil,
+			  'likeValue': likeVal,
+			  'pageSize': 100000,
+			  'start': 0,
+			  'viewName': type,
+			  'filterH5Type': 1
+			}
+			if (filType == 1) {
+				data.filterId= '428';
+				data.menuTag= '10354';
+				data.modId= '2450';
+			} else if (filType == 2) {
+				data.filterId= '6';
+				data.menuTag= '80503';
+				data.modId= '2603';
 			}
 			$.ajax({
 				type: 'post',
@@ -175,14 +185,40 @@ define(function(require,exports,module){
 						layer.closeAll();
 						_Public.closeTologin(data.errMsg);
 					} else {
-						var list = data.listData;
-						var str = '';
-						for (var i = 0; i < list.length; i++) {
-							str += '<option data-name="'+ list[i].code +'" value="'+ list[i].name +'">'+ list[i].name +'</option>';
-						};
-						dom.append(str);
-						selNum = selNum + 1;
-						defaultFilter(filType,selNum);
+						if (list.length == 0) {
+							str += '<div class="none-icon">'+
+								'<img src="../../image/none.png">'+
+								'<div class="tx-gray">暂无数据</div>'+
+							'</div>'
+						} else {
+							var dataVal;
+							for (var i = 0; i < list.length; i++) {
+								if (filType == 0) {
+									dataVal = list[i].name;
+								} else {
+									dataVal = list[i].lcode;
+								}
+								str += '<div class="listItem ub ub-ac h-65 marl-10 marr-10 line-b">'+
+									'<div class="li-tips" data-name="'+ list[i].code +'" data-text="'+ list[i].name +'" data-value="'+ dataVal +'"></div>'+
+									'<div class="ub ub-ac ub-f1 marl-10">'+
+										'<div class="tx-gra marr-10">'+ list[i].code +'</div>'+
+										'<div class="ub-f1 tx-bla">'+ list[i].name +'</div>'+
+									'</div>'+
+								'</div>'
+							};
+					}
+					$('.none-icon').remove();
+					$('.listItem').remove();
+					$('#'+dom).append(str);
+					//元素选择事件
+					$('.listItem').on('click',function(){
+						if($(this).hasClass('active')){
+							$(this).removeClass('active');
+						}else{
+							$('.listItem').removeClass('active');
+							$(this).addClass('active');
+						}
+					});
 					}
 				},
 				error: function(xhr, type){
@@ -194,6 +230,90 @@ define(function(require,exports,module){
 					layer.closeAll();
 				}
 			});
+		},
+		/*
+		 * 加载过滤条件的数据
+		 * dom 该过滤条件select的id
+		 * filt 该过滤条件filter值（每个过滤条件值固定）
+		 * type 该过滤条件viewName值（每个过滤条件值固定）
+		 * likeVal 搜索值
+		 * filType 过滤条件类型，0：客户/供应商/货品/仓库，1：往来类型，2：货品类型
+		 */
+		selectPages:function(dom,fil,filType,likeVal,type) {
+			var back = function(ret){
+				if (ret.errNo) {
+					_basic.closeTologin(ret.errMsg);
+				} else {
+					var list = ret.listData;
+					var str = '';
+					if (list.length == 0) {
+						str += '<div class="none-icon">'+
+							'<img src="../../image/none.png">'+
+							'<div class="tx-gray">暂无数据</div>'+
+						'</div>'
+					} else {
+						var dataVal;
+						for (var i = 0; i < list.length; i++) {
+							if (filType == 0) {
+								dataVal = list[i].name;
+							} else {
+								dataVal = list[i].lcode;
+							}
+							str += '<div class="listItem ub ub-ac h-65 marl-10 marr-10 line-b">'+
+								'<div class="li-tips" data-name="'+ list[i].code +'" data-text="'+ list[i].name +'" data-value="'+ dataVal +'"></div>'+
+								'<div class="ub ub-ac ub-f1 marl-10">'+
+									'<div class="tx-gra marr-10">'+ list[i].code +'</div>'+
+									'<div class="ub-f1 tx-bla">'+ list[i].name +'</div>'+
+								'</div>'+
+							'</div>'
+						};
+					}
+					$('.none-icon').remove();
+					$('.listItem').remove();
+					$api.append(dom, str);
+					//元素选择事件
+					$('.listItem').on('click',function(){
+						if($(this).hasClass('active')){
+							$(this).removeClass('active');
+						}else{
+							$('.listItem').removeClass('active');
+							$(this).addClass('active');
+						}
+					});
+				}
+				api.hideProgress();
+			};
+			var err = function(ret){
+				api.hideProgress();
+				_basic.toastMsg(ret.msg);
+			};
+			var url = '/lookupdm/lookupdata.action';
+			//加载数据
+			var Ajax_data={};
+			Ajax_data['url']='http://'+this.url_suffix+url;
+			//请求方式
+			Ajax_data['method']='post';
+			//返回的格式
+			Ajax_data['datatype']='json';
+			//参数
+			Ajax_data['data']={
+			  'filter':fil,
+			  'likeValue': likeVal,
+			  'pageSize': 100000,
+			  'start': 0,
+			  'viewName': type,
+			  'filterH5Type': 1
+			};
+			if (filType == 1) {
+				Ajax_data['data'].filterId= '428';
+				Ajax_data['data'].menuTag= '10354';
+				Ajax_data['data'].modId= '2450';
+			} else if (filType == 2) {
+				Ajax_data['data'].filterId= '6';
+				Ajax_data['data'].menuTag= '80503';
+				Ajax_data['data'].modId= '2603';
+			}
+			_basic.Ajax(Ajax_data,back,err);
 		},
 		/*
 		 * 获取货币过滤条件数据

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>过滤-选择客户</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<meta name="format-detection" content="telephone=no"/>
+	<link rel="stylesheet" type="text/css" href="../../css/ui-base.css">
+	<link rel="stylesheet" type="text/css" href="../../css/layer.css">
+	<link rel="stylesheet" type="text/css" href="../../css/public.css">
+	<link rel="stylesheet" type="text/css" href="../../css/enhance_index.css">
+</head>
+<body>
+	<header class="module-header-t1">
+		<div class="ub ub-pc ub-ac bg-fixed2 line-b">
+			<a class="ub ub-ac" href="javascript:history.back()">
+				<div class="icon back-icon-wh"></div>
+				<div class="tx-16 tx-wh">返回</div>
+			</a>
+			<div id="pageTilte" class="ub-f1 ub ub-ac ub-pc bold">选择客户</div>
+			<div id="affirmBtn" class="ub ub-ac ub-pe title-r">
+				<div class="icon post-icon-wh"></div>
+			</div>
+		</div>
+		<form class="ub ub-ac ub-pc module-input-t1 line-b">
+			<div class="ub-f1 ub ub-ac ub-pc line-all">
+				<input id="filterInput" type="search" maxlength="20" autocomplete="off" class="ub ub-f1 billInput" placeholder="名称/代码">
+				<div id="searchBtn" class="search-icon"></div>
+			</div>
+		</form>
+	</header>
+	<div id="wrapper" class="mart-114 mart-5 marb-5 ub ub-ver line-b line-t">
+		<div class="focusShade uhide"></div><!-- 输入框获得焦点时的遮罩层 -->
+		<div class="bg-wh" id="dataList">
+			<!-- <div class="listItem ub ub-ac h-65 marl-10 marr-10 line-b">
+				<div class="li-tips"></div>
+					<div class="ub ub-ac ub-f1 marl-10">
+					<div class="tx-gra marr-10">1001</div>
+					<div class="ub-f1 tx-bla">DVD风采</div>
+				</div>
+			</div>
+			<div class="listItem ub ub-ac h-65 marl-10 marr-10 line-b">
+				<div class="li-tips"></div>
+					<div class="ub ub-ac ub-f1 marl-10">
+					<div class="tx-gra marr-10">1001</div>
+					<div class="ub-f1 tx-bla">DVD风采</div>
+				</div>
+			</div> -->
+		</div>
+	</div>
+</body>
+<script src="../../js/sea.js"></script>
+<script>
+seajs.use(['zepto.min', 'public','layer','report'],function(zepto,_Public,layer,_report){
+	//获取客户数据
+	_report.selectPages($('#dataList'),"((IsClient=1 and TraderID>0 ) or (acctrader=1 and TraderID>0 )) and (name like '%%' or code like '%%')", 0, '', 'qryTrader');
+	//键盘按钮
+	$('form').on('submit', function () {
+		searchTraderData();
+		$('#filterInput').blur();
+		//阻止form提交跳转
+		return false;
+	});
+	//搜索按钮
+	$('#searchBtn').on('tap', function (event) {
+		event.preventDefault();
+		searchTraderData();
+	});
+	//搜索
+	function searchTraderData() {
+		//获取搜索内容
+		var filterValue = $('#filterInput').val();
+		//获取客户数据
+	}
+	//元素选择事件
+	$(document).on('tap', '.listItem', function () {
+		if ($(this).hasClass('active')) {
+			$(this).removeClass('active');
+		} else {
+			$('.chooseItem').removeClass('active');
+			$(this).addClass('active');
+		}
+	});
+})
+</script>
+</html>

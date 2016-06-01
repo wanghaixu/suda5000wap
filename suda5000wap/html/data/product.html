@@ -26,7 +26,7 @@
 	<!--头部结束-->
 	<form class="ub module-input-t1 line-b">
 		<div class="ub-f1 ub ub-ac ub-pc line-all">
-			<input type="text" class="ub ub-f1" placeholder="名称/代码">
+			<input type="text" class="ub ub-f1" placeholder="名称/代码/规格...">
 			<div class="search-icon"></div>
 			<div class="focusShade _focusShade uhide"></div>
 		</div>
@@ -191,10 +191,16 @@ seajs.use(['zepto.min','data','public','layer','iscroll','pullToRefresh'],functi
 		dataListArray.requireData(dataListArray.postData,'search');
 	}
 	$('input').on('input',function(){
-		if($(this).val()==""){
-			dataListArray.postData.value="";
-			dataListArray.requireData(dataListArray.postData,'search');
-			$('.focusShade').addClass('uhide')
+		if($.trim($(this).val())==""){
+			var locationUrl=window.location.href.substring(0,window.location.href.indexOf('?'));
+			if($.trim(locationUrl)!=''){
+				//如果主页搜索后又去掉搜索值
+				location.href=locationUrl;
+			}else{
+				dataListArray.postData.value="";
+				dataListArray.requireData(dataListArray.postData,'all');
+				$('.focusShade').addClass('uhide')
+			}
 		}else{
 			$('.focusShade').removeClass('uhide');
 		}
@@ -215,7 +221,6 @@ seajs.use(['zepto.min','data','public','layer','iscroll','pullToRefresh'],functi
 		pullUpAction:Load
 	});
 	function Refresh(){
-		$('#pullUp,.pullUpLabel,.loader').css('display','block');
 		dataListArray.postData.data.start=0;
 		dataListArray.postData.data.pageSize=dataListArray.array.length;
 		dataListArray.requireData(dataListArray.postData,'refresh');
@@ -223,13 +228,9 @@ seajs.use(['zepto.min','data','public','layer','iscroll','pullToRefresh'],functi
 	};
 	dataListArray.close=false;
 	function Load(){
-		if(dataListArray.close){
-			$('#pullUp,.pullUpLabel,.loader').css('display','none');
-		}else{
-			dataListArray.postData.data.start=dataListArray.array.length;
-			dataListArray.postData.data.pageSize=10;
-			dataListArray.requireData(dataListArray.postData,'add');
-		}
+		dataListArray.postData.data.start=dataListArray.array.length;
+		dataListArray.postData.data.pageSize=10;
+		dataListArray.requireData(dataListArray.postData,'add');
 		myScroll.refresh();
 	};
 	/*数据交互-开始*/
@@ -261,19 +262,28 @@ seajs.use(['zepto.min','data','public','layer','iscroll','pullToRefresh'],functi
 			$('.pullUpLabel').removeClass('uhide')
 			$('.loader').removeClass('uhide')
 		}
-		for(var i=0;i<7;i++){
-			var num=String(i);
-			postData.data["filterItems["+num+"].fieldType"]=fieldType[i];
-			postData.data["filterItems["+num+"].id"]=id[i];
-			postData.data["filterItems["+num+"].index"]=index[i];
-			postData.data["filterItems["+num+"].name"]=name[i];
-			postData.data["filterItems["+num+"].operatertitle"]=operatertitle[i];
-			postData.data["filterItems["+num+"].value"]=postData.value;
-			if(i==6)
-				postData.data['filterisOR']=true;
+		if(type=='search'){
+			for(var i=0;i<7;i++){
+				var num=String(i);
+				postData.data["filterItems["+num+"].fieldType"]=fieldType[i];
+				postData.data["filterItems["+num+"].id"]=id[i];
+				postData.data["filterItems["+num+"].index"]=index[i];
+				postData.data["filterItems["+num+"].name"]=name[i];
+				postData.data["filterItems["+num+"].operatertitle"]=operatertitle[i];
+				postData.data["filterItems["+num+"].value"]=postData.value;
+				if(i==6)
+					postData.data['filterisOR']=true;
+			}
+		}else if(type=='all'){
+			postData.data={
+				pageSize:'20',
+				start:'0',
+				modId:'2403',
+				iMoneyHeadType:'0',
+				limit:'20',
+			}
 		}
 		_Public.Get_ajax(postData,function(ret){
-			console.log(ret);
 			_Public.showLoading();
 			if(ret.errNo){
 				//提示错误信息弹窗
@@ -301,14 +311,12 @@ seajs.use(['zepto.min','data','public','layer','iscroll','pullToRefresh'],functi
 						dataListArray.array=dataListArray.array.concat(listData);
 					}else{
 						if(listData.length<nodeNumber){
-							$('#pullUp,.pullUpLabel,.loader').css('display','none');
 							dataListArray.close=true;
 						}
 						dataListArray.array=listData;
 					}
 					if(listData.length==0&&type!='add'){
 						$('.none-icon').removeClass('uhide');
-						$('#pullUp,.pullUpLabel,.loader,#scroller').css('display','none');
 					}else{
 						$('.none-icon').addClass('uhide');
 					}
@@ -325,11 +333,13 @@ seajs.use(['zepto.min','data','public','layer','iscroll','pullToRefresh'],functi
 		});
 	}
 	var pageParam=Data.getPageParams('search');
+	var type='all';
 	if(pageParam){
+		type='search'
 		dataListArray.postData.value=pageParam;
 		$('input').val(pageParam);
 	}
-	dataListArray.requireData(dataListArray.postData,'first');
+	dataListArray.requireData(dataListArray.postData,type);
 	/*数据交互-结束*/
 })
 </script>

@@ -181,6 +181,21 @@ seajs.use(['zepto.min','public','data','layer','iscroll','pullToRefresh'],functi
 	$('.search-icon').on('tap',function(){
 		onsubmit();
 	})
+	$('input').on('input',function(){
+		if($.trim($(this).val())==""){
+			var locationUrl=window.location.href.substring(0,window.location.href.indexOf('?'));
+			if($.trim(locationUrl)!=''){
+				//如果主页搜索后又去掉搜索值
+				location.href=locationUrl;
+			}else{
+				dataListArray.postData.value="";
+				dataListArray.requireData(dataListArray.postData,'all');
+				$('.focusShade').addClass('uhide')
+			}
+		}else{
+			$('.focusShade').removeClass('uhide');
+		}
+	})
 	/*输入框获得焦点时，背景虚化-结束*/
 	refresher.init({
 		id:"wrapper",
@@ -189,7 +204,6 @@ seajs.use(['zepto.min','public','data','layer','iscroll','pullToRefresh'],functi
 	});
 	//刷新
 	function Refresh(){
-		$('#pullUp,.pullUpLabel,.loader').css('display','block');
 		dataListArray.postData.data.start=0;
 		dataListArray.postData.data.pageSize=dataListArray.array.length;
 		dataListArray.requireData(dataListArray.postData,'refresh');
@@ -198,13 +212,9 @@ seajs.use(['zepto.min','public','data','layer','iscroll','pullToRefresh'],functi
 	dataListArray.close=false;
 	//上拉加载
 	function Load(){
-		if(dataListArray.close){
-			$('#pullUp,.pullUpLabel,.loader').css('display','none');
-		}else{
-			dataListArray.postData.data.start=dataListArray.array.length;
-			dataListArray.postData.data.pageSize=10;
-			dataListArray.requireData(dataListArray.postData,'add');
-		}
+		dataListArray.postData.data.start=dataListArray.array.length;
+		dataListArray.postData.data.pageSize=10;
+		dataListArray.requireData(dataListArray.postData,'add');
 		myScroll.refresh();
 	};
 	/*数据交互-开始*/
@@ -228,23 +238,30 @@ seajs.use(['zepto.min','public','data','layer','iscroll','pullToRefresh'],functi
 	var index=['','','','1','1','',''];
 	var name=['单位编码','单位名称','全称','往来类型','分支机构','业务员','跟踪部门'];
 	var operatertitle=['包含','包含','包含','包含子类','包含','包含','包含'];
+	$('#pullUp,.pullUpLabel,.loader').css('display','none');
 	dataListArray.requireData=function(postData,type){
-		if($('input').val()!=""){
-			$('.pullUpLabel').addClass('uhide');
-			$('.loader').addClass('uhide');
-		}else{
-			$('.pullUpLabel').removeClass('uhide')
-			$('.loader').removeClass('uhide')
+		if(type=='search'){
+			for(var i=0;i<7;i++){
+				var num=String(i);
+				dataListArray.postData.data["filterItems["+num+"].fieldType"]=fieldType[i];
+				dataListArray.postData.data["filterItems["+num+"].id"]=id[i];
+				dataListArray.postData.data["filterItems["+num+"].index"]=index[i];
+				dataListArray.postData.data["filterItems["+num+"].name"]=name[i];
+				dataListArray.postData.data["filterItems["+num+"].operatertitle"]=operatertitle[i];
+				dataListArray.postData.data["filterItems["+num+"].value"]=postData.value;
+			};
+		}else if(type=='all'){
+			postData.data={
+				pageSize:nodeNumber,
+				start:'0',
+				// beginDate:_Public.getDates().eDate,
+				// endDate:_Public.getDates().sDate,
+				modId:'2402',
+				filterisOR:'true',
+				iMoneyHeadType:'0',
+				limit:'20',
+			}
 		}
-		for(var i=0;i<7;i++){
-			var num=String(i);
-			dataListArray.postData.data["filterItems["+num+"].fieldType"]=fieldType[i];
-			dataListArray.postData.data["filterItems["+num+"].id"]=id[i];
-			dataListArray.postData.data["filterItems["+num+"].index"]=index[i];
-			dataListArray.postData.data["filterItems["+num+"].name"]=name[i];
-			dataListArray.postData.data["filterItems["+num+"].operatertitle"]=operatertitle[i];
-			dataListArray.postData.data["filterItems["+num+"].value"]=postData.value;
-		};
 		_Public.Get_ajax(postData,function(ret){
 			_Public.showLoading();
 			if(ret.errNo){
@@ -275,7 +292,6 @@ seajs.use(['zepto.min','public','data','layer','iscroll','pullToRefresh'],functi
 						dataListArray.array=dataListArray.array.concat(listData);
 					}else{
 						if(listData.length<nodeNumber){
-							$('#pullUp,.pullUpLabel,.loader').css('display','none');
 							dataListArray.close=true;
 						}
 						dataListArray.array=listData;
@@ -283,7 +299,6 @@ seajs.use(['zepto.min','public','data','layer','iscroll','pullToRefresh'],functi
 					$('#wrapper .list').append(node);
 					if(listData.length==0&&type!='add'){
 						$('.none-icon').removeClass('uhide');
-						$('#pullUp,.pullUpLabel,.loader,#scroller').css('display','none');
 					}else{
 						$('.none-icon').addClass('uhide');
 					}
@@ -302,11 +317,13 @@ seajs.use(['zepto.min','public','data','layer','iscroll','pullToRefresh'],functi
 		});
 	}
 	var pageParam=Data.getPageParams('search');
+	var type='all';
 	if(pageParam){
+		type='search'
 		dataListArray.postData.value=pageParam;
 		$('input').val(pageParam);
 	}
-	dataListArray.requireData(dataListArray.postData);
+	dataListArray.requireData(dataListArray.postData,type);
 	/*数据交互-结束*/
 })
 </script>

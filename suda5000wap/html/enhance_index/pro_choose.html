@@ -159,6 +159,8 @@
             });
             //下拉刷新
             function Refresh() {
+                condition='';
+                $('input[name="keyword"]').val('');
                 getGoodsList('refresh');
             }
             //上拉加载
@@ -219,24 +221,20 @@
                     if (length == 0) {
                         //需要加入图片之类的                        
                         if (count == 0) {
-                            $('#pullUp,.pullUpLabel,.loader,#scroller').css('display','none');
                             list += '<div class="none-icon ">' +
                                     '<img src="../../images/none.png">' +
                                     '<div class="tx-gray">暂无数据</div>' +
                                 '</div>';
-                            // alert('')
-                            $('#warpper').append($(list));
                         }
                         flag = 0;
                     }
                     else {
                         for (var i = 0; i < datalist.length; i++){
-                            list = render(datalist[i]);
-                            $('.dataList').append($(list));
+                            list += render(datalist[i]);                           
                         }
                     }
-                    
-                    myScroll.refresh();
+                     $('.dataList').append($(list));
+                     myScroll.refresh();
                     count += length;
                     _Public.hideProgress();
                 }, function (xhr, type) {

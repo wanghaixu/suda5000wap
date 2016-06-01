@@ -47,26 +47,29 @@
 			</div>
 			<div class="listItem ub-f1 ub" id="cli-div">
 				<div class="itemName tx-l tx-bla">客户</div>
-				<div class="ub ub-ac ub-pe ub-f1 tx-r tx-gray">
-					<select class="cus-select" id="client" data-id="5" data-name="客户">
-						<option value="null">全部</option>
-					</select>
+				<div class="filterHtml ub ub-ac ub-pe ub-f1 tx-r tx-gray" data-href="filter_client.html">
+					<div class="ub-f1">
+						<input class="cus-select" id="client" data-id="5" data-name="客户" readonly>
+					</div>
+					<div class="rightArrow"></div>
 				</div>
 			</div>
 			<div class="listItem ub-f1 ub" id="sup-div">
 				<div class="itemName tx-l tx-bla">供应商</div>
-				<div class="ub ub-ac ub-pe ub-f1 tx-r tx-gray">
-					<select class="cus-select" id="supplier" data-id="10" data-name="供应商">
-						<option value="null">全部</option>
-					</select>
+				<div class="filterHtml ub ub-ac ub-pe ub-f1 tx-r tx-gray" data-href="filter_supplier.html">
+					<div class="ub-f1">
+						<input class="cus-select" id="supplier" data-id="10" data-name="供应商" readonly>
+					</div>
+					<div class="rightArrow"></div>
 				</div>
 			</div>
 			<div class="listItem ub-f1 ub">
 				<div class="itemName tx-l tx-bla">货品</div>
-				<div class="ub ub-ac ub-pe ub-f1 tx-r tx-gray">
-					<select class="cus-select" id="goods" data-id="8" data-name="货品">
-						<option value="null">全部</option>
-					</select>
+				<div class="filterHtml ub ub-ac ub-pe ub-f1 tx-r tx-gray" data-href="filter_good.html">
+					<div class="ub-f1">
+						<input class="cus-select" id="goods" data-id="8" data-name="货品" readonly>
+					</div>
+					<div class="rightArrow"></div>
 				</div>
 			</div>
 		</section>
@@ -89,14 +92,15 @@ seajs.use(['public','layer','report'],function(_Public,layer,_report){
 		if ((type == 'pur_bill') || (type == 'pur_order')){
 			$('#cli-div').addClass('uhide');
 			$('#sup-div').removeClass('uhide');
-			_report.selectData($('#supplier'),'(IsVendor=1 and Closed=0 and TraderID>0  and ShopID=0) or (acctrader=1 and Closed=0 and TraderID>0  and ShopID=0)', 'qryTrader', 'bill');
+			//_report.selectData($('#supplier'),'(IsVendor=1 and Closed=0 and TraderID>0  and ShopID=0) or (acctrader=1 and Closed=0 and TraderID>0  and ShopID=0)', 'qryTrader', 'bill');
 		} else {
 			$('#cli-div').removeClass('uhide');
 			$('#sup-div').addClass('uhide');
-			_report.selectData($('#client'),'(IsClient=1 and Closed=0 and TraderID>0  and ShopID=0) or (acctrader=1 and Closed=0 and TraderID>0  and ShopID=0)', 'qryTrader', 'bill');
+			//_report.selectData($('#client'),'(IsClient=1 and Closed=0 and TraderID>0  and ShopID=0) or (acctrader=1 and Closed=0 and TraderID>0  and ShopID=0)', 'qryTrader', 'bill');
 		}
+		layer.closeAll();
 		//获取货品数据
-		_report.selectData($('#goods'),"(closed=0 and Kind<8 and Kind <> 5) and (name like '%%' or code like '%%')", 'qrygoods', 'bill');
+		//_report.selectData($('#goods'),"(closed=0 and Kind<8 and Kind <> 5) and (name like '%%' or code like '%%')", 'qrygoods', 'bill');
 		//获取货币数据
 		_report.moneyCode($('#coin'));
 		//点击完成按钮
@@ -122,6 +126,11 @@ seajs.use(['public','layer','report'],function(_Public,layer,_report){
 				localStorage['filter']=JSON.stringify(filter);
 			}
 			window.location.href = localStorage.getItem('href');
+		});
+		//点击过滤条件
+		$('.filterHtml').on('click', function(){
+			localStorage['filHref']= 'billing_filter.html';
+			window.location.href = $(this).attr('data-href');
 		});
 	});
 })
