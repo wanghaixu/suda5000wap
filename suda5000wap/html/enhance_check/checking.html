@@ -232,7 +232,7 @@ seajs.use(['zepto.min','enhance_check','public','layer','iscroll','pullToRefresh
 	}
 	//筛选日期
 	$('.header-left').on('tap',function(){
-		location.href="filtration_date.html?sdate="+$('.sdate').text()+"&edate="+$('.edate').text()+"&href=checking.html";
+		location.href="filtration_date.html?sdate="+$('.sdate').text()+"&edate="+$('.edate').text()+"&href=checking.html&orderTypeName="+$('#filtrateType').text()+"&orderTypeCode="+$('#filtrateType').attr('data-num')+"&searchValue="+$('input').val();
 	})
 	//已审核
 	$('#checked').on('tap',function(){

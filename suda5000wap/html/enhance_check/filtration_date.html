@@ -6,6 +6,7 @@
 	<meta name="format-detection" content="telephone=no" />
 	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 	<link rel="stylesheet" type="text/css" href="../../css/ui-base.css">
+	<link rel="stylesheet" type="text/css" href="../../css/layer.css">
 	<link rel="stylesheet" type="text/css" href="../../css/public.css">
 	<link rel="stylesheet" type="text/css" href="../../css/zepto.mdater.css">
 	<link rel="stylesheet" type="text/css" href="../../css/enhance_check.css">
@@ -14,7 +15,7 @@
 <body class="uhide padt-0">
 	<!--头部开始-->
 	<header class="ub ub-pc ub-ac module-header-t1 line-b bg-fixed2">
-		<a class="goback ub ub-ac ub-pc" onclick="history.back(-1)">返回</a>
+		<a class="goback ub ub-ac ub-pc" id="back">返回</a>
 		<div class="ub-f1 ub ub-ac ub-pc">过滤</div>
 		<div class="holder ub ub-ac ub-pe">
 			<div class="aff-icon post-icon-wh marr-15"></div>
@@ -47,12 +48,28 @@ seajs.use(['zepto.min','enhance_check','public','layer','zepto.mdater'],function
 	}
 	$('.startDate').mdater();
 	$('.endDate').mdater();
+	var filter={
+		sdate:Check.getPageParams('sdate'),
+		edate:Check.getPageParams('edate'),
+		orderTypeName:Check.getPageParams('orderTypeName'),
+		orderTypeCode:Check.getPageParams('orderTypeCode'),
+		searchValue:Check.getPageParams('searchValue'),
+	};
 	//确认
 	$('.aff-icon').on('tap',function(){
 		var sdate=$('.startDate').val();
 		var edate=$('.endDate').val();
-		location.href=Check.getPageParams('href')+"?sdate="+sdate+"&edate="+edate;
+		var compareDate=_Public.compareDate(sdate,edate);
+		if(!compareDate){
+			_Public.layerMsg('开始日期不能大于结束日期');
+			return false;
+		}
+		location.href=Check.getPageParams('href')+"?sdate="+sdate+"&edate="+edate+"&orderTypeName="+filter.orderTypeName+"&orderTypeCode="+filter.orderTypeCode+"&searchValue="+filter.searchValue;
 	});
+	//返回按钮
+	$('#back').on('tap',function(){
+		location.href=Check.getPageParams('href')+"?sdate="+filter.sdate+"&edate="+filter.edate+"&orderTypeName="+filter.orderTypeName+"&orderTypeCode="+filter.orderTypeCode+"&searchValue="+filter.searchValue;
+	})
 })
 </script>
 </html>
