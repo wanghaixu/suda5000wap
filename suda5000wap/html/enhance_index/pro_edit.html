@@ -64,7 +64,6 @@
                 <div class="ub ub-ac ub-f1 h-44 line-b">
                     <div class="itemName tx-l tx-bla">单位</div>                    
                     <div class="ub ub-ac ub-f1 tx-r tx-gray scroll">
-                        <div class="ub-f1"></div>
                         <select name="unitname" class="unitname sel-opt"></select>
                     </div>
                     <div class="rightArrow"></div>
@@ -123,19 +122,18 @@
             <div class="listItem" tapmode="bg-f8-active">
                 <div class="ub ub-ac ub-f1 h-44 line-b">
                     <div class="itemName tx-l tx-bla">仓库</div>
-                    <div class="ub ub-ac ub-f1 tx-r tx-gray scroll sel-label">
-                        <div class="ub-f1"></div>
-                        <select name="store" class="ub-f1 tx-r store sel-opt"></select>
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray scroll">
+                        <select name="store" class="store sel-opt"></select>
                     </div>
-                    <div class="rightArrow"></div>
+                        <div class="rightArrow"></div>                    
                 </div>
             </div>
             <div class="padlr-15" tapmode="bg-f8-active">
                 <div class="ub ub-ac ub-f1 h-44 line-b">
                     <div class="itemName tx-l tx-bla">批号</div>
-                    <div class="ub ub-ac ub-f1 tx-r tx-gray">
+                    <div class="ub ub-ac ub-f1 tx-r tx-gray batch">
                         <input name="batchcode" class="billInput ub-f1 tx-r batchcode" type="text">
-                        <div class="rightArrow"></div>
+                        <div class="rightArrow"></div>                        
                     </div>
                 </div>
             </div>
@@ -776,7 +774,6 @@
                 }
                 //计算税率
                 (function countTaxRate() {
-                    alert(noteType);
                     var FTaxRate = 0;
                     //如果是销售的话,默认使用货品中的税率,如果货品收率为0或者空,则使用帐套的税率
                     if (noteType == '1')
@@ -1470,7 +1467,7 @@
                         $('.batchcode').attr('readonly', 'readonly');
                         $('.validdate').attr('readonly', 'readonly');
                         $('.productdate').attr('readonly', 'readonly');
-                        $('.rightArrow').hide();
+                        $('.batch .rightArrow').hide();
                     } else {
                         //选择日期的时候 根据有效天数计算有效日期
                         var validdates = goodsData.get('validdates');

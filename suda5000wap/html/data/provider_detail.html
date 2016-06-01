@@ -100,7 +100,7 @@ seajs.use(['zepto.min','data','public','iscroll','pullToRefresh','layer'],functi
 		_Public.showLoading();
 		var postData={
 			url:"http://"+Data.sdip+"/common/vendor/vendorEdit!doGetEditData.action",
-			method:'post',
+			type:'post',
 			data:{id:id}
 		};
 		_Public.Get_ajax(postData,function(ret){

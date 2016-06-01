@@ -236,7 +236,7 @@ seajs.use(['zepto.min','data','public','layer','iscroll','pullToRefresh'],functi
 	/*数据交互-开始*/
 	dataListArray.postData={
 		url:"http://"+Data.sdip+"/common/goods/goodsList!doGetListData.action",
-		method:'post',
+		type:'post',
 		data:{
 			pageSize:'20',
 			start:'0',

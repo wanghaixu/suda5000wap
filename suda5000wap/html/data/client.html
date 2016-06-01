@@ -220,7 +220,7 @@ seajs.use(['zepto.min','public','data','layer','iscroll','pullToRefresh'],functi
 	/*数据交互-开始*/
 	dataListArray.postData={
 		url:"http://"+Data.sdip+"/common/client/clientList!doGetListData.action",
-		method:'post',
+		type:'post',
 		data:{
 			pageSize:nodeNumber,
 			start:'0',

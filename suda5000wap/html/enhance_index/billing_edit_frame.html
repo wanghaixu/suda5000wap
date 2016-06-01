@@ -64,7 +64,7 @@
             <div class="padlr-15 bg-f8-active">
                 <div class="ub ub-ac ub-f1 h-44">
                     <div class="item-tilte itemName tx-l tx-bla">发票类型</div>
-                    <label for="billkindName" class="ub ub-ac ub-f1 tx-r tx-gray sel-label">
+                    <label for="notetypeName" class="ub ub-ac ub-f1 tx-r tx-gray sel-label">
                         <div class="ub-f1"></div>
                         <select id="notetypeName" data-kid="notetype" data-kname="notetypename" class="hide sel-opt"></select>
                         <div class="rightArrow"></div>
@@ -413,17 +413,24 @@
             /**
              * 货品选择需要参数
              */
-            //是否在采购开单中单据类型是否为采购退货
-            var isPurReturn = 0;
-            var billKind = $('#billkindName').data('id');//单据类型
-            if(type=='pbilling' && billKind=='2' && enhance_index.getMobiscrollValue($('#billkindName'))=='采购退货'){
-                isPurReturn = 1;
-            }
             if ($(this).data('on') == '1') {
+                //是否在采购开单中单据类型是否为采购退货
+                var isPurReturn = 0;
+                var billKind = $('#billkindName').data('id');//单据类型
+                if(type=='pbilling' && billKind=='2' && enhance_index.getMobiscrollValue($('#billkindName'))=='采购退货'){
+                    isPurReturn = 1;
+                }
+                //税率
+                var noteType = $('#notetypeName').data('id') || 0;//发票类型
+                var traderTaxRate = $('#traderName').data('taxrate') || 0;//客户或/供应商的税率
+                if(type == 'pbilling' && (noteType == 1 || noteType == 2)){
+                    //（采购开单）发票类型为 收据 或 普通发票时
+                    traderTaxRate = 0;
+                }
                 var goodParamJson = {
                     'billKind': $('#billkindName').data('id') || 1,//单据类型id
                     'traderID': $('#traderName').data('id') || 0,//客户或/供应商id
-                    'traderTaxRate': $('#traderName').data('taxrate') || 0,//客户或/供应商的税率
+                    'traderTaxRate': traderTaxRate,//客户或/供应商的税率
                     'isRetrun': 1,
                     'billDate': $('#billDate').val(),
                     'noteType': $('#notetypeName').data('id') || 1,//发票类型
@@ -450,10 +457,17 @@
             if(type=='pbilling' && billKind=='2' && enhance_index.getMobiscrollValue($('#billkindName'))=='采购退货'){
                 isPurReturn = 1;
             }
+            //税率
+            var noteType = $('#notetypeName').data('id') || 0;//发票类型
+            var traderTaxRate = $('#traderName').data('taxrate') || 0;//客户或/供应商的税率
+            if(type == 'pbilling' && (noteType == 1 || noteType == 2)){
+                //（采购开单）发票类型为 收据 或 普通发票时
+                traderTaxRate = 0;
+            }
             var goodParamJson = {
                 'billKind': billKind,//单据类型id
                 'traderID': $('#traderName').data('id') || 0,//客户或/供应商id
-                'traderTaxRate': $('#traderName').data('taxrate') || 0,//客户或/供应商的税率
+                'traderTaxRate': traderTaxRate,//客户或/供应商的税率
                 'isRetrun': 1,
                 'billDate': $('#billDate').val(),
                 'noteType': $('#notetypeName').data('id') || 1,//发票类型
@@ -609,7 +623,6 @@
                         if (typeof (thisTaxRate) == 'undefined' || typeof (thisTaxRate) == 'null' || thisTaxRate == 'null' || thisTaxRate=='') {
                             thisTaxRate = 0;
                         }
-                       alert(thisTaxRate);
                         billAmount += enhance_index.setDetailFromTaxrate($(el), thisTaxRate);
                     }
                 });
@@ -954,7 +967,7 @@
          * 初始化下拉选择数据
          */
         function getSelectData(){
-            enhance_index.getBaseData($('#billkindName'), 'pbilling', 'billKind');//单据类型
+            enhance_index.getBaseData($('#billkindName'), type, 'billKind');//单据类型
             enhance_index.getBaseData($('#notetypeName'), 'noteType', 'base');//发票类型
             enhance_index.getBaseData($('#ctraderType'), 'ctraderType', 'CtraderType');//结算方式
             enhance_index.getBaseData($('#settleAccount'), 'settleAccount', 'base');//结算账户
