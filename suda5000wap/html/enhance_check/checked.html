@@ -271,15 +271,8 @@ seajs.use(['zepto.min','enhance_check','public','layer','iscroll','pullToRefresh
 		postData.data.opid=postData.value;
 		_Public.Get_ajax(postData,function(ret){
 			if(ret.errNo){
-				layer.open({
-				    style: 'border:none; background-color:#78BA32; color:#fff;',
-				    content:ret.errMsg
-				})
-				setTimeout(function(){
-					if(ret.errMsg.indexOf('重新登录')>0||ret.errMsg.indexOf('重新登陆')>0){
-						location.href='../login/en_login.html';
-					}
-				},1200);
+				_Public.hideProgress();
+				_Public.closeToLogin(ret.errMsg);
 				return false;
 			}
 			var listData=ret.resultData.ListData;
