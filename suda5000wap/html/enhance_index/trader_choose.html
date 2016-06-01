@@ -346,6 +346,7 @@
 
         //下拉刷新
         function Refresh() {
+            $('#filterInput').val('');
             dataCommand.refreshPage(
                 function (ret) {
                     if (ret.errNo) {

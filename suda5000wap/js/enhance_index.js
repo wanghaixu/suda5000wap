@@ -1051,7 +1051,7 @@ Enhance_index.prototype = {
              * @param {[function]} 	errCallback 	[请求错误函数]
              */
             refreshPage: function (retCallback, errCallback) {
-                // this.data = $.extend({}, this.initData);
+                this.data = $.extend({}, this.initData);
                 this.nowPageNum = 1;
                 this.data.pageSize = this.pageSize;
                 this.data.start = this.start = 0;
