@@ -1,0 +1,152 @@
+<include file="Common/header"/>	
+	<div class="clearfix full-container">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- 左侧导航菜单开始 -->
+				<include file="Common/left"/> 
+				<!-- 左侧导航菜单结束 -->
+				
+				<!-- 页面主体内容开始 -->
+				<div id="main" class="col-xs-12 col-sm-10 main">
+					<!-- 面包屑导航开始 -->
+					<ul class="breadcrumb">
+					    <li><i class="fa fa-map-marker"></i></li>
+					    <volist name="__PARENT_MENU__" id="vo">
+					        <li>{$vo.title}</li>
+					    </volist>
+					</ul>
+					<!-- 面包屑导航结束 -->
+					
+					<div class="builder builder-list-box">
+						<div class="row">
+							<!-- 顶部工具栏按钮 -->
+							<div class="builder-toolbar col-xs-12">
+								<!-- 工具栏按钮 -->
+								<div class="button-list search-from">
+
+                                   
+                                    <!-- 新表单 start-->
+                                    <div class="col-md-8 pad-0">
+
+                                        <form class="form-inline">
+                                            <div class="inline-block marr-5 marb-5">
+                                                <label for=""></label>
+                                                <input type="text" name="search_key" class="form-input" value="{$_GET['search_key']}" size="20" placeholder="按国家名或缩写搜索">
+                                            </div>
+
+                                            <div class="inline-block marr-5 marb-5">
+                                                <button type="submit" class="baseline btn btn-default">搜索</button>
+                                            </div>
+                                        </form>
+                                    </div> 
+                                    <div class="col-md-4 pad-0">
+                                        <div class="btn-wrap item-fr marr-0">
+                                            <a title="添加" class="btn btn-primary" href="{:U('Country/add')}">添加</a>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                        </div>
+                                    </div>
+                                    <!-- 表单 end -->
+
+								</div>
+							</div>
+							<!-- 数据列表 -->
+							<div class="builder-container col-xs-12">
+								<div class="builder-table">
+	                                <div class="panel panel-default table-responsive" id="tablelist">
+                                        <table class="table table-bordered table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <td>
+                                                        <input class="check-all" type="checkbox">
+                                                    </td>
+                                                    <td>序号</td>
+                                                    <td>国家名称</td>
+													<td>名称缩写</td>	
+                                                    <td>添加时间</td>
+                                                    <td>状态</td>
+                                                    <td width="">操作</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <volist name="list" id="vo">
+                                                <tr align="center">
+                                                    <td><input class="ids" type="checkbox" value="{$vo.ct_id}" name="ids[]"></td>
+                                                    <td>{$vo.ct_id}</td>
+                                                    <td>{$vo.ct_name}</td>
+                                                    <td>{$vo.ct_code}</td>
+                                                    <td>{$vo.ct_stime|date='Y-m-d H:i:s',###}</td>
+                                                    <td>
+                                                        <eq name='vo.ct_status' value='1'>正常</eq>
+                                                        <eq name='vo.ct_status' value='0'>禁用</eq>
+                                                    </td>
+                                                    <td>
+                                                        <a  href="{:U('edit',array('id'=>$vo['ct_id']))}" class="label label-revoke group_edit">编辑</a>
+                                                        <a href="javascript:void(0)" link="{:U('disable',array('id'=>$vo['ct_id']))}" class="label label-recharge disable" title='{$vo.ct_name}' ct_id="{$vo.ct_id}">禁用</a>
+                                                        <a link="{:U('enable',array('id'=>$vo['ct_id']))}"  class="label label-success enable" href="javascript:void(0)" title="{$vo.ct_name}" ct_id="{$vo.ct_id}">开启</a>
+                                                    </td>
+                                                </tr>
+                                                </volist>
+                                            </tbody>
+                                        </table>
+	                                </div>
+	                            </div>
+							</div>
+							<!-- 底部区域开始 -->
+							<div class="builder-footer col-xs-12">
+								<div class="page">
+									<div class="badoo">{$page}</div>
+								</div>
+							</div>
+							<!-- 底部区域结束 -->
+						</div>
+					</div>
+				</div>
+				<!-- 页面主体内容结束 -->
+			</div>
+		</div>
+	</div>
+
+<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script type="text/javascript">
+    $(function() {
+        // 表单弹窗
+            $(".disable").click(function() {
+                var delLink = $(this).attr("link");
+                var ct_id = $(this).attr('ct_id');
+                layer.confirm('你真的打算禁用【<b>' + $(this).attr("title") + '</b>】这国家吗?', {shade: 0.8}, function() {
+                    $.post(delLink, {ct_id: ct_id}, function(data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            setTimeout(function() {
+                                top.window.location.href = data.url;
+                            }, 2000)
+                        } else {
+                            layer.msg(data.info, {icon: 0});
+                        }
+                    })
+                })
+                return false;
+            });
+
+			 $(".enable").click(function() {
+                var delLink = $(this).attr("link");
+                var ct_id = $(this).attr('ct_id');
+                layer.confirm('你真的打算开启【<b>' + $(this).attr("title") + '</b>】这国家吗?', {shade: 0.8}, function() {
+                    $.post(delLink, {ct_id: ct_id}, function(data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            setTimeout(function() {
+                                top.window.location.href = data.url;
+                            }, 2000)
+                        } else {
+                            layer.msg(data.info, {icon: 0});
+                        }
+                    })
+                })
+                return false;
+            });
+
+        });
+</script>

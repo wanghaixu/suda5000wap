@@ -1,0 +1,260 @@
+<include file="Common/header"/>
+	
+	<div class="clearfix full-container">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- 左侧导航菜单开始 -->
+                <include file="Common/left"/>
+				<!-- 左侧导航菜单结束 -->
+				<div id="main" class="col-xs-12 col-sm-10 main">
+					 <!-- 面包屑导航 -->
+					 <ul class="breadcrumb">
+						<li><i class="fa fa-map-marker"></i></li>
+						<volist name="__PARENT_MENU__" id="vo">
+					        <li>{$vo.title}</li>
+					    </volist>                        
+					 </ul>
+										
+					<div class="builder builder-list-box">
+						<div class="builder-toolbar builder-list-toolbar">
+							<div class="row">
+								<!-- 工具栏按钮 -->
+								<div class="col-xs-12 col-sm-9 button-list">
+                                    <a title="新增一级菜单" class="btn btn-primary" onclick="add_lv1()" href="javascript:void(0);">新增一级菜单</a>
+									<a title="保存" class="btn btn-success" id="submit" href="javascript:void(0);">保存</a>
+								</div>
+                                  <form action="{:U()}" class="listForm">
+                                  		<select name="show_lv">
+                                            <option value="0">全部</option>
+                                            <option value="1">一级</option>
+                                            <option value="2">二级</option>
+                                            <option value="3">三级</option>
+                                            <option value="4">四级</option>
+                                        </select>
+                                        <select name="module">
+                                            <option value="ADMIN" <eq name="_GET[module]" value="ADMIN">selected</eq>>ADMIN</option>
+                                            <option value="USER"  <eq name="_GET[module]" value="USER">selected</eq>>USER</option>
+                                        </select>
+                                        <input type="submit" value="搜索">
+                                  </form>
+							</div>
+						</div>
+					<!-- Tab导航 -->
+						<!-- 数据列表 -->
+<div class="builder-container builder-list-container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="builder-table">
+                <div class="panel panel-default table-responsive">
+                    <form id="post_form">
+                    <table class="table table-c table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>操作</th>
+                                <th>ID</th>
+                                <th></th>
+                                <th>标题</th>
+                                <th>链接</th>
+								<th>模块</th>
+                                <th>开发</th>
+                                <th width="100px" onclick="reflash_icon()">(刷新)图标</th>
+                                <th>排序</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        	<!-- 一级 -->
+							<volist name="all_menu" id="v1">
+                            <tr id="{$v1[id]}" lv="1" class="lv_1 ">
+                                <td><i title="原有" class="fa fa-check"></i></td>
+                                <td><input type="hidden" name="info[{$v1[id]}][id]" value="{$v1[id]}"/><input type="hidden" name="info[{$v1[id]}][pid]" value="0"/>{$v1[id]}</td>
+                                <td class="tree">-</td>
+								<td style="text-align: left"><input name="info[{$v1[id]}][title]" value="{$v1[title]}"/></td>
+								<td><input name="info[{$v1[id]}][url]" value="{$v1[url]}"/></td>
+								<td><input name="info[{$v1[id]}][module]" value="{$v1[module]}" hidden/>{$v1[module]}</td>
+								<td><input name="info[{$v1[id]}][dev]" value="{$v1[dev]}" size="2"/></td>
+								<td><i class="{$v1[icon]}"></i>&nbsp;&nbsp;<input readonly name="info[{$v1[id]}][icon]" class="icon_input" value="{$v1[icon]}" size="1"></input></td>
+								<td><input name="info[{$v1[id]}][sort]" value="{$v1[sort]}" size="1"></input></td>
+                                <td>
+                                    <a title="新增下级" class="label label-primary" onclick="add_child(this)" href="javascript:void()">新增下级</a>
+									<a title="删除" class="label label-danger" onclick="del({$v1[id]})" href="javascript:void()">删除</a>
+                                </td>
+                            </tr>
+                        	<!-- 二级 -->
+                        	<volist name='v1[_child]' id='v2'>
+                            <tr id="{$v2[id]}" lv="2" pid="{$v1[id]}" class="pid_{$v1[id]} lv_2 ">
+                                <td><i title="原有" class="fa fa-check"></i></td>
+                                <td><input type="hidden" name="info[{$v2[id]}][id]" value="{$v2[id]}"/><input type="hidden" name="info[{$v2[id]}][pid]" value="{$v1[id]}"/>{$v2[id]}</td>
+                                <td class="tree">-</td>
+								<td style="text-align: left">&nbsp;&nbsp;&nbsp;&nbsp;├ <input name="info[{$v2[id]}][title]" value="{$v2[title]}"/></td>
+                                <td><input name="info[{$v2[id]}][url]" value="{$v2[url]}"/></td>
+                                <td><input name="info[{$v2[id]}][module]" value="{$v2[module]}" hidden/>{$v2[module]}</td>
+                                <td><input name="info[{$v2[id]}][dev]" value="{$v2[dev]}" size="2"/></td>
+                                <td><i class="{$v2[icon]}"></i>&nbsp;&nbsp;<input readonly name="info[{$v2[id]}][icon]" class="icon_input" value="{$v2[icon]}" size="1"></input></td>
+                                <td><input name="info[{$v2[id]}][sort]" value="{$v2[sort]}" size="1"></input></td>
+                                <td>
+									<a title="新增下级" class="label label-primary" onclick="add_child(this)" href="javascript:void()">新增下级</a>
+                                    <a title="删除" class="label label-danger" onclick="del({$v2[id]})" href="javascript:void()">删除</a>
+                                </td>
+                            </tr>
+                        	<!-- 三级 -->
+                        	<volist name='v2[_child]' id='v3'>
+                            <tr id="{$v3[id]}" lv="3" pid="{$v2[id]}" class="pid_{$v2[id]} lv_3 ">
+                                <td><i title="原有" class="fa fa-check"></i></td>
+                                <td><input type="hidden" name="info[{$v3[id]}][id]" value="{$v3[id]}"/><input type="hidden" name="info[{$v3[id]}][pid]" value="{$v2[id]}"/>{$v3[id]}</td>
+                                <td class="tree">-</td>
+								<td style="text-align: left">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├ <input name="info[{$v3[id]}][title]" value="{$v3[title]}"/></td>
+								<td><input name="info[{$v3[id]}][url]" value="{$v3[url]}"/></td>
+                                <td><input name="info[{$v3[id]}][module]" value="{$v3[module]}" hidden/>{$v3[module]}</td>
+                                <td><input name="info[{$v3[id]}][dev]" value="{$v3[dev]}" size="2"/></td>
+                                <td><i class="{$v3[icon]}"></i>&nbsp;&nbsp;<input readonly name="info[{$v3[id]}][icon]" class="icon_input" value="{$v3[icon]}" size="1"></input></td>
+                                <td><input name="info[{$v3[id]}][sort]" value="{$v3[sort]}" size="1"></input></td>
+                                <td>
+									<a title="新增下级" class="label label-primary" onclick="add_child(this)" href="javascript:void()">新增下级</a>
+                                    <a title="删除" class="label label-danger" onclick="del({$v3[id]})" href="javascript:void()">删除</a>
+                                </td>
+                            </tr>
+                        	<!-- 四级 -->
+                        	<foreach name='v3[_child]' item='v4'>
+                            <tr id="{$v4[id]}" lv="4" pid="{$v3[id]}" class="pid_{$v3[id]} lv_4 ">
+                                <td><i title="原有" class="fa fa-check"></i></td>
+                                <td><input type="hidden" name="info[{$v4[id]}][id]" value="{$v4[id]}"/><input type="hidden" name="info[{$v4[id]}][pid]" value="{$v3[id]}"/>{$v4[id]}</td>
+                                <td></td>
+                                <td style="text-align: left">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├ <input name="info[{$v4[id]}][title]" value="{$v4[title]}"/></td>
+                                <td><input name="info[{$v4[id]}][url]" value="{$v4[url]}"/></td>
+                                <td><input name="info[{$v4[id]}][module]" value="{$v4[module]}" hidden/>{$v4[module]}</td>
+                                <td><input name="info[{$v4[id]}][dev]" value="{$v4[dev]}" size="2"/></td>
+                                <td><input hidden name="info[{$v4[id]}][icon]" value="{$v4[icon]}" size="1"></input></td>
+                                <td><input name="info[{$v4[id]}][sort]" value="{$v4[sort]}" size="1"></input></td>
+                                <td>
+                                    <a title="删除" class="label label-danger" onclick="del({$v4[id]})" href="javascript:void()">删除</a>
+                                </td>
+                            </tr>
+                        	</foreach>
+                        	</volist>
+                        	</volist>
+							</volist>
+                        </tbody>
+                    </table>
+                    <input type="hidden" name="module" value="{$module}" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script>
+	$(function(){
+        $('#submit').click(function() {
+            commonAjaxSubmit('','#post_form');
+        })
+		//显示按钮
+		$('select[name=show_lv]').change(function() {
+			var index = $(this).val();
+			if (index==0) {
+				$('tbody tr').show();
+			}else{
+				$('tbody tr').hide();
+				$('.lv_'+index).show();
+			}
+		});
+
+        $(".icon_input").iconChoosen({});  
+
+        $(document).on('click','.tree',function(){
+            if($(this).attr("status")!=1){
+                chn($(this).parent().attr("id"),"hide");
+                $(this).attr("status",1).text('+');
+            }else{
+                chn($(this).parent().attr("id"),"show");
+                $(this).removeAttr("status").text('-');
+            }
+        });
+
+        $('input').change(function() {
+            if($(this).parents('tr').hasClass('to_del')) return false;
+            $(this).parents('tr').find('td:first').find('.fa-check').removeClass('fa-check').addClass('fa-edit').css('color','red').attr('title','修改');
+        })
+
+
+    })
+
+    var chn=function(cid,op){
+        if(op=="show"){
+            $("tr[pid='"+cid+"']").each(function(){
+                $(this).removeAttr("status").show();
+                chn($(this).attr("id"),"show");
+            });
+        }else{
+            $("tr[pid='"+cid+"']").each(function(){
+                $(this).attr("status",1).hide();
+                chn($(this).attr("id"),"hide");
+            });
+        }
+    }
+
+    function reflash_icon() {
+        $('.icon_input').each(function() {
+            $(this).prev('i').removeClass().addClass($(this).val());
+        })
+    }
+
+    var max_id = {$max_id|default="1"};
+    function add_child(obj) {
+        var lv = $(obj).parents('tr').attr('lv'),
+            pid = $(obj).parents('tr').attr('id');
+        var id = max_id+=1;
+        var html_str = '';
+        var icon = get_icon();
+        switch(lv){
+            case '1':
+                html_str += '<tr id="'+id+'" lv="2" pid="'+pid+'" class="pid_'+pid+' lv_2 "><td><i class="fa fa-plus" title="新增"  style="color:red"></i></td><td><input type="hidden" name="info['+id+'][id]" value="'+id+'"/><input type="hidden" name="info['+id+'][pid]" value="'+pid+'"/>'+id+'</td><td class="tree">-</td><td style="text-align: left">&nbsp;&nbsp;&nbsp;&nbsp;├ <input name="info['+id+'][title]" value=""/></td><td><input name="info['+id+'][url]" value=""/></td><td><input name="info['+id+'][module]" value="{$module}" hidden/>{$module}</td><td><input name="info['+id+'][dev]" value="0" size="2"/></td><td><i class="'+icon+'"></i>&nbsp;&nbsp;<input readonly name="info['+id+'][icon]" class="icon_input" value="'+icon+'" size="1"></input></td><td><input name="info['+id+'][sort]" value="0" size="1"></input></td><td><a title="新增下级" class="label label-primary" onclick="add_child(this)" href="javascript:void()">新增下级</a>&nbsp;<a title="删除" class="label label-danger" onclick="del('+id+')" href="javascript:void()">删除</a></td></tr>';
+                break;
+            case '2':
+                html_str += '<tr id="'+id+'" lv="3" pid="'+pid+'" class="pid_'+pid+' lv_3 "><td><i class="fa fa-plus" title="新增"  style="color:red"></i></td><td><input type="hidden" name="info['+id+'][id]" value="'+id+'"/><input type="hidden" name="info['+id+'][pid]" value="'+pid+'"/>'+id+'</td><td class="tree">-</td><td style="text-align: left">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├ <input name="info['+id+'][title]" value=""/></td><td><input name="info['+id+'][url]" value=""/></td><td><input name="info['+id+'][module]" value="{$module}" hidden/>{$module}</td><td><input name="info['+id+'][dev]" value="0" size="2"/></td><td><i class="'+icon+'"></i>&nbsp;&nbsp;<input readonly name="info['+id+'][icon]" class="icon_input" value="'+icon+'" size="1"></input></td><td><input name="info['+id+'][sort]" value="0" size="1"></input></td><td><a title="新增下级" class="label label-primary" onclick="add_child(this)" href="javascript:void()">新增下级</a>&nbsp;<a title="删除" class="label label-danger" onclick="del('+id+')" href="javascript:void()">删除</a></td></tr>';
+                break;
+            case '3':
+                html_str += '<tr id="'+id+'" lv="4" pid="'+pid+'" class="pid_'+pid+' lv_4 "><td><i class="fa fa-plus" title="新增"  style="color:red"></i></td><td><input type="hidden" name="info['+id+'][id]" value="'+id+'"/><input type="hidden" name="info['+id+'][pid]" value="'+pid+'"/>'+id+'</td><td></td><td style="text-align: left">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├ <input name="info['+id+'][title]" value=""/></td><td><input name="info['+id+'][url]" value=""/></td><td><input name="info['+id+'][module]" value="{$module}" hidden/>{$module}</td><td><input name="info['+id+'][dev]" value="0" size="2"/></td><td><input hidden name="info['+id+'][icon]"></input></td><td><input name="info['+id+'][sort]" value="0" size="1"></input></td><td><a title="删除" class="label label-danger" onclick="del('+id+')" href="javascript:void()">删除</a></td></tr>';
+                break;
+        }
+        $(obj).parents('tr').after(html_str);
+        $('#'+id).find('.icon_input').iconChoosen({}); 
+    }
+
+    function add_lv1() {
+        var id = max_id+=1;
+        var icon = get_icon();
+        var html = '<tr id="'+id+'" lv="1" class="lv_1 "><td><i class="fa fa-plus" title="新增"  style="color:red"></i></td><td><input type="hidden" name="info['+id+'][id]" value="'+id+'"/><input type="hidden" name="info['+id+'][pid]" value="0"/>'+id+'</td><td class="tree">-</td><td style="text-align: left"><input name="info['+id+'][title]" value=""/></td><td><input name="info['+id+'][url]" value=""/></td><td><input name="info['+id+'][module]" value="{$module}" hidden/>{$module}</td><td><input name="info['+id+'][dev]" value="0" size="2"/></td><td><i class="'+icon+'"></i>&nbsp;&nbsp;<input readonly name="info['+id+'][icon]" class="icon_input" value="'+icon+'" size="1"></input></td><td><input name="info['+id+'][sort]" value="0" size="1"></input></td><td><a title="新增下级" class="label label-primary" onclick="add_child(this)" href="javascript:void()">新增下级</a>&nbsp;<a title="删除" class="label label-danger" onclick="del('+id+')" href="javascript:void()">删除</a></td></tr>';
+        $('tbody').prepend(html);
+        $('#'+id).find('.icon_input').iconChoosen({}); 
+    }
+    function get_icon() {
+        var arr = ['fa fa-adjust','fa fa-anchor','fa fa-archive','fa fa-arrows','fa fa-arrows-h','fa fa-arrows-v','fa fa-asterisk','fa fa-automobile','fa fa-ban','fa fa-bank','fa fa-bar-chart-o','fa fa-barcode','fa fa-bars','fa fa-beer','fa fa-bell','fa fa-bell-o','fa fa-bolt','fa fa-bomb','fa fa-book','fa fa-bookmark','fa fa-bookmark-o','fa fa-briefcase','fa fa-bug','fa fa-building','fa fa-building-o','fa fa-bullhorn','fa fa-bullseye','fa fa-cab','fa fa-calendar','fa fa-calendar-o','fa fa-camera','fa fa-camera-retro','fa fa-car','fa fa-caret-square-o-down','fa fa-caret-square-o-left','fa fa-caret-square-o-right','fa fa-caret-square-o-up','fa fa-certificate','fa fa-check','fa fa-check-circle','fa fa-check-circle-o','fa fa-check-square','fa fa-check-square-o','fa fa-child','fa fa-circle','fa fa-circle-o','fa fa-circle-o-notch','fa fa-circle-thin','fa fa-clock-o','fa fa-cloud','fa fa-cloud-download','fa fa-cloud-upload','fa fa-code','fa fa-code-fork','fa fa-coffee','fa fa-cog','fa fa-cogs','fa fa-comment','fa fa-comment-o','fa fa-comments','fa fa-comments-o','fa fa-compass','fa fa-credit-card','fa fa-crop','fa fa-crosshairs','fa fa-cube','fa fa-cubes','fa fa-cutlery','fa fa-dashboard','fa fa-database','fa fa-desktop','fa fa-dot-circle-o','fa fa-download','fa fa-edit','fa fa-ellipsis-h','fa fa-ellipsis-v','fa fa-envelope','fa fa-envelope-o','fa fa-envelope-square','fa fa-eraser','fa fa-exchange','fa fa-exclamation','fa fa-exclamation-circle','fa fa-exclamation-triangle','fa fa-external-link','fa fa-external-link-square','fa fa-eye','fa fa-eye-slash','fa fa-fax','fa fa-female','fa fa-fighter-jet','fa fa-file-archive-o','fa fa-file-audio-o','fa fa-file-code-o','fa fa-file-excel-o','fa fa-file-image-o','fa fa-file-movie-o','fa fa-file-pdf-o','fa fa-file-photo-o','fa fa-file-picture-o','fa fa-file-powerpoint-o','fa fa-file-sound-o','fa fa-file-video-o','fa fa-file-word-o','fa fa-file-zip-o','fa fa-film','fa fa-filter','fa fa-fire','fa fa-fire-extinguisher','fa fa-flag','fa fa-flag-checkered','fa fa-flag-o','fa fa-flash','fa fa-flask','fa fa-folder','fa fa-folder-o','fa fa-folder-open','fa fa-folder-open-o','fa fa-frown-o','fa fa-gamepad','fa fa-gavel','fa fa-gear','fa fa-gears','fa fa-gift','fa fa-glass','fa fa-globe','fa fa-graduation-cap','fa fa-group','fa fa-hdd-o','fa fa-headphones','fa fa-heart','fa fa-heart-o','fa fa-history','fa fa-home','fa fa-image','fa fa-inbox','fa fa-info','fa fa-info-circle','fa fa-institution','fa fa-key','fa fa-keyboard-o','fa fa-language','fa fa-laptop','fa fa-leaf','fa fa-legal','fa fa-lemon-o','fa fa-level-down','fa fa-level-up','fa fa-life-bouy','fa fa-life-ring','fa fa-life-saver','fa fa-lightbulb-o','fa fa-location-arrow','fa fa-lock','fa fa-magic','fa fa-magnet','fa fa-mail-forward','fa fa-mail-reply','fa fa-mail-reply-all','fa fa-male','fa fa-map-marker','fa fa-meh-o','fa fa-microphone','fa fa-microphone-slash','fa fa-minus','fa fa-minus-circle','fa fa-minus-square','fa fa-minus-square-o','fa fa-mobile','fa fa-mobile-phone','fa fa-money','fa fa-moon-o','fa fa-mortar-board','fa fa-music','fa fa-navicon','fa fa-paper-plane','fa fa-paper-plane-o','fa fa-paw','fa fa-pencil','fa fa-pencil-square','fa fa-pencil-square-o','fa fa-phone','fa fa-phone-square','fa fa-photo','fa fa-picture-o','fa fa-plane','fa fa-plus','fa fa-plus-circle','fa fa-plus-square','fa fa-plus-square-o','fa fa-power-off','fa fa-print','fa fa-puzzle-piece','fa fa-qrcode','fa fa-question','fa fa-question-circle','fa fa-quote-left','fa fa-quote-right','fa fa-random','fa fa-recycle','fa fa-refresh','fa fa-reorder','fa fa-reply','fa fa-reply-all','fa fa-retweet','fa fa-road','fa fa-rocket','fa fa-rss','fa fa-rss-square','fa fa-search','fa fa-search-minus','fa fa-search-plus','fa fa-send','fa fa-send-o','fa fa-share','fa fa-share-alt','fa fa-share-alt-square','fa fa-share-square','fa fa-share-square-o','fa fa-shield','fa fa-shopping-cart','fa fa-sign-in','fa fa-sign-out','fa fa-signal','fa fa-sitemap','fa fa-sliders','fa fa-smile-o','fa fa-sort','fa fa-sort-alpha-asc','fa fa-sort-alpha-desc','fa fa-sort-amount-asc','fa fa-sort-amount-desc','fa fa-sort-asc','fa fa-sort-desc','fa fa-sort-down','fa fa-sort-numeric-asc','fa fa-sort-numeric-desc','fa fa-sort-up','fa fa-space-shuttle','fa fa-spinner','fa fa-spoon','fa fa-square','fa fa-square-o','fa fa-star','fa fa-star-half','fa fa-star-half-empty','fa fa-star-half-full','fa fa-star-half-o','fa fa-star-o','fa fa-suitcase','fa fa-sun-o','fa fa-support','fa fa-tablet','fa fa-tachometer','fa fa-tag','fa fa-tags','fa fa-tasks','fa fa-taxi','fa fa-terminal','fa fa-thumb-tack','fa fa-thumbs-down','fa fa-thumbs-o-down','fa fa-thumbs-o-up','fa fa-thumbs-up','fa fa-ticket','fa fa-times','fa fa-times-circle','fa fa-times-circle-o','fa fa-tint','fa fa-toggle-down','fa fa-toggle-left','fa fa-toggle-right','fa fa-toggle-up','fa fa-trash-o','fa fa-tree','fa fa-trophy','fa fa-truck','fa fa-umbrella','fa fa-university','fa fa-unlock','fa fa-unlock-alt','fa fa-unsorted','fa fa-upload','fa fa-user','fa fa-users','fa fa-video-camera','fa fa-volume-down','fa fa-volume-off','fa fa-volume-up','fa fa-warning','fa fa-wheelchair','fa fa-wrench'];
+        return arr[Math.floor(Math.random()*arr.length)];
+    }
+
+    function del(id) {
+        var lv = parseInt($('#'+id).attr('lv'));
+        console.log(lv);
+        $('#'+id).remove();
+        c_lv = lv+1;
+        $('.lv_'+c_lv).each(function(k,v) {
+            if ($(this).attr('pid')==id) {
+                del($(this).attr('id'));
+            }
+        })
+        // $('#'+id).find('.del').removeClass('del').addClass('cancel_del').text('撤销删除');
+        // $('#'+id).css('background-color','rgba(251,7,0,0.5)').addClass('to_del');
+        // chn(id,"hide");
+        // $('#'+id).find('.tree').attr("status",1).text('+');
+    }
+</script>
+</body>

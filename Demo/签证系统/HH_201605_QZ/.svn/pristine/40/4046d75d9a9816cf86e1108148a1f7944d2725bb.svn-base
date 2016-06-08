@@ -1,0 +1,126 @@
+<link rel="stylesheet" type="text/css" href="__COMMON_JS__/webuploader/webuploader.css">
+<script type="text/javascript" src="__COMMON_JS__/webuploader/webuploader.js"></script>
+<script type="text/javascript">
+/**
+ * 上传图片
+ * @param  {string} selector [选择器，jq中$()里面的内容]
+ * @param  {string} name     [input的name，后端通过该参数获取]
+ * @param  {int} num         [图片数量限制]
+ * @param  {string} data     [已有图片，编辑时用，用php的implode+','分隔]
+ * @param  {string} url      [上传图片的路径,get参数width和height是规定图片的大小]
+ */
+ //.choose_bnt == .btns
+ //..fileList == .uploader-list
+var img_cut_count = 0;
+function webuploaderFile(selector,name,num,data,url) {
+	if ((!num||num=='')&&num!==0) num = 1;
+    if (num!=1) name = name+'[]';
+    if (!url||url=='') url = '{:U("Ajax/uploadFile")}';
+	//添加容器和按钮
+    $(selector).html('<div class="uploader-list"><div class="btns"></div></div>');
+    //找到按钮
+    $choose_bnt = $(selector).find('.btns');
+    //找到容器
+    $fileList   = $(selector).find(".uploader-list");
+
+    //添加最大图片数量属性
+    $(selector).find(".fileList").attr('max_num',num);
+	var uploader = WebUploader.create({
+		// 选完文件后，是否自动上传。
+        auto: true,
+		// swf文件路径
+		swf: '__COMMON_JS__/webuploader/Uploader.swf',
+
+		// 文件接收服务端。
+		server: url,
+
+		// 选择文件的按钮。可选。
+		// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+		pick: $(selector).find('.btns'),
+
+		// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+		resize: false
+	});
+	// 当有文件被添加进队列的时候
+	uploader.on( 'fileQueued', function( file ) {
+		var count = $(selector).find(".uploader-list").children(".file-item").size();
+        if (num!=0&&count>=num) {
+            layer.msg("最多可上传"+num+"个文件！");
+            return ;
+        };
+		var $li = $(
+                '<div id="' + file.id + '" class="file-item thumbnail">' +'<div class="shadow_div"></div><span class="del_img" onclick="del_file(this)"></span><img src="__COMMON_JS__/webuploader/file.png"><div class="js-font"></div></div>'
+                ),
+            $img = $li.find('img');
+
+        // $list为容器jQuery实例
+        $(selector).find(".uploader-list").append( $li );
+
+		if (count+1==num) {
+            $(selector).find('.choose_bnt').hide();
+        };
+	});
+
+    // 文件上传过程中创建进度条实时显示。
+	uploader.on( 'uploadProgress', function( file, percentage ) {
+		var $li = $( '#'+file.id );
+        $percent = $li.find('.shadow_div');
+        $percent.text( (percentage.toFixed(2)*100)+'%' );
+	});
+
+	// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+	uploader.on( 'uploadSuccess', function( file ,res) {
+		//alert(res.img_url);
+		var $li = $( '#'+file.id );
+        if (res.status==1) {
+			$li.find('.js-font').text(res.name);
+			$li.append('<input name="'+name+'" value="'+res.img_url+'" type="hidden" />');
+			$li.find('.shadow_div').hide();
+		}else{
+			$li.find('.shadow_div').remove();
+            $li.prepend('<div class="retry_div" onclick="retry_upload_file(this)">重新上传</div>')
+		}
+	});
+
+	// 文件上传失败，显示上传出错。
+	uploader.on( 'uploadError', function( file ) {
+		var $li = $( '#'+file.id );
+        $error = $li.find('div.error');
+        $error.text('上传失败');
+	});
+
+	// 完成上传完了，成功或者失败，先删除进度条
+	uploader.on( 'uploadComplete', function( file ) {
+		$( '#'+file.id ).find('.progress').fadeOut();
+	});
+
+	//如果已经有图片
+    /*if (data!='') {
+        data = data.split(",");
+        $.each(data, function(i, n){
+            if (i+1==num) {
+                $(selector).find('.bnts').hide();
+            }
+            var src = '__ROOT__/' + n;
+            var str = '<div class="file-item thumbnail"><span class="del_img" onclick="del_img(this)"></span><a href="'+src+'" target="_blank"><img src="'+src+'"></a><input name="'+name+'" value="'+n+'" type="hidden"></div>';
+            $(selector).find(".fileList").append( str );
+        });
+    };*/
+}
+	function del_file(obj){	
+		var $fileList = $(obj).parents(".uploader-list");
+		$(obj).parents(".file-item").remove();
+		var img_count = $fileList.find('.file-item').size();
+		var num = $fileList.attr('max_num');
+		if (img_count<num) {
+			$fileList.find('.bnts').show();
+		};
+		img_cut_count--;
+	}
+	function retry_upload_file (obj) {
+		var $choose_bnt = $(obj).parents(".uploader-list").find('input[name="file"]');
+		var $li = $(obj).parents(".file-item");
+		$li.remove();
+		$choose_bnt.trigger("click");
+	}
+</script>

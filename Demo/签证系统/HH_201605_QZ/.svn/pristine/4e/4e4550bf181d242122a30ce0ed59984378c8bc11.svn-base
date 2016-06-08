@@ -1,0 +1,49 @@
+/*bindWeChat*/
+.item-title{
+	font-size: 16px;
+}
+/*用户头像大小*/
+.user-img{
+	width: 60px;
+	height: 60px;
+}
+/*图标大小*/
+.icon{
+	width: 20px;
+	height: 20px;
+}
+/*图标（位置）*/
+.icon-loca{
+	background: url('../images/icon.png') no-repeat -491px -5px;
+	background-size: 565px 32px;
+}
+/*radio背景（用户类型）*/
+.cradio-bg{
+	width: 17px;
+	height: 17px;
+	border-radius: 3px;
+}
+/*radio图标（用户类型）*/
+.icon-cradio{
+	background: url('../images/icon.png') no-repeat -533px -7px;
+	background-size: 566px 33px;
+}
+/*按钮（绑定微信）*/
+.btn-bind{
+	/*position:absolute;*/
+	/*bottom:0;*/
+	/*width:100%;*/
+	background-color:#eee;
+	padding: 30px 15px 15px;
+}
+
+/*unbindWeChat*/
+/*按钮（解除绑定）*/
+.btn-unbind{
+	color: #83cfff;
+	border: 1px solid #83cfff;
+}
+.btn-unbind:active{
+	color: #30a6f0;
+	border: 1px solid #30a6f0;
+}

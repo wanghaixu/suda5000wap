@@ -1,0 +1,76 @@
+<include file="Common/header"/>
+<div class="clearfix full-container">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 左侧导航菜单开始 -->
+            <include file="Common/left"/>
+            <!-- 左侧导航菜单结束 -->
+
+            <!-- 页面主体内容开始 -->
+            <div id="main" class="col-xs-12 col-sm-10 main">
+                <!-- 面包屑导航开始 -->
+                <ul class="breadcrumb">
+                    <li><i class="fa fa-map-marker"></i></li>
+                    <volist name="__PARENT_MENU__" id="vo">
+                        <li>{$vo.title}</li>
+                    </volist>
+                </ul>
+                <!-- 面包屑导航结束 -->
+                <div class="builder builder-form-box">
+                    <div class="builder-container builder-form-container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form action="" method="post" class="form builder-form">
+                                    <div class="form-group item_sort " style="clear:both; margin-top:50px;">
+                                        <label class="item-label  label_150">国家名<span class="check-tips"><span class="small"></span></span></label>
+                                        <div class="controls">
+                                            <input type="text" class="form-control input ct_name  nonull" name="ct_name" value="{$info.ct_name}"> 
+                                        </div>
+                                    </div>
+                                    <div class="form-group item_sort " style="clear:both; margin-top:50px;">
+                                        <label class="item-label  label_150">国家缩写<span class="check-tips"><span class="small"></span></span></label>
+                                        <div class="controls">
+                                            <input type="text" class="form-control input ct_code  nonull" name="ct_code" value="{$info.ct_code}"> 
+                                        </div>
+                                    </div>
+                                    <div class="controls">
+                                        <input type="hidden" class="form-control input" name="id" value="{$_GET['id']}">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 页面主体内容结束 -->
+                <!-- 底部区域开始 -->
+                <div class="bottomarea">
+                    <button class="btn btn-primary submit ajax-post" type="submit" target-form="builder-form">提交</button>
+                    <button class="btn btn-default return" onclick="javascript:history.back(-1);
+                            return false;">返回</button>
+                </div>
+                <!-- 底部区域结束 -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+</body>
+<script src="__COMMON_JS__/verify.js"></script>
+<script type="text/javascript"> 
+    $(function() {
+        $('.submit').click(function() {
+            if(!formVerify(validate,'verify_cb_admin')) 
+                return false;
+            commonAjaxSubmit("","builder-form");
+        });
+
+      var validate = [
+          [$("input[name='ct_name']"),"required","国家名字必须填写"],
+          [$("input[name='ct_code']"),"required","国家缩写必须填写"],
+      ];
+    });
+
+</script>
+</html>

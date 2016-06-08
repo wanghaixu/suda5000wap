@@ -1,0 +1,123 @@
+<include file="Common/header"/>
+    <div class="clearfix full-container">
+        <div class="container-fluid">
+            <div class="row">
+                <include file="Common/left"/>
+                <div id="main" class="col-xs-12 col-sm-10 main">
+                    <!-- 面包屑导航 -->
+                    <ul class="breadcrumb">
+                        <li><i class="fa fa-map-marker"></i></li>
+                        <li>系统</li><li>数据中心</li><li>数据字典</li>
+					</ul>     
+					<div class="builder builder-list-box">
+						<!-- Tab导航 -->
+						<div class="builder-tabs builder-list-tabs">
+							<div class="row">
+								<div class="col-xs-12">
+									<ul class="nav nav-tabs">
+										<volist name='head_list' id='v'>
+											<li <eq name='current_list' value='$v.Tables_in_ht'>class="active"</eq>>
+												<a href="{:U('index',array('table_id' => $key))}">({$v.Tables_in_$db_name})</a>
+											</li>
+										</volist>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<!-- 顶部工具栏按钮 -->
+					
+
+						<!-- 数据列表 -->
+						<div class="builder-container builder-list-container">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="builder-table">
+										<div class="panel panel-default">
+											<table class="table table-bordered table-responsive table-striped table-hover">
+												<thead>
+													<tr>
+														<th><input class="check-all" type="checkbox"></th>
+														<th>字段名</th>
+														<th>数据类型</th>
+														<th>默认值</th>
+														<th>允许非空</th>
+														<th>自动递增</th>
+														<th>备注</th>
+													</tr>
+												</thead>
+												<tbody>
+													<volist name='list' id='v'>
+													<tr>
+														<td><input class="ids" type="checkbox" value="" name="ids[]"></td>
+														<td>{$v.COLUMN_NAME}</td>
+														<td>{$v.COLUMN_TYPE}</td>
+														<td>{$v.COLUMN_DEFAULT}</td>
+														<td>{$v.IS_NULLABLE}</td>
+														<td>{$v.EXTRA}</td>
+														<td>{$v.COLUMN_COMMENT}</td>
+													</tr>
+													</volist>
+												</tbody>
+											</table>
+										</div>
+									 </div>
+								</div>
+							</div>
+						</div>
+					<!-- 额外功能代码 -->
+					</div>
+					<!--<div class="footer text-muted">
+						 <span>版权所有 © 2014-2016</span>
+								<a href="" class="text-muted" target="_blank"> v</a>
+								<a href="" class="text-muted" target="_blank"></a> 
+								<a class="text-muted pull-right">项目开发团队：</a>
+						  </div>
+                    </div>-->
+                </div>
+			</div>
+		</div>
+	
+		<include file="Common/footer"/>
+		<script type="text/javascript">
+			(function(){
+				var tab_tit  = document.getElementById('think_page_trace_tab_tit').getElementsByTagName('span');
+				var tab_cont = document.getElementById('think_page_trace_tab_cont').getElementsByTagName('div');
+				var open     = document.getElementById('think_page_trace_open');
+				var close    = document.getElementById('think_page_trace_close').childNodes[0];
+				var trace    = document.getElementById('think_page_trace_tab');
+				var cookie   = document.cookie.match(/thinkphp_show_page_trace=(\d\|\d)/);
+				var history  = (cookie && typeof cookie[1] != 'undefined' && cookie[1].split('|')) || [0,0];
+				open.onclick = function(){
+					trace.style.display = 'block';
+					this.style.display = 'none';
+					close.parentNode.style.display = 'block';
+					history[0] = 1;
+					document.cookie = 'thinkphp_show_page_trace='+history.join('|')
+				}
+				close.onclick = function(){
+					trace.style.display = 'none';
+				this.parentNode.style.display = 'none';
+					open.style.display = 'block';
+					history[0] = 0;
+					document.cookie = 'thinkphp_show_page_trace='+history.join('|')
+				}
+				for(var i = 0; i < tab_tit.length; i++){
+					tab_tit[i].onclick = (function(i){
+						return function(){
+							for(var j = 0; j < tab_cont.length; j++){
+								tab_cont[j].style.display = 'none';
+								tab_tit[j].style.color = '#999';
+							}
+							tab_cont[i].style.display = 'block';
+							tab_tit[i].style.color = '#000';
+							history[1] = i;
+							document.cookie = 'thinkphp_show_page_trace='+history.join('|')
+						}
+					})(i)
+				}
+				parseInt(history[0]) && open.click();
+				(tab_tit[history[1]] || tab_tit[0]).click();
+			})();
+		</script>
+	</body>
+</html>

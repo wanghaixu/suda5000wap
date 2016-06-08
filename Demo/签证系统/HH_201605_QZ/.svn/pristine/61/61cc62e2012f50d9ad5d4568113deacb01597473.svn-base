@@ -1,0 +1,111 @@
+<include file="Common/header"/>	
+	<div class="clearfix full-container">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- 左侧导航菜单开始 -->
+				<include file="Common/left"/>
+				<!-- 左侧导航菜单结束 -->
+				
+				<!-- 页面主体内容开始 -->
+				<div id="main" class="col-xs-12 col-sm-10 main">
+					<!-- 面包屑导航开始 -->
+					<ul class="breadcrumb">
+					    <li><i class="fa fa-map-marker"></i></li>
+					    <volist name="__PARENT_MENU__" id="vo">
+					        <li>{$vo.title}</li>
+					    </volist>
+					</ul>
+					<!-- 面包屑导航结束 -->
+					
+					<div class="builder builder-list-box">
+						<div class="row">
+							<!-- 顶部工具栏按钮 -->
+							<div class="builder-toolbar col-xs-12">
+								<!-- 工具栏按钮 -->
+								<div class="button-list search-from">
+                                    <div class="btn-wrap item-fr marr-0">
+                                    </div>
+                                    <div class="btn-wrap">
+                                        <form action="" class="listForm">
+                                            <input type="text"  name="start" id="start" value="{$_GET[start]}" placeholder="开始时间"/>
+                                            <input type="text"  name="end" id="end" value="{$_GET[end]}" placeholder="结束时间"/>
+                                            <input type="text"  name="uid" value="{$_GET['uid']}" placeholder="操作人">
+                                            <input type="text"  name="ip"  value="{$_GET['ip']}" placeholder="IP">
+                                            <input type="text"  name="gname"  value="{$_GET['gname']}" placeholder="所属商家">
+                                            <input type="submit" value="搜索">   
+                                        </form>
+                                    </div>
+								</div>
+							</div>
+							<!-- 数据列表 -->
+							<div class="builder-container col-xs-12">
+								<div class="builder-table">
+	                                <div class="panel panel-default table-responsive" id="tablelist">
+                                        <table class="table table-bordered table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <td width="50px">序号</td>
+                                                    <td width="150px">IP</td>
+													<td>操作人</td>	
+                                                    <td>所属商家</td>
+                                                    <td>URL</td>
+                                                    <td width="180px">时间</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <volist name="list" id="v" key="k">
+                                                <tr align="center">
+                                                    <td>{$k}</td>
+                                                    <td>{$v['log_ip']}</td>
+                                                    <td>{$v['u_id']}</td>
+                                                    <td>{$v['g_name']}</td>
+                                                    <td>{$v['log_url']}</td>
+                                                    <!-- <td>{$v['log_code']|log_read}</td> -->
+                                                    <td>{$v['log_time']|date="Y-m-d H:i:s",###}</td>
+                                                </tr>
+                                                </volist>
+                                            </tbody>
+                                        </table>
+	                                </div>
+	                            </div>
+							</div>
+							<!-- 底部区域开始 -->
+							<div class="builder-footer col-xs-12">
+								<div class="page">
+									<div class="badoo">{$page}</div>
+								</div>
+							</div>
+							<!-- 底部区域结束 -->
+						</div>
+					</div>
+				</div>
+				<!-- 页面主体内容结束 -->
+			</div>
+		</div>
+	</div>
+
+<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+
+<script language="javascript" type="text/javascript" src="__COMMON_JS__/calendar/calendar.js"></script>
+<link rel="stylesheet" type="text/css" href="__COMMON_JS__/calendar/calendar-blue.css">
+<script type="text/javascript">
+    $(function() {
+        Calendar.setup({
+            showsTime: true,
+            weekNumbers: false,
+            inputField: "start",
+            ifFormat: "%Y-%m-%d %H:%M"
+        });
+
+        Calendar.setup({
+            showsTime: true,
+            weekNumbers: false,
+            inputField: "end",
+            ifFormat: "%Y-%m-%d %H:%M"
+        });
+    });
+
+</script>
+

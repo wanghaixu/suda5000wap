@@ -1,0 +1,5 @@
+/* 选择器格式为：html #layui_layer_skin文件夹名stylecss，这一点非常重要 */
+html #layui_layer_skindancestylecss{display:none; position: absolute; width:1989px;}
+body .layer-ext-dance{border-radius:8px}
+body .layer-ext-dance .layui-layer-title{border-radius:8px 8px 0 0;}
+body .layer-ext-dance .layui-layer-content{border-radius:0 0 8px 8px;}

@@ -1,0 +1,117 @@
+<include file="Common/header"/> 
+    <div class="clearfix full-container">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- 左侧导航菜单开始 -->
+                <include file="Common/left"/>
+                <!-- 左侧导航菜单结束 -->
+                <!-- 页面主体内容开始 -->
+                <div id="main" class="col-xs-12 col-sm-10 main">
+                    <!-- 面包屑导航开始 -->
+                    <ul class="breadcrumb">
+                        <li><i class="fa fa-map-marker"></i></li>
+                        <volist name="__PARENT_MENU__" id="vo">
+                            <li>{$vo.title}</li>
+                        </volist>
+                    </ul>
+                    <!-- 面包屑导航结束 -->
+                    <div class="builder builder-list-box">
+                        <div class="row">
+                            <!-- 顶部工具栏按钮 -->
+                            <div class="builder-toolbar col-xs-12">
+                                <!-- 工具栏按钮 -->
+                                <div class="button-list search-from">
+
+                                   
+                                    <!-- 新表单 start-->
+                                    <div class="col-md-8 pad-0">
+                                        <form class="form-inline">
+                                            <div class="form-group" style="margin-left: 0px;">
+                                                    <label class="control-lable">关键字</label>
+                                                    <input type="text"  name="keyword" class="form-control" value="{$result.data.keyword}">
+                                            </div>
+                                            <div class="form-group" style="margin-left: 20px;">
+                                                <label class="control-label">签证类型</label>
+                                                <select name="type" class="form-control">
+                                                    <option value="">全部</option>
+                                                    <foreach name="result.types" item="vo">
+                                                    <if condition="$key eq $result['data']['type']">
+                                                        <option value="{$key}" selected="selected">{$vo}</option>
+                                                    <else />
+                                                        <option value="{$key}">{$vo}</option>
+                                                    </if>
+                                                    </foreach>
+                                                </select>
+                                            </div>
+                                          
+                                            <div class="form-group" style="margin-left: 20px;">
+                                                <button class="btn btn-default" type="submit">搜索</button>
+                                            </div>
+                                        </form>
+                                    </div> 
+                                    <div class="col-md-4 pad-0">
+                                        <div class="btn-wrap item-fr marr-0">
+                                            <a class="btn btn-primary" href="{:U('Admin/Service/add')}">添加签证服务</a>
+                                        </div>
+                                    </div>
+                                    <!-- 表单 end -->
+
+
+          </div>
+        </div>
+       <!-- 数据列表 -->
+            <div class="builder-container col-xs-12">
+             <div class="builder-table">
+                               <div class="panel panel-default table-responsive" id="tablelist">
+                                        <table class="table table-bordered table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>国家</th>
+                                                    <th>国家缩写</th>
+                                                    <th>办理时长</th>
+                                                    <th>签证费用</th>
+                                                    <th>签证类型</th>
+                                                    <th>签证方式</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                               <volist name="result.service" id="vo">
+                                                   <tr>
+                                                       <td>{$vo.ser_country}</td>
+                                                       <td>{$vo.ser_country_code}</td>
+                                                       <td>{$vo.ser_deal_time}</td>
+                                                       <td>{$vo.ser_fee}</td>
+                                                       <td>{$vo.ser_type}</td>
+                                                       <td>
+                                                       <if condition="$vo.ser_mode eq 1">
+                                                            复杂
+                                                       <else />
+                                                            简单
+                                                       </if>
+                                                       </td>
+                                                   </tr>
+                                               </volist>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 底部区域开始 -->
+                            <div class="builder-footer col-xs-12">
+                                <div class="page">
+                                    <div class="badoo">{$show}</div>
+                                </div>
+                            </div>
+                            <!-- 底部区域结束 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 页面主体内容结束 -->
+            </div>
+        </div>
+    </div>
+
+<!-- footer开始 -->
+<include file="Common/footer"/>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<include file="Common/header"/>	
+	<div class="clearfix full-container">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- 左侧导航菜单开始 -->
+				<include file="Common/left"/>
+				<!-- 左侧导航菜单结束 -->
+				
+				<!-- 页面主体内容开始 -->
+				<div id="main" class="col-xs-12 col-sm-10 main">
+					<!-- 面包屑导航开始 -->
+					<ul class="breadcrumb">
+					    <li><i class="fa fa-map-marker"></i></li>
+					    <volist name="__PARENT_MENU__" id="vo">
+					        <li>{$vo.title}</li>
+					    </volist>
+					</ul>
+					<!-- 面包屑导航结束 -->
+					
+					<div class="builder builder-list-box">
+						<div class="row">
+							<!-- 顶部工具栏按钮 -->
+							<div class="builder-toolbar col-xs-12">
+								<!-- 工具栏按钮 -->
+								<div class="button-list search-from">
+                                     
+                                    <!-- <div class="btn-wrap item-fr marr-0">
+                                        <a title="导入" class="btn btn-primary" href="{:U('')}">确认导入</a>
+                                    </div> -->
+                                   
+								</div>
+							</div>
+							<!-- 数据列表 -->
+							<div class="builder-container col-xs-12">
+								<div class="builder-table">
+	                                <div class="panel panel-default table-responsive" id="tablelist">
+                                        <table class="table table-bordered table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <td>姓名</td>
+                                                    <td>身份证</td>
+													<td>护照号码</td>	
+                                                    <td>常驻地</td>
+                                                    <td>性别</td>
+                                                    <td>联系方式</td>
+                                                    <td>出生年月</td>
+                                                    <td>建档时间</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <form action="" method="post" class="form builder-form">
+                                                    <volist name="data" id="v">
+                                                        <tr align="center">
+                                                            <td><input type="text" class="form-control input" style="width: 100px;" name="info[{$key}][mem_name]" value="{$v[mem_name]}" /></td>
+                                                            <td><input type="text" class="form-control input" style="width: 100px;" name="info[{$key}][mem_code]" value="{$v[mem_code]}" /></td>
+                                                            <td><input type="text" class="form-control input" style="width: 100px;" name="info[{$key}][mem_passport]"value="{$v[mem_passport]}" /></td>
+                                                            <td><input type="text" class="form-control input" style="width: 100px;" name="info[{$key}][mem_address]" value="{$v[mem_address]}" /></td>
+                                                            <td><input type="text" class="form-control input" style="width: 100px;" name="info[{$key}][mem_sex]"value="{$v[mem_sex]}" /></td>
+                                                            <td><input type="text" class="form-control input" style="width: 100px;" name="info[{$key}][mem_mobile]" value="{$v[mem_mobile]} " /></td>
+                                                            <td><input type="text" class="form-control input" style="width: 200px;" name="info[{$key}][mem_birthday]" value="{$v[mem_birthday]} " /></td>
+                                                             <td><input type="text" class="form-control input" style="width: 200px;" name="info[{$key}][mem_ctime]" value="{$v[mem_ctime]} " /></td>
+                                                        </tr>
+                                                    </volist>
+                                                </form>
+                                            </tbody>
+                                        </table>
+                                        
+	                                </div>
+	                            </div>
+							</div>
+                            <div class="col-xs-12 bto_btn">
+                                <div class="btn-wrap">
+                                    <input class="btn btn-primary submit ajax-post two-word-btn" type="submit" target-form="builder-form" value="确认导入">
+                                    <a class="btn btn-default return two-word-btn" href="{:U('import')}">返&nbsp;&nbsp;回</a>
+                                </div>
+                            </div>
+                            
+							<!-- 底部区域开始 -->
+							<div class="builder-footer col-xs-12">
+								<div class="page">
+									<div class="badoo">{$page}</div>
+								</div>
+							</div>
+							<!-- 底部区域结束 -->
+						</div>
+					</div>
+				</div>
+				<!-- 页面主体内容结束 -->
+			</div>
+		</div>
+	</div>
+
+<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script type="text/javascript">
+    $(function() {
+        $('.submit').on('click',function(){
+            var submitUrl = "{:U('submit')}";
+            commonAjaxSubmit(submitUrl);
+            return false;
+        });
+
+
+    });
+</script>
+
+

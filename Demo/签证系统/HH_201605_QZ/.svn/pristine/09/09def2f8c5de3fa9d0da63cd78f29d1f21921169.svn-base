@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<css href="__PUBLIC__/js/imgareaselect/css/imgareaselect-animated.css" />
+		<css href="__PUBLIC__/js/imgareaselect/css/imgareaselect-default.css" />
+		<css href="__PUBLIC__/js/imgareaselect/css/imgareaselect-deprecated.css" />
+		<style>
+			.btn{
+			    display: inline-block;
+				margin-bottom: 0;
+				font-weight: 400;
+				text-align: center;
+				-ms-touch-action: manipulation;
+				touch-action: manipulation;
+				cursor: pointer;
+				border: 1px solid transparent;
+				white-space: nowrap;
+				font-size: 14px;
+				color: #fff;
+				background-color: #287dde;
+				border-color: #1f71cd;
+				text-decoration: none;
+				height: 20px;
+				padding: 6px 20px;
+				margin-right: 20px;
+				}
+			.btn-wrap{
+				float: left;
+				position: relative;
+				margin-right: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<form>
+			<div>
+				<img src='__ROOT__/{$url}' id='img'>
+			</div>
+			<input name='width' value='' type='hidden'/>
+			<input name='height' value='' type='hidden'/>
+			<input name='left' value='' type='hidden'/>
+			<input name='top' value='' type='hidden'/>
+		</form>
+	</body>
+	<div style='height:50px;' class='btn-wrap'>
+		<a title="确定" id="submit" class="btn" href="javascript:void(0)">确定</a>
+	</div>
+</html>
+<include file="Common/footer"/>
+<js href="__PUBLIC__/js/imgareaselect/js/jquery.imgareaselect.js"/>
+<js href="__PUBLIC__/js/imgareaselect/js/jquery.imgareaselect.min.js"/>
+<js href="__PUBLIC__/js/imgareaselect/js/jquery.imgareaselect.pack.js"/>
+<script>
+//imgareaselect-outer.prev(div)
+//width:裁剪框宽度，height裁剪框高度
+//imgareaselect-outer
+//(1)width:左边距
+//(2)width:裁剪框宽度,heigh:上边距
+//(3)
+	$(document).ready(function () {
+		var index = parent.layer.getFrameIndex(window.name);
+		var select_change = function (){
+			var obj = $('.imgareaselect-selection').parent('div');
+			var divObj = $('.imgareaselect-outer');
+			var width = obj.css('width');
+			var height = obj.css('height');
+			var left = divObj.eq(0).css('width');
+			var top = divObj.eq(1).css('height');
+			$('input[name=width]').val(width);
+			$('input[name=height]').val(height);
+			$('input[name=left]').val(left);
+			$('input[name=top]').val(top);
+		}
+	    $('#img').imgAreaSelect({
+			aspectRatio:'{$w}:{$h}',
+			maxWidth: '',
+			maxHeight: '',
+			handles: true,
+			show:true,
+			x1:0,
+			y1:0,
+			x2:'{$w}',
+			y2:'{$h}',
+			//resizable:true,
+			onInit:select_change,	//插件初始化时的回调函数
+			//onSelectStart:onInit			//插件开始选择时的回调函数
+			//onSelectChange:onInit		//插件改变选区时的回调函数
+			onSelectEnd:select_change			//插件结束选区时的回调函
+		});
+
+		$('#submit').click(function(){
+			var url = $('img').attr('src');
+			var width = $('input[name=width]').val();
+			var height = $('input[name=height]').val();
+			var left = $('input[name=left]').val();
+			var top = $('input[name=top]').val();
+			$.post('{:U("Ajax/cut_image")}',{url:url,width:width,height:height,left:left,top:top},function(data){
+				parent.layer.close(index);
+			},'json')
+		})
+	});	
+</script>

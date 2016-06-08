@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="renderer" content="webkit">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/admin.min.css">
+	<style>
+		body {
+			padding: 10px;
+			font-family: 'Microsoft Yahei';
+		}
+		.table > thead > tr > th,
+		.table > tbody > tr > td {
+			text-align: center;
+			vertical-align: middle;
+		}
+	</style>
+</head>
+<body>
+	<div class="builder-table">
+		<div class="panel panel-default table-responsive">
+			<table class="table table-bordered table-striped table-hover">
+				<tbody>
+					<tr>
+						<th>客户姓名</th>
+						<td>{$follow.mem_name}</td>
+					</tr>
+					<tr>
+						<th>跟进人</th>
+						<td>{$follow.u_username}</td>
+					</tr>
+					<tr>
+						<th>跟进时间</th>
+						<td>{$follow.mf_time|int2date}</td>
+					</tr>
+					<tr>
+						<th>保存时间</th>
+						<td>{$follow.mf_stime|date="Y-m-d H:i:s",###}</td>
+					</tr>
+					<tr>
+						<th>跟进内容</th>
+						<td>{$follow.mf_content}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script>
+	$(".make-sure").click(function() {
+	var delLink = $(this).attr("url");
+	var co_id = $(this).attr('co_id');
+	var la_id = $(this).attr('la_id');
+	var status = $(this).attr('status');
+		$.post(delLink, {co_id: co_id,la_id: la_id,la_status: status}, function(data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout(function() {
+					top.window.location.reload();
+				}, 2000)
+			} else {
+				layer.msg(data.info, {icon: 0});
+			}
+		})
+	return false;
+	});
+</script>
+</html>

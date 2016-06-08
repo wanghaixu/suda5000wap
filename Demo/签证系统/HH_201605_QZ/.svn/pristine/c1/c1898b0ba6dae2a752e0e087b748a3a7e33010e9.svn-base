@@ -1,0 +1,144 @@
+<include file="Common/header"/>	
+	<div class="clearfix full-container">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- 左侧导航菜单开始 -->
+				<include file="Common/left"/>
+				<!-- 左侧导航菜单结束 -->
+				
+				<!-- 页面主体内容开始 -->
+				<div id="main" class="col-xs-12 col-sm-10 main">
+					<!-- 面包屑导航开始 -->
+					<ul class="breadcrumb">
+					    <li><i class="fa fa-map-marker"></i></li>
+					    <volist name="__PARENT_MENU__" id="vo">
+					        <li>{$vo.title}</li>
+					    </volist>
+					</ul>
+					<!-- 面包屑导航结束 -->
+					
+					<div class="builder builder-list-box">
+						<!-- 顶部工具栏按钮 -->
+						<div class="builder-toolbar builder-list-toolbar">
+							<div class="row">
+								<!-- 工具栏按钮 -->
+								<div class="col-xs-12 col-sm-4 button-list">
+								</div>
+								<!-- 搜索框 -->
+								<div class="col-xs-12 col-sm-8">
+							<!--<div class="input-group search-form">
+							<div class="search-tab">
+								<input type="text" name="start" id="start" readonly="true"class="search-input form-control" value="{$_GET['start']}"placeholder="请输入开始时间">
+							</div>
+							<div class="search-tab">
+								 <input type="text" name="end" id="end" readonly="true"class="search-input form-control" value="{$_GET['end']}" placeholder="请输入结束时间">
+							</div>   
+							<span class="input-group-btn input-middle"><a class="btn btn-default" href="javascript:;" id="search" url="{:U('analy/member')}"><i class="fa fa-search"></i></a></span>         
+							</div> -->
+								</div>
+							</div>
+						</div>
+
+						<!-- 数据列表 -->
+		                <div class="builder-container builder-list-container">
+		                    <div class="row">
+		                        <div class="col-xs-12">
+		                            <div class="builder-table">
+		                                <div class="panel panel-default table-responsive" id="tablelist">
+		                                    <table class="table table-c table-bordered table-striped table-hover">
+		                                        <tbody>
+		                                        	<div id="container" style="width: 70%; height: 400px; margin: 10px auto;"></div>
+		                                        </tbody>
+		                                    </table>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+					</div>
+					<!-- 底部区域开始 -->
+					<div class="bottomarea">
+						<div class="page">
+							<div class="badoo">{$page}</div>
+						</div>
+					</div>
+					<!-- 底部区域结束 -->
+				</div>
+				<!-- 页面主体内容结束 -->
+			</div>
+		</div>
+	</div>
+<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script type="text/javascript" src="__COMMON_JS__/highcharts.js"></script>
+<script type="text/javascript" src="__COMMON_JS__/exporting.js"></script>
+</body>
+<script type="text/javascript">
+       $(function () {                                                                
+           $('#container').highcharts({                                           
+               chart: {                                                           
+                   type: 'bar'                                                    
+               },                                                                 
+               title: {                                                           
+                   text: '商家会员数量'                    
+               },                                                                 
+               subtitle: {                                                        
+                   text: 'Source: ttqiwu.com'                                  
+               },                                                                 
+               xAxis: {                                                           
+                   categories: [
+                   <volist name="arr" id="vo">
+                   '{$vo.name}',
+                   </volist>
+                   ],
+                   title: {                                                       
+                       text: null                                                 
+                   }                                                              
+               },                                                                 
+               yAxis: {                                                           
+                   min: 0,                                                        
+                   title: {                                                       
+                       text: '(个)',                             
+                       align: 'high'                                              
+                   },                                                             
+                   labels: {                                                      
+                       overflow: 'justify'                                        
+                   }                                                              
+               },                                                                 
+               tooltip: {                                                         
+                   valueSuffix: ' 人'                                       
+               },                                                                 
+               plotOptions: {                                                     
+                   bar: {                                                         
+                       dataLabels: {                                              
+                           enabled: true                                          
+                       }                                                          
+                   }                                                              
+               },                                                                 
+               legend: {                                                          
+                   layout: 'vertical',                                            
+                   align: 'right',                                                
+                   verticalAlign: 'top',                                          
+                   x: -40,                                                        
+                   y: 100,                                                        
+                   floating: true,                                                
+                   borderWidth: 1,                                                
+                   backgroundColor: '#FFFFFF',                                    
+                   shadow: true                                                   
+               },                                                                 
+               credits: {                                                         
+                   enabled: false                                                 
+               },                                                                 
+               series: [{                                                         
+                   name: '总数 {$all}',                                         
+                   data: [
+                   <volist name="arr" id="vo">
+                   {$vo.num},
+                   </volist>
+                   ]      
+               }]                                                                 
+           });                                                                    
+       });  
+</script>
+</html>

@@ -1,0 +1,190 @@
+<include file="Common/header"/>
+	
+	<div class="clearfix full-container">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- 左侧导航菜单开始 -->
+				<include file="Common/left"/>
+				<!-- 左侧导航菜单结束 -->
+				<div id="main" class="col-xs-12 col-sm-10 main">
+					 <!-- 面包屑导航 -->
+					 <ul class="breadcrumb">
+						<li><i class="fa fa-map-marker"></i></li>
+						<volist name="__PARENT_MENU__" id="vo">
+					        <li>{$vo.title}</li>
+					    </volist>                        
+					 </ul>
+
+										
+					<div class="builder builder-list-box">
+
+					<!-- Tab导航 -->
+					
+					<!-- 顶部工具栏按钮 -->
+						<div class="builder-toolbar builder-list-toolbar">
+							<div class="row">
+								<!-- 工具栏按钮 -->
+								<div class="col-xs-12 col-sm-9 button-list">
+									<a title="新增" class="btn btn-primary" href="{:U('add_role')}">新增</a>&nbsp;
+									<a title="启用" target-form="ids" class="btn btn-success confirm" data-model="SystemMenu" href="javascript:void(0)" id='awaken'>启用</a>&nbsp;
+									<a title="禁用" target-form="ids" class="btn btn-warning confirm" data-model="SystemMenu" href="javascript:void(0)" id='ban'>禁用</a>&nbsp;
+									<a title="删除" target-form="ids" class="btn btn-danger confirm" data-model="SystemMenu" href="javascript:void(0)" id='del'>删除</a>&nbsp;                    
+								</div>
+								
+							</div>
+						</div>
+
+						<!-- 数据列表 -->
+						<div class="builder-container builder-list-container">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="builder-table">
+										<div class="panel panel-default">
+											<table class="table table-bordered table-responsive table-striped table-hover">
+												<thead>
+													<tr>
+														<th><input class="check-all" type="checkbox"></th>
+														<th>序号</th>
+														<th>组ID</th>
+														<th>组名</th>
+														<th>描述</th>
+														<th>状态</th>
+														<th>操作</th>                             
+													</tr>
+												</thead>
+												<tbody>
+													<volist name="list" id="vo" key="k">
+													<tr id="{$vo.id}" pid="{$vo.pid}">
+														<td><input class="ids" type="checkbox" value="{$vo.id}" name="ids[]"></td>
+														<td>{$k}</td>
+														<td>{$vo.id}</td>
+														<td align="left" class="tree" style="cursor: pointer;">{$vo.fullname}</td>
+														<td>{$vo.remark}</td>
+														<td>{$vo.statusTxt}</td>
+														<td>
+															<a title="编辑" class="label label-primary" href="{:U('edit_role',array('id' => $vo['id']))}">编辑</a>
+															<a title="分配权限" class="label label-warning" href="{:U('change_role',array('id' => $vo['id']))}">分配权限</a>
+															<!--<a title="禁用" class="label label-warning ajax-get confirm" href="/index.php?s=/admin/system_menu/setstatus/status/forbid/ids/1/model/SystemMenu.html">禁用</a>
+															<a title="删除" class="label label-danger ajax-get confirm" data-model="SystemMenu" href="/index.php?s=/admin/system_menu/setstatus/status/delete/ids/1/model/SystemMenu.html">删除</a> -->
+														</td>               
+													</tr>
+													</volist>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					<!-- 额外功能代码 -->
+					</div>
+
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script>
+	$(function(){
+		//启用
+		$('#awaken').click(function(){
+			var id = '';
+			var inputObj = $('input[name="ids[]"]:checked');
+			$.each(inputObj,function(k,v){
+				id += $(this).val() +',';				
+			})
+			id = id.substring(0,id.length-1);
+			$.post('{:U("role_awaken")}',{id:id},function(data){
+				if (data.status) {
+                    message = data.info;
+					layer.msg(message,{icon: 1});
+                    //$.alertMessager(message, 'success');
+                    setTimeout(function() {          
+						location.reload();
+                    }, 2000);
+                }else{
+					 message = data.info;
+					 layer.msg(message,{icon: 0});
+                    //$.alertMessager(message, 'error');
+				}
+			},'json');
+		});
+
+		//禁用
+		$('#ban').click(function(){
+			var id = '';
+			var inputObj = $('input[name="ids[]"]:checked');
+			$.each(inputObj,function(k,v){
+				id += $(this).val() +',';				
+			})
+			id = id.substring(0,id.length-1);
+			$.post('{:U("role_ban")}',{id:id},function(data){
+				if (data.status) {
+                    message = data.info;
+					layer.msg(message,{icon: 1});
+                    //$.alertMessager(message, 'success');
+                    setTimeout(function() {          
+						location.reload();
+                    }, 2000);
+                }else{
+					 message = data.info;
+					 layer.msg(message,{icon: 0});
+                    //$.alertMessager(message, 'error');
+				}
+			},'json');
+		});
+
+		//删除
+		$('#del').click(function(){
+			var id = '';
+			var inputObj = $('input[name="ids[]"]:checked');
+			$.each(inputObj,function(k,v){
+				id += $(this).val() +',';				
+			})
+			id = id.substring(0,id.length-1);
+			$.post('{:U("role_del")}',{id:id},function(data){
+				if (data.status) {
+                    message = data.info;
+					layer.msg(message,{icon: 1});
+                    //$.alertMessager(message, 'success');
+                    setTimeout(function() {          
+						location.reload();
+                    }, 2000);
+                }else{
+					 message = data.info;
+					 layer.msg(message,{icon: 0});
+                    //$.alertMessager(message, 'error');
+				}
+			},'json');
+		});
+
+		var chn=function(cid,op){
+                    if(op=="show"){
+                        $("tr[pid='"+cid+"']").each(function(){
+                            $(this).removeAttr("status").show();
+                            chn($(this).attr("id"),"show");
+                        });
+                    }else{
+                        $("tr[pid='"+cid+"']").each(function(){
+                            $(this).attr("status",1).hide();
+                            chn($(this).attr("id"),"hide");
+                        });
+                    }
+                }
+                $(".tree").click(function(){
+                    if($(this).attr("status")!=1){
+                        chn($(this).parent().attr("id"),"hide");
+                        $(this).attr("status",1);
+                    }else{
+                        chn($(this).parent().attr("id"),"show");
+                        $(this).removeAttr("status");
+                    }
+                });
+	})
+</script>
+</body>

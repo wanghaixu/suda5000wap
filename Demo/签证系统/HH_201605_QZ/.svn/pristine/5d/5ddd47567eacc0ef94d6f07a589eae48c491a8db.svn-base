@@ -1,0 +1,81 @@
+<include file="Common/header"/>
+<div class="clearfix full-container">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 左侧导航菜单开始 -->
+            <include file="Common/left"/>
+            <!-- 左侧导航菜单结束 -->
+
+            <!-- 页面主体内容开始 -->
+            <div id="main" class="col-xs-12 col-sm-10 main">
+                <!-- 面包屑导航开始 -->
+                <ul class="breadcrumb">
+                    <li><i class="fa fa-map-marker"></i></li>
+                    <volist name="__PARENT_MENU__" id="vo">
+                        <li>{$vo.title}</li>
+                    </volist>
+                </ul>
+                <!-- 面包屑导航结束 -->
+
+                <!-- 数据列表 -->
+                <div class="builder builder-form-box">
+                    <div class="builder-container builder-form-container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form action="" method="post" class="form builder-form">
+                                    <div class="form-group ">
+                                        <label class="item-label">网站标题：</label>
+                                        <div class="controls">
+                                            <input type="text" class="form-control input" style="width: 300px;" name="WEB_SITE_TITLE" value="{$info[WEB_SITE_TITLE]}"/>
+                                        </div>
+                                    </div> 
+                                     <div class="form-group item_index_template">
+                                         <label class="item-label">网站logo：
+                                         </label>
+                                         <div class="controls">
+                                             <div id="logo"></div>
+                                         </div>
+                                    </div>
+									<div class="form-group item_index_template">
+                                         <label class="item-label">文件上传：
+                                         </label>
+                                         <div class="controls">
+                                             <div id="uploader" class="wu-example">
+												<!--用来存放文件信息
+												<div id="thelist" class="uploader-list"></div>
+												<div class="btns"></div>-->
+											</div>
+                                         </div>
+                                    </div>
+                                </form>
+                                <div class="col-xs-12 bto_btn">
+                                    <div class="btn-wrap">
+                                        <a class="btn btn-primary submit two-word-btn" target-form="builder-form">确&nbsp;&nbsp;定</button>
+                                        <a class="btn btn-default return two-word-btn" href="{:U('index')}">返&nbsp;&nbsp;回</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部区域开始 -->
+    <include file="Common/footer"/>
+    <!-- 底部区域结束 -->
+    <include file="Common@View/upload_img" />
+	<include file="Common@View/upload_file" />
+</body>
+<script type="text/javascript">
+	$(function() {
+		//id，数据下标，图片张数，图片路径
+        webuploaderImg('#logo','WEB_SITE_LOGO',3,'{$img}','{:U("Ajax/uploadImg",array("width" => 200,"height" => 200))}');
+		webuploaderFile('#uploader','WEB_SITE_LOGO',3,'{$img}','{:U("Ajax/uploadFile")}');
+        $('.submit').click(function() {
+            commonAjaxSubmit();
+        });
+  
+	});
+</script>

@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <title>{$meta_title}｜{:C('WEB_SITE_TITLE')}后台管理</title>
+        <link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/admin.min.css">
+        <link rel="stylesheet" type="text/css" href="__ROOT__/Application/Admin/View/_Resource/css/default.css">
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/css/admin-public.css">
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/css/page.css">
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/form.css">
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="mainBody">
+                <div id="Right">
+                    <div class="Item hr">
+                        <div class="current">{$module}节点列表</div>
+                        <button class="btn submit btn-primary" link="{:U('auto_node')}">提交</button>
+                        <input type="checkbox" name="auto_sort">自动排序</input>
+                    </div>
+                    <form action="" method="post">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab" style="text-align: left;">
+                        <thead>
+                            <tr>
+                                <td width="100">序号</td>
+                                <td width="200">名称</td>
+                                <td width="100">显示名（必须先填模块名）</td>
+                                <td width="100">显示排序</td>
+                                <!-- <td width="100">描述</td> -->
+                                <td width="">状态</td>
+                            </tr>
+                        </thead>
+                        <volist name="info" id="vo" key="k">
+                            <tr sid="{$vo.id}" pid="{$vo.pid}" style="background-color: #ccc">
+                                <td style="text-align: left;">{$k}</td>
+                                <td align="left">{$vo.name}</td>
+                                <td><input type="text" class="input" size="30" name="data[{$vo.name}][title]" value="{$node[$vo[path]][title]}" /></td>
+                                <td><input type="text" class="input sort" size="8" name="data[{$vo.name}][sort]" value="{$node[$vo[path]][sort]|default='100'}" /></td>
+                                <!-- <td><input class="input" size="30" name="data[{$vo.name}][remark]" value="{$node[$vo[path]][remark]}" /></td> -->
+                                <td style="text-align: left;"><eq name="node[$vo[path]][status]" value="0">禁用<else />启用</eq></td>
+                                <input type="hidden" name="data[{$vo.name}][name]" value="{$vo.name}">
+                                <input type="hidden" name="data[{$vo.name}][level]" value="{$vo.level}">
+                                <input type="hidden" name="data[{$vo.name}][status]" value="{$node[$vo[path]][status]|default='1'}">
+                                <input type="hidden" name="data[{$vo.name}][id]" value="{$node[$vo[path]][id]}">
+                            </tr>
+                            <volist name="vo.child" id="vo1" key="j">
+                                <tr sid="{$vo1.id}" pid="{$vo1.pid}">
+                                    <td style="text-align: left;">{$k}-{$j}</td>
+                                    <td align="left">├&nbsp;&nbsp;{$vo1.name}</td>
+                                    <td><input type="text" class="input" size="30" name="data[{$vo.name}][child][{$j}][title]" value="{$node[$vo1[path]][title]}" /></td>
+                                    <td><input type="text" class="input sort" size="8" name="data[{$vo.name}][child][{$j}][sort]" value="{$node[$vo1[path]][sort]|default='100'}"/></td>
+                                    <!-- <td><input type="" class="input" size="30" name="data[{$vo.name}][child][{$j}][remark]" value="{$node[$vo1[path]][remark]}"/></td> -->
+                                    <td style="text-align: left;"><eq name="vo1.status" value="0">禁用<else />启用</eq>
+                                    <input type="hidden" name="data[{$vo.name}][child][{$j}][name]" value="{$vo1.name}">
+                                    <input type="hidden" name="data[{$vo.name}][child][{$j}][level]" value="{$vo1.level}">
+                                    <input type="hidden" name="data[{$vo.name}][child][{$j}][status]" value="{$vo1.status|default='1'}">
+                                    <input type="hidden" name="data[{$vo.name}][child][{$j}][id]" value="{$node[$vo1[path]][id]}">
+                                </tr>
+                            </volist>
+                        </volist>
+                    </table>
+                        <input type="hidden" name="module" value="{$module}">
+                    </form>
+                </div>
+                <div class="commonBtnArea" >
+                    <button class="btn submit btn-primary" link="{:U('auto_node')}">提交</button>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <!-- footer开始 -->
+        <include file="Common/footer"/>
+        <!-- footer结束 -->
+        <script type="text/javascript">
+            $(function(){
+                $(".submit").click(function(){
+                    var link = $(this).attr("link");
+                    commonAjaxSubmit(link);
+                });
+
+                $(".sort").change(function() {
+                    if(!$('input[name=auto_sort]').prop('checked')) return false;
+                    var num = $(".sort").index(this);
+                    $(".sort").eq(num+1).val(parseInt($(this).val())+1);
+                    $(".sort").eq(num+1).change();
+                });
+                // $('tr').click(function() {
+                //     var pid = $(this).attr('sid');
+                //     $('tr[pid="'+pid+'"]').hide();
+                // })
+            })
+        </script>
+    </body>
+</html>

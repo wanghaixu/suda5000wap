@@ -1,0 +1,102 @@
+<include file="Common/header"/>
+<style>
+.thumbnail{margin-bottom:0px !important;}
+.nomen-add{color:#18AD76;width: 821px;font-size: 14px;line-height: 1.6em;border: 1px solid #ccc;display: block;margin-left: -15px;margin-bottom: 10px;}
+.type-menu {
+	padding: 0px 6px;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	float: left;
+}
+.type-menu .type-choice {
+	padding: 10px 4px;
+	border-bottom: 1px solid #ccc;
+}
+.type-menu .type-choice:last-child {
+	border-bottom: 0px;
+}
+.type-menu .type-choice:before,
+.type-menu .type-choice:after {
+	content: '';
+	display: table;
+}
+.type-menu .type-choice:after {
+	clear: both;
+}
+.type-choice .type-left {
+	display: block;
+	float: left;
+	min-width: 80px;
+}
+.type-right {
+	display: block;
+	float:right;
+	min-width: 160px;
+	max-width: 300px;
+	text-align: right;
+	line-height: 36px;
+	font-size: 14px;
+	color: #444;
+	margin-left: 14px;
+}
+</style>
+<div class="clearfix full-container">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 左侧导航菜单开始 -->
+            <include file="Common/left"/>
+            <!-- 左侧导航菜单结束 -->
+
+            <!-- 页面主体内容开始 -->
+            <div id="main" class="col-xs-12 col-sm-10 main">
+                <!-- 面包屑导航开始 -->
+                <ul class="breadcrumb">
+                    <li><i class="fa fa-map-marker"></i></li>
+                    <volist name="__PARENT_MENU__" id="vo">
+                        <li>{$vo.title}</li>
+                    </volist>
+                </ul>
+                <!-- 面包屑导航结束 -->
+
+                <!-- 数据列表 -->
+                <div class="builder builder-form-box">
+                    <div class="builder-container builder-form-container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form action="" method="post" class="form builder-form">
+                                     <div class="form-group item_index_template">
+                                         <label class="item-label">微信公众号二维码：
+                                         </label>
+                                         <div class="controls">
+                                             <div id="qrcode"></div>
+                                         </div>
+                                    </div>
+                                </form>
+                                <div class="col-xs-12 bto_btn">
+                                    <div class="btn-wrap">
+                                        <a class="btn btn-primary submit two-word-btn" target-form="builder-form">确&nbsp;&nbsp;定</button>
+                                        <a class="btn btn-default return two-word-btn" href="{:U('index')}">返&nbsp;&nbsp;回</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 底部区域开始 -->
+                <!-- 底部区域结束 -->
+            </div>
+        </div>
+    </div>
+
+    <include file="Common/footer"/>
+    <include file="Common@View/upload_img" />
+</body>
+<script type="text/javascript">
+	$(function() {
+        webuploaderImg('#qrcode','WECHAT_QRCODE',1,'{$info[WECHAT_QRCODE]}');
+        $('.submit').click(function() {
+            commonAjaxSubmit();
+        });
+  
+	});
+</script>

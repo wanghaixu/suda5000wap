@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" type="text/css" href="__COMMON_CSS__/admin.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/css/window.css">
+<link rel="stylesheet" type="text/css" href="__ROOT__/Application/Admin/View/_Resource/css/default.css">
+<link rel="stylesheet" type="text/css" href="__LIBS__/jQuery Date Range Picker/daterangepicker.css">
+<style>
+	.date-picker-wrapper {
+		left: 398px!important;
+		padding: 3px!important;
+	}
+	.money-right {
+		float: left;
+		width: 140px;
+	}
+	.money-right #pay,
+	.money-right #money,
+	.money-right #times {
+		display: block;
+		float: left;
+		width: 60px;
+		clear: right;
+		text-align: right;
+		line-height: 34px;
+	}
+	.left-form, .right-form {
+	    width: 48%;
+	}
+	.form-tips {
+	    left: 303px;
+	}
+</style>
+</head>
+<body class="body-user body-user-index" style="overflow:auto;">
+	<div class="builder-container builder-form-container clearfix">
+		<div class="col-xs-12">
+			<form>
+				<div class="window-content">
+					<div class="form-tips">
+						<div class="tips-content">无需输入会员卡号前缀{$_SESSION['user_info']['g_code']}</div>
+					</div>
+					<div class="left-form">
+						<div class="form-group">
+							<div class="form-item">
+								<span class="red">*&nbsp;</span>
+								<span>会员姓名：</span>
+							</div>
+							<input class="form-control input-wid2" type="text" name="m_name" value="{$info.m_name}"/>
+						</div>
+						<div class="form-group">
+							<div class="form-item">
+								<span class="red">*&nbsp;</span>
+								<span>性别：</span>
+							</div>
+							<label class="radio-inline">
+								<input type="radio" name="m_sex" value="女" checked/>女
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="m_sex" value="男" <eq name="info.m_sex" value="男">checked</eq>/>男
+							</label>
+						</div>
+						<div class="form-group">
+							<div class="form-item">
+								<span>联系电话：</span>
+							</div>
+							<input class="form-control input-wid2" type="text" name="m_mobile" value="{$info.m_mobile}"/>
+						</div>
+						<eq name='ACTION_NAME' value='add'>
+							<div class="form-group" style="position: relative;">
+								<div class="form-item">
+									<span class="red">*&nbsp;</span>
+									<span>会员卡号：</span>
+								</div>
+								<input class="form-control input-wid2" type="text" name="m_card" value="{$info.m_card}"/>
+							</div>
+						</eq>
+						<div class="form-group">
+							<div class="form-item">
+								<eq name='ACTION_NAME' value='add'>
+								<span class="red">*&nbsp;</span>
+								</eq>
+								<span>会员密码：</span>
+							</div>
+							<input class="form-control input-wid2" type="text" name="m_password" value='123456'/>
+						</div>	
+					</div>
+					<div class="right-form">
+							<div class="form-group">
+								<div class="form-item">
+									<span class="red">*&nbsp;</span>
+									<span>会员卡类型：</span>
+								</div>
+								<select name="mt_id" class="select form-control input-wid2 cur-poi">
+									<volist name="type" id="vo">
+										<option class="cur-poi" value="{$vo['mt_id']}" <eq name="info.mt_id" value="$vo.mt_id">selected="selected"</eq>>{$vo['mt_name']}</option>
+									</volist>
+								</select>
+							</div>
+						<div class="form-group">
+							<div class="form-item">
+								<span class="red">*&nbsp;</span>
+								<span style="line-height:34px">售价：</span>
+							</div>
+							<div class="money-right">
+								<!--<span id='pay'>{$type[0][mt_price]}</span>-->
+								<input class='form-control input-wid1' type="text" name='pay' value="{$type[0][mt_price]}"/>
+								<span class='unit'>元</span>
+							</div>
+						</div>
+						<div class="form-group" <neq name='type[0][mt_type]' value='1'>style='display:none;'</neq>>
+							<div class="form-item">
+								<span class="red">*&nbsp;</span>
+								<span>卡内金额：</span>
+							</div>
+							<div class="money-right">
+							<!--<span id="money">{$type[0][mt_money]}</span>-->	
+								<input class='form-control input-wid1' type="text" name="money" value='{$type[0][mt_money]}'/>
+								<span class='unit'>元</span>
+							</div>
+						</div>
+						<div class="form-group" <neq name='type[0][mt_type]' value='2'>style='display:none;'</neq>>
+							<div class="form-item">
+								<span class="red">*&nbsp;</span>
+								<span>卡内次数：</span>
+							</div>
+							<div class="money-right">
+								<!--<span id="times">{$type[0][mt_times]}</span>-->
+								<input class='form-control input-wid1' type="text" name="times" value='{$type[0][mt_times]}'/>
+								<span class='unit'>次</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-item">
+								<span class="red">*&nbsp;</span>
+								<span>生效时间：</span>
+							</div>
+							<input class="form-control input-wid2 cur-poi" type="text" name="cd_active_time" value='<eq name="cd_active_time" vlaue="0">{$type[0][mt_active_time]|date="Y-m-d",###}<else/>{$info.cd_active_time|date="Y-m-d",###}</eq>'/>
+						</div>
+						<div class="form-group">
+							<div class="form-item">
+								<span class="red">*&nbsp;</span>
+								<span style="line-height:34px">有效期至：</span>
+							</div>
+							<!--<span id="inputValid" style="line-height:34px">{$type[0][valid]}</span>-->
+							<input class="form-control input-wid2 cur-poi" placeholder="请输入时间" type="text" name="valid" value='{$type[0][valid]}'/>
+						</div>
+						<div class="form-group">
+							<div class="form-item">
+								<span>备注：</span>
+							</div>
+							<textarea class="form-control" style="width:155px;resize:none" type="text" name="remark"></textarea>
+						</div>
+					</div>
+					<div class="clear"></div>
+					<div class="form-group" style='margin:10px auto; text-align:center;'>
+						<button class="btn btn-primary submit win-btn" style="margin-left:0;">提交</button>
+						<button class="btn btn-default win-btn" id="close">取消</button>
+					</div>
+				</div>
+            </form>
+		</div>
+	</div>
+<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script src="__COMMON_JS__/functions.js"></script>
+<script src="__COMMON_JS__/jquery.form.js"></script>
+<script src="__COMMON_JS__/validate.js"></script>
+<script src="__LIBS__/jQuery Date Range Picker/moment.min.js"></script>
+<script src="__LIBS__/jQuery Date Range Picker/jquery.daterangepicker.js"></script>
+<script type="text/javascript">
+//选择模型时页面元素改变
+$(function(){
+	//点击去设置跳转
+	$('#set_type').click(function(){
+		top.window.location.href = "{:U('Member/type')}";
+	})
+
+	$("input[name=cd_active_time]").dateRangePicker({
+		autoClose: true,
+		singleDate : true,
+		showShortcuts: false,
+		showTopbar: false,
+	}).bind('datepicker-change',function(event,obj){
+		$.post('{:U("Member/chang_valid")}',{time:obj.value,mt_id:$('select[name=mt_id]').val()},function(data){
+			$('input[name=valid]').val(data.valid);
+		},'json')
+	});
+
+	$("input[name=valid]").dateRangePicker({
+		autoClose: true,
+		singleDate : true,
+		showShortcuts: false,
+		showTopbar: false,
+	}).bind('datepicker-change',function(event,obj){
+		//$.post('{:U("Member/chang_valid")}',{time:obj.value,mt_id:$('select[name=mt_id]').val()},function(data){
+			//$('input[name=valid]').val(data.valid);
+		//},'json')
+	});
+
+   
+
+    var index = parent.layer.getFrameIndex(window.name);
+	//提交
+    $(".submit").click(function(){		
+        var m_name=$('input[name=m_name]');
+        var m_pass=$('input[name=m_password]');
+        var m_card=$('input[name=m_card]');
+        var m_mobile=$('input[name=m_mobile]');
+		var pay = $('input[name=pay]');
+		var money = $('input[name=money]');
+		var times = $('input[name=times]');
+		var valid = $('input[name=valid]');
+		var active_time = $('input[name=cd_active_time]');
+        <if condition="ACTION_NAME eq add">
+			if($('select[name=mt_id]').val() == null){
+				layer.msg('请先进行会员类型设置操作',{icon:0});
+				return false;
+			}
+			var i2=isnull(m_pass,'请填写会员密码');
+			var i3=checkedCard(m_card);
+			var i4 = is_money(pay,1,'金额');
+			var i5 = is_money(money,1,'金额');
+			var i6 = is_money(times,1,'次数');
+			var i7 = is_date(valid);
+			var i8 = is_date(active_time);
+        <else/>
+			var i2='1';
+			var i3='1';
+			var i4 ='1';
+			var i5 ='1';
+			var i6 ='1';
+			var i7 ='1';
+        </if>
+        
+        var v1=validatemobile(m_mobile,1);
+        var i1=isnull(m_name,'请填写姓名');
+        if(v1=='1'&&i1=='1'&&i2=='1'&&i3=='1'&&i4=='1'&&i5=='1'&&i6=='1'&&i7=='1'&&i8=='1'){
+            var formObj = "form";
+            var url=document.URL;
+			$(this).attr("disabled", true).removeAttr('onclick');
+            $(formObj).ajaxSubmit({
+                url:url,
+                type:"POST",
+                success:function(data, st) {
+                    if(data.status==1){
+						layer.msg(data.info,{time: 3000,icon: 1});
+						<empty name='_GET[status]'>
+							setTimeout(function(){
+								top.window.location.reload();
+							},2000);
+							setTimeout(function(){
+								parent.layer.close(index);
+							},2000);
+						<else/>
+							setTimeout(function(){
+								window.location.reload();
+							},2000);
+						</empty>
+                    }else{
+						$('.submit').removeAttr("disabled").attr('onclick',true);
+                        layer.msg(data.info,{time: 2000,icon: 0});
+                    }
+                }
+            });
+        }
+        return false;
+    });
+    //取消
+    $("#close").click(function(){
+        parent.layer.closeAll();
+    });
+	
+	//选择会员卡时自动填充信息
+	$('select[name=mt_id]').change(function(){
+		var loading = layer.load(1, {
+			shade: [0.1,'#fff']
+		});
+		var id = $(this).val();
+		$.post('{:U("Member/select_member_card")}',{mt_id:id},function(data){
+			if(data.status){
+				layer.close(loading);
+				$('input[name=pay]').val(data.mt_price);
+				//$('#pay').text(data.mt_price);
+				$('input[name=valid]').val(data.valid);
+				//$('#inputValid').text(data.valid);
+				$('input[name=cd_active_time]').val(data.mt_active_time);
+				if(data.mt_type == 1){
+					$('input[name=money]').parent('.money-right').parent('.form-group').show()
+					$('input[name=money]').val(data.mt_money);
+					//$('#money').text(data.mt_money);
+					
+					$('input[name=times]').val('0');
+					$('input[name=times]').parent('.money-right').parent('.form-group').hide();
+				}else if(data.mt_type == 2){
+					$('input[name=money]').val('0');
+					$('input[name=money]').parent('.money-right').parent('.form-group').hide();
+					
+					$('input[name=times]').parent('.money-right').parent('.form-group').show();
+					$('input[name=times]').val(data.mt_times);
+					//$('#times').text(data.mt_times);
+				}else if(data.mt_type == 3){
+					$('input[name=money]').val('0');
+					$('input[name=money]').parent('.money-right').parent('.form-group').hide();
+
+					$('input[name=times]').val('0');
+					$('input[name=times]').parent('.money-right').parent('.form-group').hide();
+					
+				}
+			}
+		},'json');
+	});
+});
+	
+</script>
+</body>
+</html>
+ 

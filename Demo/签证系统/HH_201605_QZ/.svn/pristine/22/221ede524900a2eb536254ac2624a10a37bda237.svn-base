@@ -1,0 +1,109 @@
+<include file="Common/header"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/jQuery Date Range Picker/daterangepicker.css">
+	<div class="clearfix full-container">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- 左侧导航菜单开始 -->
+				<include file="Common/left"/>
+				<!-- 左侧导航菜单结束 -->
+
+				<div id="main" class="col-xs-12 col-sm-10 main">
+					<!-- 面包屑导航 -->
+					<ul class="breadcrumb">
+						<li><i class="fa fa-map-marker"></i></li>
+						<volist name="__PARENT_MENU__" id="vo">
+					        <li>{$vo.title}</li>
+					    </volist> 
+					</ul>
+										
+					<div class="builder builder-form-box">
+						
+						<div class="builder-container builder-form-container">
+							<div class="row">
+								<div class="col-xs-12">
+									<form action="" method="post" class="form builder-form">
+										<div class="form-group item_title ">
+											<label class="item-label caution">姓名</label>
+											<div class="controls">
+												<input type="text" class="form-control input text " name="mem_name" value="{$info.mem_name}">
+											</div>
+										</div>
+										<div class="form-group item_title ">
+											<label class="item-label caution">身份证</label>
+											<div class="controls">
+												<input type="text" class="form-control input text " name="mem_code" value="{$info.mem_code}">
+											</div>
+										</div>
+										<div class="form-group item_title ">
+											<label class="item-label caution">护照号</label>
+											<div class="controls">
+												<input type="text" class="form-control input text " name="mem_passport" value="{$info.mem_passport}">
+											</div>
+										</div>
+										<div class="form-group item_title ">
+											<label class="item-label caution">常驻地</label>
+											<div class="controls">
+												<input type="text" class="form-control input text " name="mem_address" value="{$info.mem_address}">
+											</div>
+										</div>
+										<div class="form-group item_title ">
+											<label class="item-label caution">出生日期</label>
+											<div class="controls">
+												<input type="text" readonly="true" class="form-control input" name="mem_birthday" id="start" value="{$info.mem_birthday|int2date}">
+											</div>
+										</div>
+										<div class="form-group item_title ">
+											<label class="item-label caution">性别</label>
+											<div class="controls">
+												<label style="cursor:pointer"><input name="mem_sex" type="radio" value="男" <eq name='info[mem_sex]' value='男'>checked</eq>>男</label>&nbsp;&nbsp;
+												<label style="cursor:pointer"><input name="mem_sex" type="radio" value="女" <eq name='info[mem_sex]' value='女'>checked</eq>>女</label>&nbsp;&nbsp;
+											</div>
+										</div>
+										<div class="form-group item_title ">
+											<label class="item-label caution">联系方式</label>
+											<div class="controls">
+												<input type="text" class="form-control input text phone" name="mem_mobile" value="{$info.mem_mobile}">
+											</div>
+										</div>
+										 <input name='mem_id' value='{$info.mem_id}' type='hidden'/>
+								    </form>
+									<div class="col-xs-12 bto_btn">
+										<div class="btn-wrap">
+			                                <button class="btn btn-primary submit ajax-post two-word-btn" type="submit" target-form="builder-form">确&nbsp;&nbsp;定</button>
+											<a class="btn btn-default return two-word-btn" href="{:U('index')}">返&nbsp;&nbsp;回</a>
+										</div>
+									</div>
+							    </div>
+						    </div>
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script language="javascript" type="text/javascript" src="__PUBLIC__/js/calendar/calendar.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/js/calendar/calendar-blue.css">
+<script language="javascript">
+	$(function(){
+		
+		
+		$('.submit').on('click',function(){
+			//判断手机号是否正确
+			var phone = $('.phone').val();
+			if(!isMobile(phone)){
+				layer.alert('请输入正确的手机号码');
+				exit();
+			}
+		});
+		Calendar.setup({
+            showsTime: true,
+            weekNumbers: false,
+            inputField: "start",
+            ifFormat: "%Y-%m-%d"
+        });
+	});	
+</script>
+</body>

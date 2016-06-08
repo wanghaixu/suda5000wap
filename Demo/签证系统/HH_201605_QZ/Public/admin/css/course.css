@@ -1,0 +1,9 @@
+.item_label{
+	width: 30%;
+}
+.fileList {
+  width: auto !important; 
+}
+.fileList .choose_bnt{
+  background: #f8f8f8 !important;
+}

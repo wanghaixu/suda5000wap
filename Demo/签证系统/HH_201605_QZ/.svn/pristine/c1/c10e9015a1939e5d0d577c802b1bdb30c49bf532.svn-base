@@ -1,0 +1,95 @@
+<include file="Common/header"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/jQuery Date Range Picker/daterangepicker.css">
+	<div class="clearfix full-container">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- 左侧导航菜单开始 -->
+				<include file="Common/left"/>
+				<!-- 左侧导航菜单结束 -->
+
+				<div id="main" class="col-xs-12 col-sm-10 main">
+					<!-- 面包屑导航 -->
+					<ul class="breadcrumb">
+						<li><i class="fa fa-map-marker"></i></li>
+						<volist name="__PARENT_MENU__" id="vo">
+					        <li>{$vo.title}</li>
+					    </volist> 
+					</ul>
+										
+					<div class="builder builder-form-box">
+						
+						<div class="builder-container builder-form-container">
+							<div class="row">
+								<div class="col-xs-12">
+									<form action="" method="post" class="form builder-form">
+										<!-- <div class="form-group item_title ">
+											<label class="item-label caution">常驻地</label>
+											<div class="controls">
+												<input type="text" class="form-control input text " name="mem_address" value="{$info.mem_address}">
+											</div>
+										</div> -->
+										<div class="form-group item_title">
+											<label class="item-label">跟进时间</label>
+											<div class="controls">
+												<input type="text" readonly="true" class="form-control input" name="mf_time" id="start" value="{$info.mf_time|int2date}">
+											</div>
+										</div>
+										<div class="form-group item_title">
+	                                        <label class="item-label">状态</label>
+	                                        <div class="controls">
+	                                            <input type="radio" name="mf_status" value="1" <eq name="info[mf_status]" value="1">checked</eq>>生效</input>&nbsp;&nbsp;&nbsp;
+	                                            <input type="radio" name="mf_status" value="0" <eq name="info[mf_status]" value="0">checked</eq>>失效</input>
+	                                        </div>
+                                    	</div>
+										<div class="form-group item_index_template">
+	                                        <label class="item-label">跟进内容</span>
+	                                        </label>
+	                                        <div class="controls">
+	                                           <textarea id="description" style="height: 300px; width: 700px;" type='text' name="mf_content">{$info.mf_content}</textarea>
+	                                        </div>
+                                   		</div>
+										 <input name='mf_id' value='{$info.mf_id}' type='hidden'/>
+										 <input name='mem_id' value='{$info.mem_id}' type='hidden'/>
+								    </form>
+									<div class="col-xs-12 bto_btn">
+										<div class="btn-wrap">
+			                                <button class="btn btn-primary submit ajax-post two-word-btn" type="submit" target-form="builder-form">确&nbsp;&nbsp;定</button>
+											<a class="btn btn-default return two-word-btn" href="{:U('index')}">返&nbsp;&nbsp;回</a>
+										</div>
+									</div>
+							    </div>
+						    </div>
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script language="javascript" type="text/javascript" src="__PUBLIC__/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="__PUBLIC__/libs/kindeditor/kindeditor-all.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/js/calendar/calendar-blue.css">
+<script language="javascript">
+	$(function(){
+		 // 编辑器
+        KindEditor.ready(function(K) {
+                description = K.create('#description', {
+                    allowFileManager: true,
+                    resizeType: 1,
+                    pasteType: 2,
+                    afterBlur: function() {
+                        this.sync();
+                    },
+                });
+            });
+		Calendar.setup({
+            showsTime: true,
+            weekNumbers: false,
+            inputField: "start",
+            ifFormat: "%Y-%m-%d"
+        });
+	});	
+</script>
+</body>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/admin.min.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/css/window.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/css/admin-public.css">
+<style type="text/css">
+    .lh-35{line-height: 35px;}
+    .wd-400{width: 400px}
+    .label-100{width: 100px !important}
+    .text-r{text-align: right;}
+</style>
+</head>
+<body>
+	<div class="col-xs-12">
+		<form>
+            <div class="form-group ">
+                <label class="item-label label-100 text-r">登录账号：
+                </label>
+                <div class="controls lh-35">
+                    {$info['u_username']}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="item-label label-100 text-r">手机：</label>
+                <div class="controls wd-400">
+                    <input type="text" class="form-control input text" name="u_mobile" value="{$info.u_mobile}">
+                </div>
+            </div>
+               
+			<div class="clear"></div>
+			<div class="form-group" style='margin:20px auto; text-align:center;'>
+				<button class="btn btn-primary submit" style="margin-left:0;">提交</button>
+			</div>
+        </form>
+	</div>
+<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script type="text/javascript">
+//选择模型时页面元素改变
+$(function(){
+	//提交
+    $(".submit").click(function(){		
+        commonAjaxSubmit();
+        return false;
+    });
+
+});
+	
+</script>
+</body>
+</html>
+ 

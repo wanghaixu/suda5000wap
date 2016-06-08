@@ -1,0 +1,34 @@
+.icon{
+	width: 20px;
+	height: 20px;
+}
+.icon-into{
+	background: url('../images/icon.png') no-repeat -410px -5px;
+	background-size: 565px 32px;
+}
+.icon-into:active{
+	background-position: -451px -5px;
+}
+.item-content{
+	padding-left: 15px!important;
+}
+.list-block .item-link .item-inner{
+	padding-right: 15px;
+	background: none;
+}
+/*codeScan*/
+/*二维码图*/
+.code-img{
+	text-align: center;
+	margin: 0 auto;
+	width: 100%;
+}
+.code-img img{
+	width: 150px;
+	height: 150px;
+}
+/*serviceMap*/
+/*服务地图*/
+.item-img img{
+	width: 100%;
+}

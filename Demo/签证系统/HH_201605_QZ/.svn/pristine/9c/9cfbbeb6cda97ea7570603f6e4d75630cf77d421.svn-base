@@ -1,0 +1,195 @@
+<include file="Common/header"/>
+<link rel="stylesheet" href="__COMMON_CSS__/colpick.css" type="text/css"/>
+<script language="javascript" type="text/javascript" src="__COMMON_JS__/calendar/calendar.js"></script>
+<style>
+.thumbnail{margin-bottom:0px !important;}
+.nomen-add{color:#18AD76;width: 821px;font-size: 14px;line-height: 1.6em;border: 1px solid #ccc;display: block;margin-left: -15px;margin-bottom: 10px;}
+.type-menu {
+	padding: 0px 6px;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	float: left;
+}
+.type-menu .type-choice {
+	padding: 10px 4px;
+	border-bottom: 1px solid #ccc;
+}
+.type-menu .type-choice:last-child {
+	border-bottom: 0px;
+}
+.type-menu .type-choice:before,
+.type-menu .type-choice:after {
+	content: '';
+	display: table;
+}
+.type-menu .type-choice:after {
+	clear: both;
+}
+.type-choice .type-left {
+	display: block;
+	float: left;
+	min-width: 80px;
+}
+.type-right {
+	display: block;
+	float:right;
+	min-width: 160px;
+	max-width: 300px;
+	text-align: right;
+	line-height: 36px;
+	font-size: 14px;
+	color: #444;
+	margin-left: 14px;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="__COMMON_JS__/calendar/calendar-blue.css">
+<div class="clearfix full-container">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 左侧导航菜单开始 -->
+            <include file="Common/left"/>
+            <!-- 左侧导航菜单结束 -->
+
+            <!-- 页面主体内容开始 -->
+            <div id="main" class="col-xs-12 col-sm-10 main">
+                <!-- 面包屑导航开始 -->
+                <ul class="breadcrumb">
+                    <li><i class="fa fa-map-marker"></i></li>
+                    <volist name="__PARENT_MENU__" id="vo">
+                        <li>{$vo.title}</li>
+                    </volist>
+                </ul>
+                <!-- 面包屑导航结束 -->
+                <!-- 数据列表 -->
+                <div class="builder builder-form-box">
+                    <div class="builder-container builder-form-container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form action="" method="post" class="form builder-form">
+                                    <div class="form-group item_index_template">
+                                        <label class="item-label">商家名称：<span class="check-tips">（<span class="small">必须填写</span>）</span>
+                                        </label>
+                                        <div class="controls">
+                                            <input type="text" class="form-control input" style="width: 300px;" name="g_name" value="{$info.g_name}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group item_index_template">
+                                        <label class="item-label">商家代码：<span class="check-tips">（<span class="small">必须填写</span>）</span>
+                                        </label>
+                                        <div class="controls">
+                                            <select class="form-control input"  style="width: 300px;">
+                                                <option value="选项1">选项1</option>
+                                                <option value="选项2">选项2</option>
+                                                <option value="选项3">选项3</option>
+                                                <option value="选项4">选项4</option>
+                                            </select>
+                                        </div>
+                                    </div>  
+										<div class="form-group item_index_template">
+                                        <label class="item-label">账号类型：<span class="check-tips"></span>
+                                        </label>
+                                        <div class="controls">
+                                            <label><input type="radio" name="g_test" value="0" <if condition="$info.g_test eq 0 "> checked="checked"</if> />商家</label> &nbsp; <label><input type="radio" name="g_test" value="1" <if condition="$info.g_test eq 1"> checked="checked"</if> />测试</label>
+                                        </div>
+                                    </div> 
+
+                                    <div class="form-group item_index_template">
+                                        <label class="item-label">状态：<span class="check-tips">(<span class="small">必须填写</span>)</span>
+                                        </label>
+                                        <div class="controls">
+                                            <label><input type="radio" name="status" value="0" <if condition="$info.status eq 0 "> checked="checked"</if> />禁止</label> &nbsp; <label><input type="radio" name="status" value="1" <if condition="$info.status eq 1 || $info.status eq ''"> checked="checked"</if> />开启</label>
+                                        </div>
+                                    </div> 
+									
+                                    <div class="form-group item_index_template 1">
+                                        <label class="item-label">表单底色：<span class="check-tips">
+                                        </label>
+                                        <div class="controls">
+                                            <div id="picker"></div>
+                                        </div>
+                                    </div>
+                                     <div class="form-group item_index_template">
+                                         <label class="item-label">首页轮播图片：
+                                         </label>
+                                         <div class="controls">
+                                             <div id="uploader-demo"></div>
+                                         </div>
+                                    </div>
+                                   
+                                    <div class="form-group item_index_template co_show">
+                                        <label class="item-label">教师介绍：</label>
+                                        <div class="controls">
+                                           <textarea id="description" style="height: 300px; width: 700px;" type='text' name="content">{$info.em_content}</textarea>
+                                        </div>
+                                    </div>
+                                 <!--隐藏的id用于删除用户-->
+                                    <input type="hidden" name="g_id" value="{$info.g_id}" />
+									<!--超级管理员外键-->
+										<input type="hidden" name="u_id" value="{$info.u_id}" />
+                                </form>
+								<div class="col-xs-12 bto_btn">
+									<div class="btn-wrap">
+                                        <button class="btn btn-primary submit ajax-post two-word-btn" type="submit" target-form="builder-form">确&nbsp;&nbsp;定</button>
+										<a class="btn btn-default return two-word-btn" href="{:U('index')}">返&nbsp;&nbsp;回</a>
+									</div>
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 底部区域开始 -->
+                <!-- 底部区域结束 -->
+            </div>
+        </div>
+    </div>
+
+    <include file="Common/footer"/>
+    <include file="Common/upload_img" />
+    <script src="__COMMON_JS__/colpick.js"></script>
+    <script type="text/javascript" src="__LIBS__/kindeditor/kindeditor-all.js" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+	$(function() {
+        webuploaderImg('#uploader-demo','info[in_logo_url]',1,'{$introduce.in_logo_url}','','','{:U("Ajax/uploadImg",array("width" => 180,"height" => 40))}');
+        // 颜色插件
+        $('#picker').colpick({
+            flat:true,
+            layout:'hex',
+            submit:0
+        });
+        // end 颜色插件
+        // 编辑器
+       KindEditor.ready(function(K) {
+            description = K.create('#description', {
+                allowFileManager: true,
+                //filePostName: 'file',
+                width: '700px',
+                height: '300px',
+                cssPath: [
+                    '/Public/libs/kindeditor/themes/default/default.css',
+                    '/Public/libs/kindeditor/plugins/code/prettify.css'
+                ],
+                resizeType: 1,
+                pasteType: 2,
+                //urlType: 'absolute',
+                fileManagerJson: '/Public/libs/kindeditor/php/file_manager_json.php',
+                uploadJson: '/Public/libs/kindeditor/php/upload_json.php',
+                //remoteImgSaveUrl: '/index.php?s=/admin/upload/downremoteimg.html',
+                extraFileUploadParams: {
+                    session_id: '$_SESSION["user_info"]["u_id"]'
+                },
+                afterBlur: function() {
+                    this.sync();
+                },
+                //autoSaveMode: true,
+                //autoSaveInterval: 100,
+                //afterCreate: function() {
+                    //this.loadPlugin('autosave');
+                //}
+            });
+            prettyPrint();
+            //afterBlur: function(){this.sync();}
+        });
+        // end 编辑器
+	});
+</script>

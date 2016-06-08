@@ -1,0 +1,244 @@
+.contain-out{margin-top:-20px;border:10px solid #eee;background-color: #fff;}
+.container-in{
+	min-width: 610px;
+	background-color: #fff;
+	padding: 1em 0;
+	margin: 0 auto;
+	line-height: 2em;
+	width: 60%;
+}
+.middle-tips {
+	max-width: 580px;
+	margin: 0 auto;
+}
+.col{margin-bottom: 1em;}
+.cb{
+	border: 1px solid #ddd;
+}
+.c-title{
+	line-height: 1.0em;
+	border-left: 4px solid #FE8400;
+	padding-left: 10px;
+	font-size: 16px;
+	font-weight: bolder;
+	margin: 6px 0px;
+}
+.c-content {
+	padding:10px;
+}
+.normal,.vip {
+	width: 276px;
+	text-align: center;
+	float: left;
+}
+.normal {
+	margin-right: 20px;
+}
+ul {
+	padding-left:2em;
+	text-align: left;
+}
+.out-tips,
+.inner-tips {
+	line-height: 2.4em;
+	font-size: 18px;
+	font-weight: bolder;
+}
+.inner-content{
+	width: 100%;
+	height: 460px;
+	color: #eee;
+	background-color: #ED8872;
+	padding: 20px 10px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.normal .out-tips,
+.vip .out-tips{
+	color: #ED8872;
+}
+.normal .inner-content{
+	margin-right: 20px;
+}
+
+.vip .inner-content{
+	margin-bottom: 2em;
+}
+
+.free-li:before,
+.normal-li:before,
+.vip-li:before {
+	color: #eee;
+	line-height: 28px;
+	margin-right: 6px;
+	font-size: 12px;
+	padding: 0 .6em;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.free-li:before{
+	content: '免费';
+	background-color: #37B548;
+}
+.normal-li:before {
+	content:'限制';
+	background-color: #269FDF;
+}
+.vip-li:before {
+	content: 'VIP';
+	background-color: #FFC502;
+	color: #C95607;
+}
+
+
+.fl-item {
+	width: 100%;
+	text-align: right;
+	margin:6px 0px 10px;
+}
+.step-img {
+	width: 85%;
+	margin: 0 auto;
+}
+.alipay{
+	width: 120px;
+	height: 40px;
+	background: url(../images/make_deal_1_05-min.png) no-repeat;
+	background-position: 0 0;
+}
+.unionpay{
+	width: 145px;
+	height: 40px;
+	background: url(../images/make_deal_1_05-min.png) no-repeat;
+	background-position: -120px 0;
+}
+input[type=radio]{margin-top: 14px;}
+.path{
+	text-align: center;
+}
+.money{
+	color:#FE8400;
+	font-size: 18px;
+	font-weight: 600;
+}
+/*.deal-tips{
+	position: absolute;
+	top: -58px;
+	display: block;
+	line-height: 1.4em;
+	background-color: #FE8400;
+	max-width: 160px;
+	color: #fff;
+	padding: .2em 1em;
+	z-index: 2;
+}
+.deal-tips .finger{
+	content: '';
+	position: absolute;
+	z-index: 1;
+	left: 0;
+	top: 6px;
+	width:0; 
+    height:0; 
+    border-top:1em solid transparent;
+    border-bottom: 1em solid transparent;
+    border-left: 1em solid #FE8400;
+}*/
+.float-tips {
+	position: absolute;
+	top: -60px;
+}
+.scrollbar {position: relative;}
+.scrollbar span {
+	width: 8.33333%;
+	display: inline-block;
+	text-align: center;
+	color: #fff;
+	font-weight: 600;
+	border: 1px solid #BBB;
+	border-width: 0px 1px 0px 1px;
+	z-index: 1;
+	font-size: 16px;
+}
+.scrollbar span:first-child {
+	border-left-width: 0px;
+}
+.scrollbar span:last-child {
+	border-right-width: 0px;
+}
+/*滚动条皮肤覆盖*/
+.rangeslider {
+	background: #CCC!important;
+}
+.rangeslider, .rangeslider__fill {
+	height: 30px!important;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 4px!important;
+}
+.rangeslider__fill {
+  background: #51B600!important;
+}
+.rangeslider__handle {
+	top: -5px!important;
+	background: #499E06!important;
+	border: none!important;
+	width: 20px!important;
+	border-radius: 20%!important;
+	z-index: 20!important;
+}
+
+
+dl{float: left;margin-right: 20px;}
+dl label dt p{width: 108px;height: 36px;float: left;border: 1px solid #eee;}
+dl dd{float: left;margin-right: 2px;}
+.bank_bocsh{background: url(../images/bank.jpg) no-repeat 0px -2px;}
+.bank_abc{background: url(../images/bank.jpg) no-repeat 0px -34px;}
+.bank_icbc{background: url(../images/bank.jpg) no-repeat 0px -70px;}
+.bank_ccb{background: url(../images/bank.jpg) no-repeat 0px -105px;}
+.bank_bocom{background: url(../images/bank.jpg) no-repeat 0px -140px;}
+.bank_cncb{background: url(../images/bank.jpg) no-repeat 0px -175px;}
+.bank_hxb{background: url(../images/bank.jpg) no-repeat 0px -210px;}
+.bank_cmb{background: url(../images/bank.jpg) no-repeat 0px -245px;}
+.bank_cib{background: url(../images/bank.jpg) no-repeat 0px -280px;}
+.bank_ceb{background: url(../images/bank.jpg) no-repeat 0px -315px;}
+.bank_spdb{background: url(../images/bank.jpg) no-repeat 0px -350px;}
+.bank_psbc{background: url(../images/bank.jpg) no-repeat 0px -385px;}
+.bank_cmbc{background: url(../images/bank.jpg) no-repeat 0px -420px;}
+.bank_njcb{background: url(../images/bank.jpg) no-repeat 0px -455px;}
+.bank_cbhb{background: url(../images/bank.jpg) no-repeat 0px -490px;}
+.bank_brcb{background: url(../images/bank.jpg) no-repeat 0px -530px;}
+.bank_hzcb{background: url(../images/bank.jpg) no-repeat 0px -565px;}
+.bank_gdb{background: url(../images/bank.jpg) no-repeat 0px -600px;}
+.bank_pab{background: url(../images/bank.jpg) no-repeat 0px -630px;}
+.bank_bos{background: url(../images/bank.jpg) no-repeat 0px -665px;}
+.bank_nbbank{background: url(../images/bank.jpg) no-repeat 0px -703px;}
+.bank_fdb{background: url(../images/bank.jpg) no-repeat 0px -738px;}
+.bank_bccb{background: url(../images/bank.jpg) no-repeat 0px -772px;}
+.bank_srcb{background: url(../images/bank.jpg) no-repeat 0px -808px;}
+.bank_hfcbcnsh{background: url(../images/bank.jpg) no-repeat 0px -838px;}
+.bank_czbank{background: url(../images/bank.jpg) no-repeat 0px -876px;}
+
+
+/*//响应式布局start*/
+@media (max-width: 768px) {
+	.container-in {
+		width: 90%;
+		min-width: 260px;
+	}
+	.middle-tips {
+		max-width: 260px;
+	}
+	.step-img {
+		width: 100%;
+		margin: 0 -15px;
+	}
+	.scrollbar span {
+		display: none;
+	}
+/*	.deal-tips {
+		display: none;
+	}*/
+}

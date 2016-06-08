@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="renderer" content="webkit">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__COMMON_CSS__/admin.min.css">
+	<style>
+		body {
+			padding: 10px;
+			font-family: 'Microsoft Yahei';
+		}
+		.form-group {
+			width: 100%;
+			display: block;
+		}
+		.form-group:before,
+		.form-group:after {
+			content: '';
+			display: table;
+		}
+		.form-group:after {
+			clear: both;
+		}
+		.form-item {
+			width: 30%;
+			float: left;
+			line-height: 34px;
+			font-weight: 500;
+		}
+		.form-con {
+			width: 70%;
+			float: left;
+		}
+		.form-group textarea {
+			resize: none;
+			width: 100%;
+		}
+		.txa-c {
+			text-align: center;
+		}
+		.red:before {
+			content: '*';
+			display: inline;
+			color: #F00;
+		}
+		.dropdown-menu {
+			min-width: 48px;
+		}
+		.day,
+		.mouth {
+			padding: 3px 6px!important;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+	<form>
+	<input type="hidden" class="form-con form-control" name="data[co_id]" value="{$info.co_id}">
+		<div class="row">
+			<label class="form-group">
+				<div class="form-item red">
+					<span>课程名称：</span>
+				</div>
+				<input type="text" class="form-con form-control" name="data[co_name]" value="{$info.co_name}">
+			</label>
+			<label class="form-group">
+				<div class="form-item red">
+					<span>老师：</span>
+				</div>
+				<if condition='empty($employee)'>
+					<a class="btn btn-primary add-teacher" link="{:U('personnel/teacher_add')}">去添加</a>					
+				<else/>
+				<select name="data[em_id]" class="form-con form-control">
+					<volist name='employee' id='vo'>
+						<option value='{$vo.em_id}'<eq name='info.em_id' value='$vo.em_id'>selected</eq> >{$vo.em_name}</option>
+					</volist>
+				</select>
+				</if>
+			</label>
+			<label class="form-group">
+				<div class="form-item red">
+					<span>学生：</span>
+				</div>
+				<input type="text" class="form-con form-control" name="data[p_student]" value="{$info.p_student}" id="student">
+			</label>
+			<label class="form-group">
+				<div class="form-item red">
+					<span>总次数：</span>
+				</div>
+				<input type="text" class="form-con form-control" name="data[co_count]" value="{$info.co_count}">
+			</label>
+			<label class="form-group">
+				<div class="form-item red">
+					<span>有效期：</span>
+				</div>
+				<div class="form-con input-group">
+					<input type="text" class="form-control" name="data[p_num]" value="{$info.p_num}">
+					<input type="hidden" id="p_type" name="data[p_type]" value="1">
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">天<span class="caret"></span></button>
+						<ul class="dropdown-menu dropdown-menu-right">
+							<li><a href="#" class="day">天</a></li>
+							<li><a href="#" class="week">周</a></li>
+							<li><a href="#" class="month">月</a></li>
+							<li><a href="#" class="year">年</a></li>
+						</ul>
+					</div>
+				</div>
+			</label>
+			<label class="form-group">
+				<div class="form-item">
+					<span>实际收费：</span>
+				</div>
+				<div class="form-con input-group">
+					<input type="text" class="form-control" name="data[p_money]" value="{$info.p_money}">
+					<span class="input-group-addon">元</span>
+				</div>
+			</label>
+			<div class="form-group txa-c">
+				<button href="javascript:void(0);" class="btn btn-primary submit two-word-btn">确&nbsp;&nbsp;定</button>
+			</div>
+		</div>
+		</form>
+	</div>
+<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script src="__COMMON_JS__/functions.js"></script>
+<script src="__COMMON_JS__/jquery.form.js"></script>
+</body>
+<script>
+	$(function(){
+		//编辑用
+			<if condition="$info.p_type eq 1">
+			$(".dropdown-toggle").html($(".day").text()+'<span class="caret"></span>');		
+			<elseif condition="$info.p_type eq 2"/>
+			$(".dropdown-toggle").html($(".week").text()+'<span class="caret"></span>');
+			<elseif condition="$info.p_type eq 3"/>
+			$(".dropdown-toggle").html($(".month").text()+'<span class="caret"></span>');
+			<elseif condition="$info.p_type eq 4"/>
+			$(".dropdown-toggle").html($(".year").text()+'<span class="caret"></span>');
+			</if>
+		// 切换天周月年
+		$(".month").click(function(){
+			$(".dropdown-toggle").html($(this).text()+'<span class="caret"></span>');
+			$("#p_type").val("3");
+		});
+		$(".day").click(function(){
+			$(".dropdown-toggle").html($(this).text()+'<span class="caret"></span>');
+			$("#p_type").val("1");
+		});
+		$(".week").click(function(){
+			$(".dropdown-toggle").html($(this).text()+'<span class="caret"></span>');
+			$("#p_type").val("2");
+		});
+		$(".year").click(function(){
+			$(".dropdown-toggle").html($(this).text()+'<span class="caret"></span>');
+			$("#p_type").val("4");
+		});
+	});
+	 var index = parent.layer.getFrameIndex(window.name);
+	$(".submit").click(function(){
+		if($('#student').val()==""){
+			layer.msg('请填写学生名称',{time: 2000,icon: 0});
+			return false;
+		}
+		if($('select').length==0){
+			layer.msg('请先添加老师',{time: 2000,icon: 0});
+			return false;
+		}
+	    var url=document.URL;
+		$(this).attr("disabled", true).removeAttr('onclick');
+	    $("form").ajaxSubmit({
+	        url:url,
+	        type:"POST",
+	        dataType: "json",
+	        success:function(data) {
+	            if(data.status==1){
+	                layer.msg(data.info,{time: 2000,icon: 1});
+	                setTimeout(function(){
+	                    top.window.location.reload();
+	                },1500);
+	                setTimeout(function(){
+	                    parent.layer.close(index);
+	                },2000);
+	            }else{
+					$('.submit').removeAttr("disabled").attr('onclick',true);
+	                layer.msg(data.info,{time: 2000,icon: 0});
+	            }
+	         }
+	    });
+	    return false;
+	});
+	$('.add-teacher').click(function(){
+		var url=$(this).attr('link');
+		top.window.location.href=url;
+	})
+</script>
+</html>

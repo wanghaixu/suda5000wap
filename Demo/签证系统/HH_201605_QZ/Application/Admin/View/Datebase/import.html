@@ -1,0 +1,140 @@
+<include file="Common/header"/>
+
+
+    <div class="clearfix full-container">
+        <div class="container-fluid">
+            <div class="row">
+                <include file="Common/left"/>
+                <div id="main" class="col-xs-12 col-sm-10 main">
+                    <!-- 面包屑导航 -->
+                    <ul class="breadcrumb">
+                        <li><i class="fa fa-map-marker"></i></li>
+                        <li>系统</li>
+						<li>数据中心</li>
+						<li>数据还原</li>
+					</ul>                        
+					<!-- 数据列表 -->
+					<div class="data-table">
+						<div class="panel panel-default">
+							<table class="table table-bordered table-responsive table-striped table-hover">
+								<thead>
+									<tr>
+										<th width="200">备份名称</th>
+										<th width="80">卷数</th>
+										<th width="80">压缩</th>
+										<th width="80">数据大小</th>
+										<th width="200">备份时间</th>
+										<th>状态</th>
+										<th width="120">操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<volist name='list' id='v'>
+										<tr>
+											<td>{$v.time|date='Ymd-His',###}-1.sql.gz</td>
+											<td>{$v.part}</td>
+											<td>{$v.compress}</td>
+											<td>{$v.size}</td>
+											<td>{$key}</td>
+											<td>-</td>
+											<td class="action">
+												<a class="label label-danger db-import" href="{:U('do_import',array('time' => $v['time']))}">还原</a>&nbsp;
+												<a class="label label-danger ajax-get" href="{:U('del',array('time' => $v['time']))}">删除</a>
+											</td>
+										</tr>
+									</volist>
+								</tbody>
+							</table>
+						</div>
+					</div>
+                    <!--<div class="footer text-muted">
+                        <span>版权所有 © 2014-2016</span>
+                        <a href="" class="text-muted" target="_blank"> v</a>
+                        <a href="" class="text-muted" target="_blank"></a> 
+                        <a class="text-muted pull-right">项目开发团队：</a>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+	<include file="Common/footer"/>
+    <script type="text/javascript">
+	 var $_var_import = {};
+        $(function(){
+            $(".db-import").click(function() {
+            
+                var self = this, status = ".";
+                $.get(self.href, success, "json");
+                window.onbeforeunload = function(){ return "正在还原数据库，请不要关闭！" }
+                return false;
+                function success(data){
+                    if(data.status){
+                        if(data.gz){
+                            data.info += status;
+                            if(status.length === 5){
+                                status = ".";
+                            }else{
+                                status += ".";
+                            }
+                        }
+                        $(self).parent().prev().text(data.info);
+                        if(data.part){
+                            $.get(self.href,
+                                {"part" : data.part, "start" : data.start},
+                                success,
+                                "json"
+                            );
+                        }else{
+                            window.onbeforeunload = function(){ return null; }
+                        }
+                    }else{
+                        $.alertMessager(data.info, 'danger');
+                    }
+                }
+            });
+        });
+    </script>
+
+<script type="text/javascript">
+(function(){
+var tab_tit  = document.getElementById('think_page_trace_tab_tit').getElementsByTagName('span');
+var tab_cont = document.getElementById('think_page_trace_tab_cont').getElementsByTagName('div');
+var open     = document.getElementById('think_page_trace_open');
+var close    = document.getElementById('think_page_trace_close').childNodes[0];
+var trace    = document.getElementById('think_page_trace_tab');
+var cookie   = document.cookie.match(/thinkphp_show_page_trace=(\d\|\d)/);
+var history  = (cookie && typeof cookie[1] != 'undefined' && cookie[1].split('|')) || [0,0];
+open.onclick = function(){
+	trace.style.display = 'block';
+	this.style.display = 'none';
+	close.parentNode.style.display = 'block';
+	history[0] = 1;
+	document.cookie = 'thinkphp_show_page_trace='+history.join('|')
+}
+close.onclick = function(){
+	trace.style.display = 'none';
+this.parentNode.style.display = 'none';
+	open.style.display = 'block';
+	history[0] = 0;
+	document.cookie = 'thinkphp_show_page_trace='+history.join('|')
+}
+for(var i = 0; i < tab_tit.length; i++){
+	tab_tit[i].onclick = (function(i){
+		return function(){
+			for(var j = 0; j < tab_cont.length; j++){
+				tab_cont[j].style.display = 'none';
+				tab_tit[j].style.color = '#999';
+			}
+			tab_cont[i].style.display = 'block';
+			tab_tit[i].style.color = '#000';
+			history[1] = i;
+			document.cookie = 'thinkphp_show_page_trace='+history.join('|')
+		}
+	})(i)
+}
+parseInt(history[0]) && open.click();
+(tab_tit[history[1]] || tab_tit[0]).click();
+})();
+</script>
+</body>
+</html>

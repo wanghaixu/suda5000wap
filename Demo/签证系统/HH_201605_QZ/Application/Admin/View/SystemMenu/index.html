@@ -1,0 +1,214 @@
+<include file="Common/header"/>
+	
+	<div class="clearfix full-container">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- 左侧导航菜单开始 -->
+				<include file="Common/left"/>
+				<!-- 左侧导航菜单结束 -->
+				<div id="main" class="col-xs-12 col-sm-10 main">
+					 <!-- 面包屑导航 -->
+					 <ul class="breadcrumb">
+						<li><i class="fa fa-map-marker"></i></li>
+						<volist name="__PARENT_MENU__" id="vo">
+					        <li>{$vo.title}</li>
+					    </volist>                        
+					 </ul>
+
+										
+					<div class="builder builder-list-box">
+						<div class="builder-toolbar builder-list-toolbar">
+							<div class="row">
+								<!-- 工具栏按钮 -->
+								<div class="col-xs-12 col-sm-9 button-list">
+										<a title="自动菜单" class="btn btn-info" href="{:U('system_menu/auto')}">自动菜单</a>&nbsp;
+										<a title="新增" class="btn btn-primary" href="{:U('system_menu/add')}">新增</a>&nbsp;
+										<a title="启用" target-form="ids" class="btn btn-success confirm" data-model="SystemMenu" href="javascript:void(0)" id='awaken'>启用</a>&nbsp;
+										<a title="禁用" target-form="ids" class="btn btn-warning confirm" data-model="SystemMenu" href="javascript:void(0)" id='ban'>禁用</a>&nbsp;
+										<a title="删除" target-form="ids" class="btn btn-danger confirm" data-model="SystemMenu" href="javascript:void(0)" id='del'>删除</a>&nbsp;                    
+								</div>
+								<div class="col-xs-12 col-sm-3">
+									<div class="input-group search-form">
+										<input type="text" name="keyword" class="search-input form-control" value="" placeholder="请输入模块名">
+										<span id="module" class="input-group-btn"><a class="btn btn-default" href="javascript:void(0);"><i class="fa fa-search"></i></a></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					<!-- Tab导航 -->
+						<!-- 数据列表 -->
+		                <div class="builder-container builder-list-container">
+		                    <div class="row">
+		                        <div class="col-xs-12">
+		                            <div class="builder-table">
+		                                <div class="panel panel-default table-responsive">
+		                                    <table class="table table-c table-bordered table-striped table-hover">
+		                                        <thead>
+		                                            <tr>
+														<th><input class="check-all" type="checkbox"></th>
+		                                                <th>ID</th>
+		                                                <th>标题<!--[i]--></th>
+		                                                <th>链接</th>
+														<th>模块</th>
+		                                                <th>图标</th><!--<i class="fa fa-file-o"></i>-->
+		                                                <th>排序</th>
+		                                                <th>状态</th><!--<i class="fa fa-check text-success"></i><i class="fa fa-ban text-danger"></i>-->
+		                                                <th>操作</th>
+		                                            </tr>
+		                                        </thead>
+		                                        <tbody>
+													 <volist name="list" id="vo" key="k">
+		                                        	<!-- 一级节点  start-->
+		                                            <tr id="{$vo.id}" pid="{$vo.pid}">
+														<td><input class="ids" type="checkbox" value="{$vo.id}" name="ids[]"></td>
+		                                                <td>{$vo.id}</td>
+														<td align="left" class="tree" style="cursor: pointer;">{$vo.fullname}</td>
+														<td>{$vo.url}</td>
+														<td>{$vo.module}</td>
+														<td><i class="{$vo.icon}"></i></td>
+														<td>{$vo.sort}</td>
+														<td>
+														<eq name='vo.status' value='0'>
+															<i class="fa fa-ban text-danger"></i>
+														<else/>
+															<i class="fa fa-check text-success">
+														</eq>
+														</td>
+		                                                <td>
+															<a title="编辑" class="label label-primary" href="{:U('system_menu/edit',array('id' => $vo['id']))}">编辑</a>
+	                                                        <!--<a title="禁用" class="label label-warning" href="#">禁用</a>
+	                                                        <a title="删除" class="label label-danger" href="#">删除</a>-->
+		                                                </td>
+		                                            </tr>
+													</volist>
+		                                        </tbody>
+		                                    </table>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+
+
+					<!-- 额外功能代码 -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script>
+	$(function(){
+		//搜索
+		$('#module').click(function(){
+			var keyword = $(this).prev().val();
+			$.post('{:U("SystemMenu/from_get_url")}',{keyword:keyword},function(data){
+				window.location.href = data.url
+			},'json');
+		})
+		//启用
+		$('#awaken').click(function(){
+			var id = '';
+			var inputObj = $('input[name="ids[]"]:checked');
+			$.each(inputObj,function(k,v){
+				id += $(this).val() +',';				
+			})
+			id = id.substring(0,id.length-1);
+			$.post('{:U("SystemMenu/awaken")}',{id:id},function(data){
+				if (data.status) {
+                    message = data.info;
+                    $.alertMessager(message, 'success');
+                    setTimeout(function() {          
+						location.reload();
+                    }, 2000);
+                }else{
+					 message = data.info;
+                    $.alertMessager(message, 'error');
+				}
+			},'json');
+		});
+
+		//禁用
+		$('#ban').click(function(){
+			var id = '';
+			var inputObj = $('input[name="ids[]"]:checked');
+			$.each(inputObj,function(k,v){
+				id += $(this).val() +',';				
+			})
+			id = id.substring(0,id.length-1);
+			$.post('{:U("SystemMenu/ban")}',{id:id},function(data){
+				if (data.status) {
+                    message = data.info;
+                    $.alertMessager(message, 'success');
+                    setTimeout(function() {          
+						location.reload();
+                    }, 2000);
+                }else{
+					 message = data.info;
+                    $.alertMessager(message, 'error');
+				}
+			},'json');
+		});
+
+		//删除
+		$('#del').click(function(){
+			var id = '';
+			var inputObj = $('input[name="ids[]"]:checked');
+			$.each(inputObj,function(k,v){
+				id += $(this).val() +',';				
+			})
+			id = id.substring(0,id.length-1);
+			$.post('{:U("SystemMenu/del")}',{id:id},function(data){
+				if (data.status) {
+                    message = data.info;
+                    $.alertMessager(message, 'success');
+                    setTimeout(function() {          
+						location.reload();
+                    }, 2000);
+                }else{
+					 message = data.info;
+                    $.alertMessager(message, 'error');
+				}
+			},'json');
+		});
+
+		//多选按钮
+		$('input[type=checkbox]').change(function(){
+			if($(this).parent().next().next().attr("status")!=1){
+                chn($(this).parent().parent().attr("id"),"hide");
+				$(this).parent().next().next().attr("status",1);
+            }else{
+                chn($(this).parent().parent().attr("id"),"show");
+                $(this).parent().next().next().removeAttr("status");
+            }
+		})
+
+		 var chn=function(cid,op){
+                    if(op=="show"){
+                        $("tr[pid='"+cid+"']").each(function(){
+                            $(this).removeAttr("status").show();
+                            chn($(this).attr("id"),"show");
+                        });
+                    }else{
+                        $("tr[pid='"+cid+"']").each(function(){
+                            $(this).attr("status",1).hide();
+                            chn($(this).attr("id"),"hide");
+                        });
+                    }
+                }
+                $(".tree").click(function(){
+					$(this).prev().prev().find('input').removeAttr('checked');
+					//alert($(this).prev().prev().attr('class'))
+                    if($(this).attr("status")!=1){
+                        chn($(this).parent().attr("id"),"hide");
+                        $(this).attr("status",1);
+                    }else{
+                        chn($(this).parent().attr("id"),"show");
+                        $(this).removeAttr("status");
+                    }
+                });
+	})
+</script>
+</body>

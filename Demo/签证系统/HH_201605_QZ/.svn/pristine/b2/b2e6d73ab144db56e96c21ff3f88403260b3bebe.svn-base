@@ -1,0 +1,161 @@
+<link rel="stylesheet" type="text/css" href="__COMMON_JS__/webuploader/webuploader.css">
+<script type="text/javascript" src="__COMMON_JS__/webuploader/webuploader.js"></script>
+
+<script type="text/javascript">
+/**
+ * 上传图片
+ * @param  {string} selector [选择器，jq中$()里面的内容]
+ * @param  {string} name     [input的name，后端通过该参数获取]
+ * @param  {int} num         [图片数量限制]
+ * @param  {string} data     [已有图片，编辑时用，用php的implode+','分隔]
+ * @param  {string} url      [上传图片的路径]
+ */
+function webuploaderImg(selector,name,num,data,url) {
+    if ((!num||num=='')&&num!==0) num = 1;
+    if (num!=1) name = name+'[]';
+    if (!url||url=='') url = '{:U("Ajax/uploadImg")}';
+    
+    //添加容器和按钮
+    $(selector).html('<div class="fileList"><div class="choose_bnt"></div></div>');
+    //找到按钮
+    $choose_bnt = $(selector).find('.choose_bnt');
+    //找到容器
+    $fileList   = $(selector).find(".fileList");
+
+    //添加最大图片数量属性
+    $(selector).find(".fileList").attr('max_num',num);
+    
+    // 初始化Web uploadError
+    var uploader = WebUploader.create({
+
+        // 选完文件后，是否自动上传。
+        auto: true,
+        //不去重
+        duplicate: true,
+        // 文件接收服务端。
+        server: url,
+
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: $(selector).find('.choose_bnt'),
+
+        // 只允许选择图片文件。
+        accept: {
+            title: 'Images',
+            extensions: 'gif,jpg,jpeg,bmp,png',
+            mimeTypes: 'image/*'
+        },
+
+    });
+    // 当有文件添加进来的时候
+    uploader.on( 'fileQueued', function( file ) {
+        var count = $(selector).find(".fileList").children(".file-item").size();
+        if (num!=0&&count>=num) {
+            layer.msg("最多可上传"+num+"张图片！");
+            return ;
+        };
+
+        var $li = $(
+                '<div id="' + file.id + '" class="file-item thumbnail">' +'<div class="shadow_div"></div><span class="del_img" onclick="del_img(this)"></span><img>'+'</div>'
+                ),
+            $img = $li.find('img');
+
+        // $list为容器jQuery实例
+        $(selector).find(".fileList").append( $li );
+
+        if (count+1==num) {
+            $(selector).find('.choose_bnt').hide();
+        };
+        // 创建缩略图
+        // 如果为非图片文件，可以不用调用此方法。
+        // thumbnailWidth x thumbnailHeight 为 100 x 100
+        uploader.makeThumb( file, function( error, src ) {
+            if ( error ) {
+                $img.replaceWith('<span>不能预览</span>');
+                return;
+            }
+
+            $img.attr( 'src', src );
+        }, 100 ,100);
+    });
+
+    // 文件上传过程中创建进度条实时显示。
+    uploader.on( 'uploadProgress', function( file, percentage ) {
+        var $li = $( '#'+file.id ),
+            $percent = $li.find('.shadow_div');
+
+        // // 避免重复创建
+        // if ( !$percent.length ) {
+        //     $percent = $('<p class="progress"><span></span></p>')
+        //             .appendTo( $li )
+        //             .find('span');
+        // }
+
+        $percent.text( percentage+'%' );
+    });
+
+    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+    uploader.on( 'uploadSuccess', function( file,res) {
+        var $li = $( '#'+file.id );
+        if (res.status==1) {
+            $li.find('.shadow_div').hide();
+            $li.append('<input name="'+name+'" value="'+res.data+'" type="hidden" />');
+            $li.find('img').wrap(function() {
+                return '<a href="__ROOT__/' + res.data + '" target="_blank"/>';
+            })
+        }else{
+
+            layer.msg(res.data);
+            $li.find('.shadow_div').remove();
+            $li.prepend('<div class="retry_div" onclick="retry_upload(this)">重新上传</div>')
+        };
+    });
+
+    // 文件上传失败，显示上传出错。
+    uploader.on( 'uploadError', function( file ) {
+        var $li = $( '#'+file.id ),
+            $error = $li.find('div.error');
+        // 避免重复创建
+        // if ( !$error.length ) {
+        //     $error = $('<div class="error"></div>').appendTo( $li );
+        // }
+
+        $error.text('上传失败');
+    });
+
+    // 完成上传完了，成功或者失败，先删除进度条。
+    uploader.on( 'uploadComplete', function( file ) {
+        
+    });
+
+    
+    //如果已经有图片
+    if (data!='') {
+        data = data.split(",");
+        $.each(data, function(i, n){
+            if (i+1==num) {
+                $(selector).find('.choose_bnt').hide();
+            }
+            var src = '__ROOT__/' + n;
+            var str = '<div class="file-item thumbnail"><span class="del_img" onclick="del_img(this)"></span><a href="'+src+'" target="_blank"><img src="'+src+'"></a><input name="'+name+'" value="'+n+'" type="hidden"></div>';
+            $(selector).find(".fileList").append( str );
+        });
+    };
+
+}
+function del_img(obj){
+    var $fileList = $(obj).parents(".fileList");
+    $(obj).parents(".file-item").remove();
+    var img_count = $fileList.find('.file-item').size();
+    var num = $fileList.attr('max_num');
+    if (img_count<num) {
+        $fileList.find('.choose_bnt').show();
+    };
+}
+function retry_upload (obj) {
+    var $choose_bnt = $(obj).parents(".fileList").find('input[name="file"]');
+    var $li = $(obj).parents(".file-item");
+    $li.remove();
+    $choose_bnt.trigger("click");
+}
+</script>

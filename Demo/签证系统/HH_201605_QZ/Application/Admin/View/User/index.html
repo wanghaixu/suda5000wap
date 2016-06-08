@@ -1,0 +1,210 @@
+<include file="Common/header"/>	
+	<div class="clearfix full-container">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- 左侧导航菜单开始 -->
+				<include file="Common/left"/>
+				<!-- 左侧导航菜单结束 -->
+				<!-- 页面主体内容开始 -->
+				<div id="main" class="col-xs-12 col-sm-10 main">
+					<!-- 面包屑导航开始 -->
+					<ul class="breadcrumb">
+					    <li><i class="fa fa-map-marker"></i></li>
+					    <volist name="__PARENT_MENU__" id="vo">
+					        <li>{$vo.title}</li>
+					    </volist>
+					</ul>
+					<!-- 面包屑导航结束 -->
+					<div class="builder builder-list-box">
+						<div class="row">
+							<!-- 顶部工具栏按钮 -->
+							<div class="builder-toolbar col-xs-12">
+								<!-- 工具栏按钮 -->
+								<div class="button-list search-from">
+
+                                   
+                                    <!-- 新表单 start-->
+                                    <div class="col-md-8 pad-0">
+                                        <form class="form-inline">
+                                            <div class="form-group" style="margin-left: 0px;">
+                                                    <label class="control-lable">关键字</label>
+                                                    <input type="text"  name="keyword" class="form-control" value="{$data.keyword}">
+                                            </div>
+                                            <div class="form-group" style="margin-left: 20px;">
+                                                <label class="control-label">状态</label>
+                                                <select name="leave" class="form-control">
+                                                    <option value="">全部</option>
+                                                    <foreach name="leave" item="vo">
+                                                    <if condition="$key+1 eq $data['leave']">
+                                                        <option value="{$key}" selected="selected">{$vo}</option>
+                                                    <else />
+                                                        <option value="{$key}">{$vo}</option>
+                                                    </if>
+                                                    </foreach>
+                                                </select>
+                                            </div>
+                                            <div class="form-group" style="margin-left: 20px;">
+                                            <label class="control-label">角色</label>
+                                                <select name="role" class="form-control">
+                                                    <option value="">全部</option>
+                                                    <foreach name="role" item="vo">
+                                                    <if condition="$key eq $data['role']">
+                                                        <option value="{$key}" selected="selected">{$vo}</option>
+                                                    <else />
+                                                        <option value="{$key}">{$vo}</option>
+                                                    </if>
+                                                    </foreach>
+                                                </select>
+                                            </div>
+                                            <div class="form-group" style="margin-left: 20px;">
+                                                <button class="btn btn-default" type="submit">搜索</button>
+                                            </div>
+                                        </form>
+                                    </div> 
+                                    <div class="col-md-4 pad-0">
+                                        <div class="btn-wrap item-fr marr-0">
+                                            <a class="btn btn-primary" href="{:U('Admin/User/add')}">添加员工</a>
+                                        </div>
+                                    </div>
+                                    <!-- 表单 end -->
+
+
+		  </div>
+		</div>
+	   <!-- 数据列表 -->
+			<div class="builder-container col-xs-12">
+			 <div class="builder-table">
+	                           <div class="panel panel-default table-responsive" id="tablelist">
+                                        <table class="table table-bordered table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>姓名</th>
+                                                    <th>英文名</th>
+                                                    <th>性别</th>
+                                                    <th>手机</th>
+                                                    <th>角色</th>
+                                                    <th>账号</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <volist name="users" id="vo">
+                                                    <tr>
+                                                        <td class="name">{$vo.u_name}</td>
+                                                        <td>{$vo.u_ename}</td>
+                                                        <td>
+                                                            <if condition="$vo.u_sex eq 1">
+                                                                男
+                                                            <else />
+                                                                女
+                                                            </if>
+                                                        </td>
+                                                        <td>{$vo.u_mobile}</td>
+                                                        <td>{$vo.u_role|role2str=###}</td>
+                                                        <td>{$vo.u_username}</td>
+                                                        <td class="text-center">
+                                                            <if condition="$vo.u_id eq 1">
+                                                                <a class="label label-revoke" href="{:U('Admin/User/edit', array('u_id'=>$vo['u_id']))}">编辑</a>
+                                                            <else />
+                                                                <input name="id" type="hidden" value="{$vo.u_id}"/>
+                                                                <if condition="($vo.u_leave eq 1) AND ($vo.u_status eq 1)">
+                                                                <a class="label label-info leave">请假</a>
+                                                                <elseif condition="($vo.u_leave eq 0) AND ($vo.u_status eq 1)" />
+                                                                <a class="label label-info leave-close">结束请假</a>
+                                                                <else />
+                                                                </if>
+                                                                <a class="label label-info" href="{:U('Admin/User/leaveLog', array('u_id'=>$vo['u_id']))}">请假记录</a>
+                                                                <a class="label label-revoke" href="{:U('Admin/User/edit', array('u_id'=>$vo['u_id']))}">编辑</a>
+                                                                <if condition="$vo.u_status eq 1">
+                                                                    <a class="label label-recharge disable" data-id="{$vo.u_id}">禁用</a>
+                                                                <else />
+                                                                    <a class="label label-success enable" data-id="{$vo.u_id}">启用</a>
+                                                                </if>
+                                                            </if>
+                                                        </td>
+                                                    </tr>
+                                                </volist>
+                                            </tbody>
+                                        </table>
+	                                </div>
+	                            </div>
+							</div>
+							<!-- 底部区域开始 -->
+							<div class="builder-footer col-xs-12">
+								<div class="page">
+									<div class="badoo">{$show}</div>
+								</div>
+							</div>
+							<!-- 底部区域结束 -->
+						</div>
+					</div>
+				</div>
+				<!-- 页面主体内容结束 -->
+			</div>
+		</div>
+	</div>
+
+<!-- footer开始 -->
+<include file="Common/footer"/>
+<script>
+$(function(){
+    $(document).on('click', '.leave', function(){
+        var id = $(this).siblings('input[name="id"]').val();
+        var name = $(this).parent().siblings('.name').text();
+        var index = layer.confirm('确定【'+name+'】请假？', {'btn': ['确定', '取消']}, function(){
+            $.post("{:U('Admin/User/leave')}", {'id': id}, function(data){
+                layer.close(index);
+                if (data.status == 1) {
+                    layer.msg(data.info, {'icon': 1, 'time': 1500}, function(){
+                        window.location.reload();
+                    });
+                } else {
+                    layer.msg(data.info, {'icon': 2});
+                }
+            });
+        }, function(){
+            layer.close(index);
+        })
+    });
+    $(document).on('click', '.leave-close', function(){
+        var id = $(this).siblings('input[name="id"]').val();
+        var name = $(this).parent().siblings('.name').text();
+        var index = layer.confirm('确定【'+name+'】结束请假？', {'btn': ['确定', '取消']}, function(){
+            $.post("{:U('Admin/User/leaveClose')}", {'id': id}, function(data){
+                layer.close(index);
+                if (data.status == 1) {
+                    layer.msg(data.info, {'icon': 1, 'time': 1500}, function(){
+                        window.location.reload();
+                    });
+                } else {
+                    layer.msg(data.info, {'icon': 2});
+                }
+            });
+        }, function(){
+            layer.close(index);
+        })
+    });
+    $(document).on('click', '.disable', function(){
+        var id = $(this).attr('data-id');
+        $.post("{:U('Admin/User/disable')}", {'id': id}, function(data){
+            if (data.status == 1) {
+                window.location.reload();
+            } else {
+                layer.msg(data.info, {'icon':2});
+            }
+        })
+    });
+    $(document).on('click', '.enable', function(){
+        var id = $(this).attr('data-id');
+        $.post("{:U('Admin/User/enable')}", {'id': id}, function(data){
+            if (data.status == 1) {
+                window.location.reload();
+            } else {
+                layer.msg(data.info, {'icon':2});
+            }
+        })
+    });
+});
+</script>
+</body>
+</html>

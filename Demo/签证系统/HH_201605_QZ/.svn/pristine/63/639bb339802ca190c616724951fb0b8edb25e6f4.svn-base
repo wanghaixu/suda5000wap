@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="renderer" content="webkit">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__COMMON_CSS__/admin.min.css">
+	<link rel="stylesheet" type="text/css" href="__COMMON_CSS__/form.css">
+	<style>
+		body {
+			padding: 10px;
+			font-family: 'Microsoft Yahei';
+		}
+		.table > thead > tr > th,
+		.table > tbody > tr > td {
+			text-align: center;
+			vertical-align: middle;
+		}
+	</style>
+</head>
+<body>
+	<div class="builder-table">
+		
+          <form class="form-inline">
+              <div class="inline-block marr-5 marb-5">
+                  <label for="">标签</label>
+                  <input type="text" name="" class="form-input" size="20" placeholder="">
+              </div>
+              <div class="inline-block marr-5 marb-5">
+                  <label for="">标签</label>
+                  <input type="text" name="" class="form-input" size="20" placeholder="">
+              </div>
+              <div class="inline-block marr-5 marb-5">
+                  <label for="">标签</label>
+                  <input type="text" name="" class="form-input" size="20" placeholder="">
+              </div>
+              <div class="inline-block marr-5 marb-5">
+                  <label for="">标签</label>
+                  <select name="" class="form-input">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+              </div>
+              <div class="inline-block marr-5 marb-5">
+                  <label for="">标签</label>
+                  <select name="" class="form-input">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+              </div>
+              <div class="inline-block marr-5 marb-5">
+                  <button type="submit" class="baseline btn btn-default">按钮</button>
+              </div>
+          </form>
+		<div class="panel panel-default table-responsive">
+			<table class="table table-bordered table-striped table-hover">
+				<thead>
+					<tr>
+						<th>预约时间</th>
+						<th>上课时间</th>
+						<th>上课教室</th>
+						<th>备注</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<volist name='list' id="vo">
+					<tr>
+						<td>{$vo.la_start_time|date='Y-m-d H:i',###}</td>
+						<td>{$vo.course_time}</td>
+						<td>{$vo.room}</td>
+						<td><if condition="$vo.la_remark eq ''">无<else/>{$vo.la_remark}</if></td>
+						<td>
+							<if condition="$vo.la_status eq 0">						
+								<a class="label label-primary make-sure"url="{:U('private/set_status')}" la_id='{$vo.la_id}'co_id='{$vo.co_id}'status='1'href="javascript:;">确认上课</a>
+							<else/>
+								<a class="label label-danger make-sure"url="{:U('private/set_status')}" la_id='{$vo.la_id}'co_id='{$vo.co_id}'status='0'href="javascript:;">撤销上课</a>
+							</if>						
+						</td>
+					</tr>
+					</volist>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script>
+	$(".make-sure").click(function() {
+	var delLink = $(this).attr("url");
+	var co_id = $(this).attr('co_id');
+	var la_id = $(this).attr('la_id');
+	var status = $(this).attr('status');
+		$.post(delLink, {co_id: co_id,la_id: la_id,la_status: status}, function(data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout(function() {
+					top.window.location.reload();
+				}, 2000)
+			} else {
+				layer.msg(data.info, {icon: 0});
+			}
+		})
+	return false;
+	});
+</script>
+</html>

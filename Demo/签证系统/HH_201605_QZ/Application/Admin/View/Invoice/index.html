@@ -1,0 +1,120 @@
+<include file="Common/header"/>
+<div class="clearfix full-container">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 左侧导航菜单开始 -->
+            <include file="Common/left"/>
+            <!-- 左侧导航菜单结束 -->
+
+            <!-- 页面主体内容开始 -->
+            <div id="main" class="col-xs-12 col-sm-10 main">
+                <!-- 面包屑导航开始 -->
+                <ul class="breadcrumb">
+                    <li><i class="fa fa-map-marker"></i></li>
+                    <volist name="__PARENT_MENU__" id="vo">
+                        <li>{$vo.title}</li>
+                    </volist>
+                </ul>
+                <!-- 面包屑导航结束 -->
+
+                <!-- 数据列表 -->
+                <div class="builder builder-form-box">
+                    <div class="builder-container builder-form-container">
+                        
+                        <div class="row">
+                            <div class="col-xs-12">
+                            	<form class="form-inline" style="margin-bottom: 5px;">
+                            	<div class="from-group">
+                            		<label class="control-label">状态</label>
+                            		<select name="status" class="form-control">
+                            		<if condition="$status eq 0">
+                    				<option value="2">全部</option>
+                    				<option value="0" selected>申请中</option>
+                    				<option value="1">已完成</option>
+                            		<elseif condition="$status eq 1" />
+                    				<option value="2">全部</option>
+                    				<option value="0">申请中</option>
+                    				<option value="1" selected>已完成</option>
+                            		<elseif condition="$status eq 2" />
+                    				<option value="2" selected>全部</option>
+                    				<option value="0">申请中</option>
+                    				<option value="1">已完成</option>
+                            		</if>
+                            		</select>
+                            	</div>
+                            	</form>
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>档案单号</th>
+                                            <th>操作人员</th>
+                                            <th>代理商</th>
+                                            <th>档案单服务费</th>
+                                            <th>抬头</th>
+                                            <th>类型</th>
+                                            <th>金额</th>
+                                            <th>内容</th>
+                                            <th>备注</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="invoices" id="vo">
+                                        		<tr>
+                                        			<td class="or-code">{$vo.or_code}</td>
+                                        			<td>{$vo.or_deal_uid}</td>
+                                        			<td>{$vo.ag_id}</td>
+                                        			<td>{$vo.or_fee}</td>
+                                        			<td>{$vo.oi_header}</td>
+                                        			<td>{$vo.oi_type}</td>
+                                        			<td>{$vo.oi_fee}</td>
+                                        			<td>{$vo.oi_content}</td>
+                                        			<td>{$vo.oi_remarks}</td>
+                                        			<td>
+                                        				<if condition="$vo.oi_status eq 0">
+								<a class="label label-info complete" data-id="{$vo.oi_id}">完成开票</a>
+                                        				<else />
+								已开票
+                                        				</if>
+                                        			</td>
+                                        		</tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                                <div class="text-center">
+                                    {$show}
+                                </div>
+                            </div>
+                        </div><!-- end row -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部区域开始 -->
+    <include file="Common/footer"/>
+    <!-- 底部区域结束 -->
+<script>
+	$('select[name="status"]').change(function(){
+		var url = "{:U('Admin/Invoice/index')}";
+		window.location.href = url + '?status='+$(this).val();
+	});
+	$('.complete').click(function(){
+		var id = $(this).attr('data-id');
+		var code = $(this).parent('td').siblings('.or-code').text();
+		var index = layer.confirm('确定完成档案单【'+code+'】开票?', {'btn':['确定','取消']}, function(){
+			$.post("{:U('Admin/Invoice/complete')}", {'oi_id': id}, function(data){
+				if (data.status == 1) {
+					window.location.reload();
+				} else {
+					layer.msg(data.info, {'icon': 2});
+				}
+			});
+		}, function(){
+			layer.close(index);
+		});
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<include file="Common/header"/> 
+    <div class="clearfix full-container">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- 左侧导航菜单开始 -->
+                <include file="Common/left"/>
+                <!-- 左侧导航菜单结束 -->
+                
+                <!-- 页面主体内容开始 -->
+                <div id="main" class="col-xs-12 col-sm-10 main">
+                    <!-- 面包屑导航开始 -->
+                    <ul class="breadcrumb">
+                        <li><i class="fa fa-map-marker"></i></li>
+                        <volist name="__PARENT_MENU__" id="vo">
+                            <li>{$vo.title}</li>
+                        </volist>
+                    </ul>
+                    <!-- 面包屑导航结束 -->
+                    
+                    <div class="builder builder-list-box">
+                        <div class="row">
+                            <!-- 顶部工具栏按钮 -->
+                            <div class="builder-toolbar col-xs-12">
+                                <!-- 工具栏按钮 -->
+                                <div class="button-list search-from">
+
+                                   
+                                    <!-- 新表单 start-->
+                                    <div class="col-md-8 pad-0">
+                                        <!-- <div class="btn-wrap">
+                                            <div class="search-group  search-form" style="min-width:290px;">
+                                                <input type="text"  name="keywords" class="form-control input-middle  search-input" value="{$_GET['keywords']}" placeholder="筛选条件">
+                                                <a class="btn btn-default fa fa-search" href="javascript:;" id="search" url="{:U('index')}"></a>    
+                                            </div>
+                                        </div> -->
+                                        <form class="form-inline">
+                                            <div class="inline-block marr-5 marb-5">
+                                                <input type="text" name="keyword1" class="form-input" size="20" placeholder="姓名">
+                                            </div>
+                                            <div class="inline-block marr-5 marb-5">
+                                                <input type="text" name="keyword2" class="form-input" size="20" placeholder="身份证">
+                                            </div>
+                                            <div class="inline-block marr-5 marb-5">
+                                                <input type="text" name="keyword4" class="form-input" size="20" placeholder="护照号码">
+                                            </div>
+                                            <div class="inline-block marr-5 marb-5">
+                                                <input type="text" name="keyword3" class="form-input" size="20" placeholder="联系方式">
+                                            </div>
+                                           <!--  <div class="inline-block marr-5 marb-5">
+                                                <label for="">标签</label>
+                                                <select name="" class="form-input">
+                                                  <option>1</option>
+                                                  <option>2</option>
+                                                  <option>3</option>
+                                                  <option>4</option>
+                                                  <option>5</option>
+                                                </select>
+                                            </div>
+                                            <div class="inline-block marr-5 marb-5">
+                                                <label for="">标签</label>
+                                                <select name="" class="form-input">
+                                                  <option>1</option>
+                                                  <option>2</option>
+                                                  <option>3</option>
+                                                  <option>4</option>
+                                                  <option>5</option>
+                                                </select>
+                                            </div> -->
+                                            <div class="inline-block marr-5 marb-5">
+                                                <button type="submit" class="baseline btn btn-default">按钮</button>
+                                            </div>
+                                        </form>
+                                    </div> 
+                                    <div class="col-md-4 pad-0">
+                                        <div class="btn-wrap item-fr marr-0">
+                                            <a title="添加" class="btn btn-primary" href="{:U('add')}">录入新客户</a>&nbsp;
+                                            <!--  <a title="导入客户信息" class="btn btn-success" href="{:U('import')}">导入客户信息</a> -->
+                                            <!-- &nbsp;
+                                            <a title="删除" class="btn btn-danger" href="{:U('del')}">删除</a> -->
+                                        </div>
+                                    </div>
+                                    <!-- 表单 end -->
+
+
+                                </div>
+                            </div>
+                            <!-- 数据列表 -->
+                            <div class="builder-container col-xs-12">
+                                <div class="builder-table">
+                                    <div class="panel panel-default table-responsive" id="tablelist">
+                                        <table class="table table-bordered table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <td>
+                                                        <input class="check-all" type="checkbox">
+                                                    </td>
+                                                    <td>姓名</td>
+                                                    <td>身份证</td> 
+                                                    <td>护照号</td>
+                                                    <td>性别</td>
+                                                    <td>联系方式</td>
+                                                    <td>常驻地</td>
+                                                    <td>出生年月</td>
+                                                    <td>建档时间</td>
+                                                    <td width="">操作</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <volist name='list' id='vo'>
+                                                <tr align="center">
+                                                    <td><input class="ids" type="checkbox" value="{$vo.mem_id}" name="ids[]"></td>
+                                                    <td>{$vo.mem_name}</td>
+                                                    <td>{$vo.mem_code}</td>
+                                                    <td>{$vo.mem_passport}</td>
+                                                    <td>{$vo.mem_sex}</td>
+                                                    <td>{$vo.mem_mobile}</td>
+                                                    <td>{$vo.mem_address}</td>
+                                                    <td>{$vo.mem_birthday|date="Y-m",###}</td>
+                                                    <td>{$vo.mem_ctime|int2date}</td>
+                                                    <td>
+                                                        <a  href="{:U('edit',array('id'=>$vo['mem_id']))}" class="label label-revoke group_edit">编辑</a>
+                                                       <!--  <a href="javascript:void(0)" link="{:U('group_ban',array('id'=>$vo['g_id']))}" class="label label-recharge group_ban" title='{$vo.g_name}' g_id="{$vo.g_id}">禁用</a>
+                                                        <a link="{:U('group_del',array('id'=>$vo['g_id']))}"  class="label label-danger group_del" href="javascript:void(0)" title="{$vo.g_name}" g_id="{$vo.g_id}">删除</a> -->
+                                                        <!-- <a link="{:U('group_start',array('id'=>$vo['g_id']))}"  class="label label-success group_start" href="javascript:void(0)" title="{$vo.g_name}" g_id="{$vo.g_id}">开启</a> -->
+                                                        <a href="{:U('follow',array('id' =>$vo['mem_id']))}" class="label label-success " >跟进记录</a>
+                                                        <!-- <a link="{:U('detail',array('id'=>$vo['mem_id']))}"  class="label label-info popup_form_1" href="javascript:void(0)" >详情</a> -->
+                                                        <!-- <a link="{:U('detail',array('id'=>1))}"  class="label label-success popup_form_2" href="javascript:void(0)" title="" g_id="{$vo.g_id}">表单弹窗2</a>
+                                                        <a link="{:U('detail',array('id'=>1))}"  class="label label-warning popup_table" href="javascript:void(0)" title="" g_id="{$vo.g_id}">表格弹窗</a> -->
+                                                    </td>
+                                                </tr>
+                                            </volist>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 底部区域开始 -->
+                            <div class="builder-footer col-xs-12">
+                                <div class="btn-wrap">
+                                    <a title="删除" class="btn btn-danger" id='del' href="javascript:void(0);" link="{:U('del')}">删除</a>
+                                </div>
+                                <div class="page">
+                                    <div class="badoo">{$page}</div>
+                                </div>
+                            </div>
+                            <!-- 底部区域结束 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 页面主体内容结束 -->
+            </div>
+        </div>
+    </div>
+
+<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script type="text/javascript">
+    $(function() {
+        // 表单弹窗
+            $('.popup_form_1').click(function(){
+                var delLink = $(this).attr("link");
+                layer.open({
+                    type:2,
+                    title: '客户详情',
+                    shadeClose: false,
+                    shade: .4,
+                    scrollbar: false,
+                    area: ['400px', '470px'],
+                    content: [delLink,'no']
+                });
+            });
+            $('.popup_form_2').click(function(){
+                var delLink = $(this).attr("link");
+
+                var body_width = $("body").width();
+                var win_width = getLayerWidth(body_width);
+                var g_id = $(this).attr('g_id');
+                layer.open({
+                    type:2,
+                    title: '添加课程',
+                    shadeClose: false,
+                    shade: .4,
+                    scrollbar: false,
+                    area: [win_width, '490px'],
+                    content: [delLink,'no']
+                });
+            });
+        // 表格弹窗
+            $('.popup_table').click(function(){
+                var delLink = $(this).attr("link");
+                var g_id = $(this).attr('g_id');
+                layer.open({
+                    type:2,
+                    title: '添加课程',
+                    shadeClose: false,
+                    shade: .4,
+                    scrollbar: false,
+                    area: ['400px', '470px'],
+                    content: [delLink,'no']
+                });
+            });
+
+
+            $(".group_ban").click(function() {
+                var delLink = $(this).attr("link");
+                var g_id = $(this).attr('g_id');
+                layer.confirm('你真的打算禁用【<b>' + $(this).attr("title") + '</b>】这商家吗?', {shade: 0.8}, function() {
+                    $.post(delLink, {g_id: g_id}, function(data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            setTimeout(function() {
+                                top.window.location.href = data.url;
+                            }, 2000)
+                        } else {
+                            layer.msg(data.info, {icon: 0});
+                        }
+                    })
+                })
+                return false;
+            });
+
+            $(".group_del").click(function() {
+                var delLink = $(this).attr("link");
+                var g_id = $(this).attr('g_id');
+                layer.confirm('你真的打算删除【<b>' + $(this).attr("title") + '</b>】这商家吗?', {shade: 0.8}, function() {
+                    $.post(delLink, {g_id: g_id}, function(data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            setTimeout(function() {
+                                top.window.location.href = data.url;
+                            }, 2000)
+                        } else {
+                            layer.msg(data.info, {icon: 0});
+                        }
+                    })
+                })
+                return false;
+            });
+
+             $(".group_start").click(function() {
+                var delLink = $(this).attr("link");
+                var g_id = $(this).attr('g_id');
+                layer.confirm('你真的打算开启【<b>' + $(this).attr("title") + '</b>】这商家吗?', {shade: 0.8}, function() {
+                    $.post(delLink, {g_id: g_id}, function(data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            setTimeout(function() {
+                                top.window.location.href = data.url;
+                            }, 2000)
+                        } else {
+                            layer.msg(data.info, {icon: 0});
+                        }
+                    })
+                })
+                return false;
+            });
+               //批量删除
+        $('#del').click(function(){
+            var mem_id = '';
+            $('.ids:checked').each(function(){
+                mem_id +=$(this).val()+ ',';              
+            })
+            if(mem_id == ''){
+                layer.msg('请选择需要删除的客户', {icon: 0});             
+                return false;
+            }
+            
+            var delLink = $(this).attr("link");
+            layer.confirm('你真的打算删除所选的客户吗?', {shade: 0.8}, function() {
+                $.post(delLink, {mem_id: mem_id}, function(data) {
+                    if (data.status == 1) {
+                        layer.msg(data.info, {icon: 1});
+                        setTimeout(function() {
+                             top.window.location.reload();
+                        }, 2000)
+                    } else {
+                        layer.msg(data.info, {icon: 0});
+                    }
+                })
+            })
+            return false;
+        })
+
+        });
+</script>

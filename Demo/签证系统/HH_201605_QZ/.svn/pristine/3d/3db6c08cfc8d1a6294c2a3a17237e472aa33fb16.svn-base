@@ -1,0 +1,93 @@
+.webuploader-container {
+	position: relative;
+}
+.webuploader-element-invisible {
+	width:100px;
+	height:100px;
+	opacity:0;
+	cursor:pointer;
+}
+.webuploader-pick {
+	cursor: pointer;
+	background:url(webuploader_add_bnt.png) no-repeat;
+	width: 100px;
+	height: 100px;
+	background-size:98px;
+}
+.webuploader-container div:last-child{
+	top:0px !important;
+	left:0px !important;
+	width:100% !important;
+	height:100% !important;
+}
+
+.fileList{
+	position:relative;
+	height: 100%;
+	width: 100%;
+	overflow:hidden;
+	padding-top:10px;
+}
+
+.choose_bnt{
+	float:left;
+	width: 100px;
+	height:100px;
+	background: #FFF;
+	border:1px solid #eee;
+}
+
+.file-item{
+	position:relative;
+	display: inline-block;
+	float:left;
+	margin-left:10px;
+}
+.file-item img{
+	width: 90px;
+}
+.shadow_div{
+	display: inline-block;
+	height: 100%;
+	width: 100%;
+	position:absolute;
+	background-color:rgba(50,50,50,0.4);
+	line-height:100px;
+	text-align:center;
+	color:#fff;
+	font-size:18px
+}
+.retry_div{
+	display: inline-block;
+	height: 92%;
+	width: 92%;
+	position:absolute;
+	background-color:rgba(50,50,50,0.4);
+	line-height:100px;
+	text-align:center;
+	color:#fff;
+	font-size:18px
+}
+.del_img{
+	/*display:none;*/
+	z-index: 100;
+	position:absolute;
+	top:-5px;
+	right:-5px;
+	width:20px;
+	height:20px;
+	background:url(webuploader_del_bnt.png) no-repeat;
+	background-size:20px;
+	cursor:pointer;
+}
+.img_item{
+	position:relative;
+	float:left;
+	width:100px;
+	height:100px;
+}
+.img_item img{
+	width:100%;
+}
+
+.thumbnail{margin-bottom:0px !important;}

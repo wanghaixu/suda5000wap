@@ -1,0 +1,132 @@
+<include file="Common/header"/>
+	
+	<div class="clearfix full-container">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- 左侧导航菜单开始 -->
+				<include file="Common/left"/>
+				<!-- 左侧导航菜单结束 -->
+
+				<div id="main" class="col-xs-12 col-sm-10 main">
+					<!-- 面包屑导航 -->
+					<ul class="breadcrumb">
+						<li><i class="fa fa-map-marker"></i></li>
+						<volist name="__PARENT_MENU__" id="vo">
+					        <li>{$vo.title}</li>
+					    </volist> 
+					</ul>
+										
+					<div class="builder builder-form-box">
+						
+						<div class="builder-container builder-form-container">
+							<div class="row">
+								<div class="col-xs-12">
+									<form action="" method="post" class="form builder-form">
+										<div class="form-group item_pid ">
+											<label class="item-label">上级菜单<span class="check-tips">（<span class="small">所属的上级菜单</span>）</span></label>
+											<div class="controls">
+												<select name="pid" class="form-control select">
+												<option value='0'>根菜单</option>
+														{$menu['pidOption']}
+												</select> 												
+											</div>
+										</div>
+										<div class="form-group item_title ">
+											<label class="item-label">标题<span class="check-tips">（<span class="small">菜单标题</span>）</span></label>
+											<div class="controls">
+												<input type="text" class="form-control input text" name="title" value="{$info.title}">
+											</div>
+										</div>
+										<div class="form-group item_url" id='node_url'>
+											<label class="item-label">链接<span class="check-tips">（<span class="small">U函数解析的URL</span>）</span></label>
+											<div class="controls" style="overflow:hidden">
+												<input type="text" class="form-control input text" name="url" value="{$info.url}" style='float:left;width:360px;'>
+												<div style='float:left;margin-left:10px;' class='btn btn-primary node'>选择节点</div>
+												<input type="checkbox" name="auto_node" value="1" checked="true"></input>自动节点
+											</div>
+										</div>
+										{$select_node}
+										<div class="form-group item_icon ">
+											 <label class="item-label">图标<span class="check-tips">（<span class="small">菜单图标</span>）</span></label>
+											<div class="controls">
+											<input type="text" id="_icon_4" class="form-control input icon-choosen" name="icon" value="{$info.icon}">
+											</div>
+									    </div>
+									    <div class="form-group item_sorting">
+										    <label class="item-label">排序<span class="check-tips">（<span class="small">用于显示的顺序</span>）</span></label>
+										    <div class="controls">
+											    <input type="text" class="form-control input num" name="sort" value="{$info.sort}">
+										    </div>
+									    </div>
+										<input name='id' type='hidden' value='{$info.id}'/>
+								    </form>
+									<div class="col-xs-12 bto_btn">
+										<div class="btn-wrap">
+			                                <button class="btn btn-primary submit ajax-post visible-md-inline visible-lg-inline" type="submit" target-form="builder-form">确定</button>
+										    <button class="btn btn-default return visible-md-inline visible-lg-inline" onclick="javascript:history.back(-1);return false;">返回</button>
+										</div>
+									</div>
+							    </div>
+						    </div>
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer开始 -->
+<include file="Common/footer"/>
+<!-- footer结束 -->
+<script>
+
+	$(function(){
+		//选择图标事件
+		$("#_icon_4").iconChoosen({});	
+		//点击选择节点
+		$(document).on('click','.node',function(){
+			if($('.item_sort')){
+				$('.item_sort').remove();
+			}
+			var url = $(this).prev().val();
+			//if(/[\w\d]*\/[\w\d]*\/[\w\d]*/.test(url)){
+				$.post('{:U("SystemMenu/getNode")}',{url:url},function(data){
+					//alert(data);
+					$('#node_url').after(data);
+				},'html')
+			//}else{
+				 //$.alertMessager('请输入正确的链接格式','success');
+			//}
+		})
+
+		//节点select
+		$(document).on('change','.node_select',function(){
+			var id = $(this).val();
+			//alert(id);
+			$.post('{:U("SystemMenu/node_change_select")}',{id:id},function(data){
+				var level = data.level;
+				if(level == 1){
+					$('input[name="module"]').val(data.name);
+				}
+				var nodeObj = $('.remove_node');
+				//alert(nodeObj.length);
+				for(var i = level;i<=3;i++){
+					nodeObj.eq(i).remove();
+				}
+				nodeObj.eq(level - 1).after(data.htm_str);
+			},'json');
+		})
+
+		//选择连接
+		$(document).on('click','.url',function(){
+			var str = '';
+			$.each($('select[name=node_id]>option:selected'),function(k,v){
+				str +=$(this).text()+'/';
+			});
+			str = str.substring(0,str.length-1);
+			$('input[name=url]').attr('value',str);			
+		})
+
+		
+	})
+</script>
+</body>

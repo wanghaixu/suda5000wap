@@ -1,0 +1,106 @@
+/*caseCenter*/
+/*图标*/
+.icon{
+	width: 20px;
+	height: 20px;    
+	font-family: "Helvetica Neue",Helvetica,sans-serif!important;
+}
+.icon-cmyser{
+	background: url('../images/icon.png') no-repeat -10px -4px;
+	background-size: 565px 32px;
+}
+.icon-cserdetail{
+	background: url('../images/icon.png') no-repeat -50px -7px;
+	background-size: 565px 32px;
+}
+.icon-cuser{
+	background: url('../images/icon.png') no-repeat -91px -5px;
+	background-size: 565px 32px;
+}
+.icon-ccar{
+	background: url('../images/icon.png') no-repeat -130px -2px;
+	background-size: 565px 32px;
+}
+.icon-cno{
+	background: url('../images/icon.png') no-repeat -170px -3px;
+	background-size: 565px 32px;
+}
+.icon-caddress{
+	background: url('../images/icon.png') no-repeat -211px -5px;
+	background-size: 565px 32px;
+}
+.icon-cedit{
+	background: url('../images/icon.png') no-repeat -251px -6px;
+	background-size: 565px 32px;
+}
+.icon-cadd{
+	position: relative;
+    	top: -3px;
+	left: 0px;
+	margin: 12px 87px 8px 11px;
+	background: url('../images/icon.png') no-repeat -330px -6px;
+	background-size: 565px 32px;
+}
+.icon-cadd:active{
+	background-position:  -370px -6px;
+}
+.icon-cadd:after{
+	content: '录入保单';
+	position: absolute;
+	width: 100%;
+	top: -10px;
+	left: 27px;
+	width: 65px;
+}
+/*按钮（录入保单）*/
+.btn-write{
+	height: 40px;
+	line-height: 40px;
+	color: #83cfff;
+	border: 1px solid #83cfff;
+}
+.btn-write:active{
+	border: 1px solid #30a6f0;
+	color: #30a6f0;
+	background-color: inherit;
+}
+/*（标签）服务卡片状态*/
+.trip-status{
+	height: 20px;
+	padding: 0 3px;
+	line-height: 18px;
+	font-size: 12px;
+	border-radius: 3px;
+	vertical-align: middle;
+}
+.status-tobecon{
+	border: 1px solid #fdb44e;
+	color: #fdb44e;
+}
+.status-force{
+	border: 1px solid #68d67d;
+	color: #68d67d;
+}
+.status-con{
+	border: 1px solid #69c5ff;
+	color: #69c5ff;
+}
+.status-err{
+	border: 1px solid #ff5252;
+	color: #ff5252;
+}
+.tx-date{
+	font-size: 14px!important;
+	color: #999!important;
+}
+.tx-price{
+	font-size: 20px;
+	font-weight: bold;
+	color: #ff5252!important;
+}
+/*编辑href*/
+.edit-href{
+	position: absolute;
+	bottom: 65px;
+	right: 0;
+}

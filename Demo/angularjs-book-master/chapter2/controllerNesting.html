@@ -1,0 +1,58 @@
+<!doctype html>
+<html ng-app>
+  <head>
+  <meta charset="utf-8">
+   <script src="http://code.angularjs.org/angular-1.0.1.min.js"></script>
+    <style type="text/css">
+    .selected {
+      background-color: lightgreen;
+    }
+    </style>
+  </head>
+  <body>
+    <div ng-controller="ParentController">
+      Search: <input ng-model="query">
+      Sort by:
+      <select ng-model="orderProp">
+        <option value="name">Alphabetical</option>
+        <option value="age">Newest</option>
+      </select>
+
+
+      <ul class="phones">
+        <li ng-repeat="phone in phones | filter:query | orderBy:orderProp">
+          {{phone.name}}
+          <p>{{phone.snippet}}</p>
+        </li>
+      </ul>
+      <button>改变</button>
+    </div>
+    <script>
+    function ParentController($scope) {
+      $scope.phones = [
+        {"name": "Nexus S",
+         "snippet": "Fast just got faster with Nexus S.",
+         "age": 0},
+        {"name": "Motorola XOOM™ with Wi-Fi",
+         "snippet": "The Next, Next Generation tablet.",
+         "age": 1},
+        {"name": "MOTOROLA XOOM™",
+         "snippet": "The Next, Next Generation tablet.",
+         "age": 2}
+      ];
+      setTimeout(function(){
+        $scope.phones=[
+        {"name": "Nexus S",
+         "snippet": "Fast just got",
+         "age": 0},
+        {"name": "Motorola XOOM™",
+         "snippet": "The Next, Next Generation tablet.",
+         "age": 1}
+      ];
+      $scope.$apply()
+      },2000)
+      $scope.orderProp = 'age';
+    }
+    </script>
+  </body>
+</html>
